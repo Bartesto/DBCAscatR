@@ -4,13 +4,15 @@
 \alias{data_in}
 \title{Ingest of raw data and creation of two tidy data sets.}
 \usage{
-data_in(filename, suffix = "_dup")
+data_in(filename, replicates = TRUE, suffix = "_dup")
 }
 \arguments{
 \item{filename}{File name of raw data input csv as a character string.}
 
-\item{suffix}{File suffix to denote sample duplicates. Default is the character
-string"_dup", change only if required.}
+\item{replicates}{Logical. TRUE if replicates are present in the raw data.}
+
+\item{suffix}{File suffix to denote sample replicates. Default is the character
+string"_dup", change if required. Ignore if replicates == TRUE.}
 }
 \value{
 When assigned to an object it will create a list containing two data

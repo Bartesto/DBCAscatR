@@ -9,8 +9,8 @@ gen_errors(filename, suffix = "_dup")
 \arguments{
 \item{filename}{File name of raw data input csv as a character string.}
 
-\item{suffix}{File suffix to denote sample duplicates. Default is the character
-string"_dup", change only if required.}
+\item{suffix}{File suffix to denote sample replicates. Default is the character
+string"_dup", change if required. Ignore if replicates == TRUE.}
 }
 \value{
 It will write to csv file genetic error file csv's for further

@@ -29,6 +29,8 @@ When run it calculates genetic errors on the complete raw data set
         \item summary_error_results.csv}
 
      These outputs are used in downstream processes and are further refined.
+     If raw data has no duplicates, only average amplification rate is
+     calculated.
 }
 \examples{
 \dontrun{
