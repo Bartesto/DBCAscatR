@@ -71,23 +71,23 @@ amp_splots <- function(){
 
 }
 
-#' Data missingness plot
+#' Data "missingness" plot
 #'
 #' \code{miss_hist} creates a histogram to visualise NA proportions for the loci.
 #'
-#' @details When run it uses the "sample error results "loci_NA.csv", an output
+#' @details When run it uses the "loci_NA.csv", an output
 #'     from running \code{\link{amp_threshold}}, to produce a histogram to aid in
 #'     visualising data "missingness".
 #'
 #'     The plot is printed to screen and also saved as a jpg file to the
-#'     `results/` sub-directory. It can be used to determine an missingness
+#'     `results/` sub-directory. It can be used to determine a "missingness"
 #'     threshold for further data cleaning.
 #'
 #' @return It will write to jpg file a histogram of NA proportions for the loci.
 #'
 #' @examples
 #' \dontrun{
-#' miss_plot()
+#' miss_hist()
 #' }
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
@@ -114,6 +114,53 @@ miss_hist <- function(){
            y = "count") +
       theme_bw()
     ggsave(here::here("results", "missingness_histogram.jpg"), p1)
+    print(p1)
+  })
+}
+
+#' Amplification histogram
+#'
+#' \code{amp_hist} creates a histogram to visualise distribution of average
+#'     amplification rates.
+#'
+#' @details When run it uses the "sample_error_results.csv", an output
+#'     from running \code{\link{gen_errors}}, to produce a histogram to aid in
+#'     visualising the distribution of amplification.
+#'
+#'     The plot is printed to screen and also saved as a jpg file to the
+#'     `results/` sub-directory. It can be used to determine an amplification
+#'     threshold for further data cleaning.
+#'
+#' @return It will write to jpg file a histogram average amplification rates.
+#'
+#' @examples
+#' \dontrun{
+#' amp_hist()
+#' }
+#'
+#' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
+#'
+#' For more details see  \url{https://dbca-wa.github.io/DBCAscatR/index.html}
+#' {the DBCAscatR website}
+#'
+#' @importFrom readr read_csv
+#' @import here
+#' @import ggplot2
+#'
+#' @export
+amp_hist <- function(){
+  suppressWarnings({
+    dat <- readr::read_csv(here::here("results", "sample_error_results.csv"),
+                           col_types = cols()) %>%
+      dplyr::mutate(amp = avg_amp_rate)
+
+    p1 <- ggplot(dat) +
+      geom_histogram(aes(amp)) +
+      labs(title = "Amplification histogram",
+           x = "average amplification rate",
+           y = "count") +
+      theme_bw()
+    ggsave(here::here("results", "amplification_histogram.jpg"), p1)
     print(p1)
   })
 }
