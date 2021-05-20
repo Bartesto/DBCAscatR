@@ -1,0 +1,30 @@
+Package: DBCAscatR
+Type: Package
+Title: Functions to aid with processing mass array data
+Version: 1.0.0
+Authors@R: c(
+    person("Bart", "Huntley", email = "bart.huntley@dbca.wa.gov.au",
+      role = c("aut", "prg", "res"),
+      comment = c(ORCID = "0000-0002-9519-4105")),
+    person("Kym", "Ottewell", email = "kym.ottewell@dbca.wa.gov.au",
+      role = "cre"))
+URL: https://github.com/dbca-wa/DBCAscatR
+BugReports: https://github.com/dbca-wa/DBCAscatR/issues
+Description: Functions in this package will assist with error calculations,
+    the determination of groups and majority cases, some visualisations and
+    export to other formats.
+License: file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports:
+    tidyverse,
+    janitor,
+    here,
+    readr,
+    stringr,
+    dplyr,
+    tidyr,
+    tibble
+Depends: 
+    R (>= 4.0.0)
+RoxygenNote: 7.1.1
