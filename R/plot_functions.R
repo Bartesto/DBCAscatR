@@ -17,7 +17,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' amp_plots()
+#' amp_splots()
 #' }
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
