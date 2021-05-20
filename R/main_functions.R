@@ -75,39 +75,46 @@ workspace <- function(){
 #' @import tidyr
 data_in <- function(filename, suffix = "_dup"){
   suppressWarnings({
-    # data with NA
-    file <- here::here("source", filename)
-    na_dat <- readr::read_csv(file, na = "Fail", col_types = cols()) %>%
-      janitor::clean_names() %>%
-      dplyr::rename(sample = x1) %>%
-      dplyr::mutate(rep = case_when(
-        stringr::str_detect(sample, suffix) ~ 2,
-        TRUE ~ 1),
-        sample = gsub(suffix, "", sample),
-        ind = stringr::str_detect(sample, "Blank")) %>%
-      dplyr::filter(ind != TRUE) %>%
-      dplyr::select(sample, rep, everything(), -ind)
+    dat <- readr::read_csv(file, col_types = cols())
+    # logic to catch misnamed replicate
+    if(any(stringr::str_detect(dat[['X1']], suffix))){
+      # data with NA
+      file <- here::here("source", filename)
+      na_dat <- readr::read_csv(file, na = "Fail", col_types = cols()) %>%
+        janitor::clean_names() %>%
+        dplyr::rename(sample = x1) %>%
+        dplyr::mutate(rep = case_when(
+          stringr::str_detect(sample, suffix) ~ 2,
+          TRUE ~ 1),
+          sample = gsub(suffix, "", sample),
+          ind = stringr::str_detect(sample, "Blank")) %>%
+        dplyr::filter(ind != TRUE) %>%
+        dplyr::select(sample, rep, everything(), -ind)
 
-    # data with blanks for NA
-    all_dat <- read_csv(file, col_types = cols()) %>%
-      janitor::clean_names() %>%
-      dplyr::rename(sample = x1) %>%
-      dplyr::mutate(rep = case_when(
-        stringr::str_detect(sample, suffix) ~ 2,
-        TRUE ~ 1),
-        sample = gsub(suffix, "", sample),
-        ind = stringr::str_detect(sample, "Blank")) %>%
-      dplyr::filter(ind != TRUE) %>%
-      dplyr::select(sample, rep, everything(), -ind) %>%
-      tidyr::pivot_longer(cols = starts_with("x"),
-                          names_to = "marker",
-                          values_to = "val") %>%
-      dplyr::mutate(val = ifelse(val == "Fail", "", val)) %>%
-      tidyr::pivot_wider(names_from = marker,
-                         values_from = val)
+      # data with blanks for NA
+      all_dat <- read_csv(file, col_types = cols()) %>%
+        janitor::clean_names() %>%
+        dplyr::rename(sample = x1) %>%
+        dplyr::mutate(rep = case_when(
+          stringr::str_detect(sample, suffix) ~ 2,
+          TRUE ~ 1),
+          sample = gsub(suffix, "", sample),
+          ind = stringr::str_detect(sample, "Blank")) %>%
+        dplyr::filter(ind != TRUE) %>%
+        dplyr::select(sample, rep, everything(), -ind) %>%
+        tidyr::pivot_longer(cols = starts_with("x"),
+                            names_to = "marker",
+                            values_to = "val") %>%
+        dplyr::mutate(val = ifelse(val == "Fail", "", val)) %>%
+        tidyr::pivot_wider(names_from = marker,
+                           values_from = val)
 
-    out <- list(na_dat = na_dat, all_dat = all_dat)
-    return(out)
+      out <- list(na_dat = na_dat, all_dat = all_dat)
+      return(out)
+    } else{
+      stop("The suffix chosen is not present in the raw data")
+    }
+
   })
 }
 
