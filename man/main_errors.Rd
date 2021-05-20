@@ -21,7 +21,8 @@ It will write to csv file genetic error file csv's for further
 \details{
 When run it calculates genetic errors on the complete raw data set
     which it receives in the form of a list from the \code{\link{data_in}}
-    function. Outputs are written to csv file to the `results/` sub-directory.
+    function. Outputs are written to csv file to the `results/` sub-directory
+    as:
     \itemize{
         \item numerical_alleles.csv
         \item sample_error_results.csv

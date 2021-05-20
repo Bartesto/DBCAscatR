@@ -1,4 +1,4 @@
-# Main DBCAscatR functions
+# Main DBCAscatR data cleaning functions
 
 #' Creates a directory structure for inputs and outputs for a `DBCAscatR` workflow.
 #'
@@ -25,6 +25,8 @@
 #' {the DBCAscatR website}
 #'
 #' @import here
+#'
+#' @export
 workspace <- function(){
   s <- here::here("source")
   r <- here::here("results")
@@ -33,7 +35,6 @@ workspace <- function(){
   ifelse(!dir.exists(r),
          dir.create(r), FALSE)
 }
-
 
 #' Ingest of raw data and creation of two tidy data sets.
 #'
@@ -51,8 +52,8 @@ workspace <- function(){
 #'
 #' @param filename File name of raw data input csv as a character string.
 #'
-#' @param suffix File suffix to denote sample duplicates. Default is "_dup",
-#'     change only if required.
+#' @param suffix File suffix to denote sample duplicates. Default is the character
+#'     string"_dup", change only if required.
 #'
 #' @return When assigned to an object it will create a list containing two data
 #'     frames.
@@ -125,7 +126,8 @@ data_in <- function(filename, suffix = "_dup"){
 #'
 #' @details When run it calculates genetic errors on the complete raw data set
 #'     which it receives in the form of a list from the \code{\link{data_in}}
-#'     function. Outputs are written to csv file to the `results/` sub-directory.
+#'     function. Outputs are written to csv file to the `results/` sub-directory
+#'     as:
 #'     \itemize{
 #'         \item numerical_alleles.csv
 #'         \item sample_error_results.csv
@@ -289,5 +291,141 @@ main_errors <- function(dl){
 
     # write to file numerical version
     readr::write_csv(num_out, here::here("results", "numerical_alleles.csv"))
+  })
+}
+
+#' Main function wrapper to create errors from genotype inputs
+#'
+#' \code{gen_errors} takes a raw data file and generates genetic error outputs
+#'     which are written to csv file.
+#'
+#' @details When run it calculates genetic errors on the complete raw data set
+#'     which it reads in from the `source/` sub-directory. The raw data expected
+#'     is SNP genotypes generated through the Agena Bioscience MassARRAY
+#'     genotyping system.
+#'
+#'     Outputs are written to csv file to the `results/` sub-directory as:
+#'     \itemize{
+#'         \item numerical_alleles.csv
+#'         \item sample_error_results.csv
+#'         \item summary_error_results.csv}
+#'
+#'      These outputs are used in downstream processes and are further refined.
+#'
+#' @inheritParams data_in
+#'
+#' @return It will write to csv file genetic error file csv's for further
+#'     processing and/or evaluation.
+#'
+#' @examples
+#' \dontrun{
+#' gen_errors(filename = "CAGRF20021407_raw.csv", suffix = "_dup")
+#' }
+#'
+#' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
+#'
+#' For more details see  \url{https://dbca-wa.github.io/DBCAscatR/index.html}
+#' {the DBCAscatR website}
+#'
+#' @import here
+#' @importFrom readr read_csv write_csv
+#' @importFrom janitor clean_names
+#' @importFrom stringr str_detect
+#' @importFrom tibble tibble
+#' @import dplyr
+#' @import tidyr
+#'
+#' @export
+gen_errors <- function(filename, suffix = "_dup"){
+  suppressWarnings({
+    # ingest data and make data list
+    dl <- data_in(filename, suffix)
+    # munge and create error list
+    main_errors(dl)
+    # return(el)
+  })
+}
+
+#' Applies an amplification threshold and produces interim filtered results.
+#'
+#' \code{amp_threshold} takes a threshold value and applies it to the numerical
+#'     allele data. Also produces a record of which samples were filtered out and
+#'     proportions of NA's per loci.
+#'
+#' @details The predetermined amplification threshold, ascertained through
+#'     visualisation \code{\link{amp_plots}}, is used to filter the numerical
+#'     alleles data set and written to csv. The names of all the samples that are
+#'     rejected at this threshold are also written to csv file.
+#'
+#'     Lastly the proportion of NA's for the loci are written to csv. All outputs
+#'     are written to `results/`.
+#'
+#' @param at Numeric value of the average amplification rate to filter the
+#'     numerical alleles. Values greater than or equal to are retained.
+#'
+#'
+#' @return It will write to `results/` three csv files:
+#'     \itemize{
+#'         \item filtered alleles data with threshold indicated in the name
+#'         \item sample that were filtered at with threshold indicated in the name
+#'         \item proportion of NA's for the loci}
+#'
+#' @examples
+#' \dontrun{
+#' amp_threshold(at = 0.8)
+#' }
+#'
+#' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
+#'
+#' For more details see  \url{https://dbca-wa.github.io/DBCAscatR/index.html}
+#' {the DBCAscatR website}
+#'
+#' @import here
+#' @importFrom readr read_csv write_csv
+#' @import dplyr
+#' @import tidyr
+#' @importFrom stringr str_replace
+#'
+#' @export
+amp_threshold <- function(at){
+  suppressWarnings({
+    results_out <- readr::read_csv(here::here("results",
+                                              "sample_error_results.csv"),
+                                   col_types = cols())
+    num_out <- readr::read_csv(here::here("results",
+                                          "numerical_alleles.csv"),
+                               col_types = cols())
+    # filter results list by amplification success rate
+    filt_out <- results_out %>%
+      dplyr::filter(avg_amp_rate >= at)
+
+    filt_names <- filt_out['sample']
+    filt_names[['sample']] <- stringr::str_replace(filt_names[['sample']], "s",
+                                                   "")
+    # filter num_out dataframe by sample name values in filt_out
+    num_out_filt_samps <- num_out[num_out[['sample']] %in% filt_names[['sample']], ]
+
+    # write to file interim filtered alleles on average amplification rate (at)
+    cname <- paste0("numerical_alleles_filtered_a", at, ".csv")
+    readr::write_csv(num_out_filt_samps, here::here("results", cname))
+
+    # for records, get a list of samples that were filtered
+    samples_x <- results_out %>%
+      dplyr::filter(avg_amp_rate < at) %>%
+      dplyr::select(sample, avg_amp_rate)
+
+    # write to file samples filtered out based on average amplification rate (at)
+    c2name <- paste0("samples_filtered_a", at, ".csv")
+    readr::write_csv(samples_x, here::here("results", c2name))
+
+    # summarise proportion NAs per locus in filtered num_out dataframe
+    loc_NA <- num_out_filt_samps %>% summarise_all(~ mean(is.na(.))) %>%
+      dplyr::select(-sample) %>%
+      tidyr::pivot_longer(everything(), names_to = "loci",
+                          values_to = "proportion")
+
+    # write to file props of NA per locus for histogram plotting
+    readr::write_csv(loc_NA, here::here("results", "loci_NA.csv"))
+
   })
 }
