@@ -24,7 +24,7 @@ When run it uses the sample error results, an output from running
 }
 \examples{
 \dontrun{
-amp_plots()
+amp_splots()
 }
 
 }
