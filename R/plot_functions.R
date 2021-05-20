@@ -73,7 +73,7 @@ amp_splots <- function(){
 
 #' Data missingness plot
 #'
-#' \code{miss_plot} creates a histogram to visualise NA proportions for the loci.
+#' \code{miss_hist} creates a histogram to visualise NA proportions for the loci.
 #'
 #' @details When run it uses the "sample error results "loci_NA.csv", an output
 #'     from running \code{\link{amp_threshold}}, to produce a histogram to aid in
@@ -100,7 +100,7 @@ amp_splots <- function(){
 #' @import ggplot2
 #'
 #' @export
-miss_plot <- function(){
+miss_hist <- function(){
   suppressWarnings({
     dat <- readr::read_csv(here::here("results", "loci_NA.csv"),
                            col_types = cols()) %>%
