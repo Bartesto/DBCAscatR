@@ -52,8 +52,10 @@ workspace <- function(){
 #'
 #' @param filename File name of raw data input csv as a character string.
 #'
-#' @param suffix File suffix to denote sample duplicates. Default is the character
-#'     string"_dup", change only if required.
+#' @param replicates Logical. TRUE if replicates are present in the raw data.
+#'
+#' @param suffix File suffix to denote sample replicates. Default is the character
+#'     string"_dup", change if required. Ignore if replicates == TRUE.
 #'
 #' @return When assigned to an object it will create a list containing two data
 #'     frames.
@@ -74,11 +76,50 @@ workspace <- function(){
 #' @importFrom stringr str_detect
 #' @import dplyr
 #' @import tidyr
-data_in <- function(filename, suffix = "_dup"){
+data_in <- function(filename, replicates = TRUE, suffix = "_dup"){
   suppressWarnings({
-    dat <- readr::read_csv(file, col_types = cols())
-    # logic to catch misnamed replicate
-    if(any(stringr::str_detect(dat[['X1']], suffix))){
+    if(replicates == TRUE){
+      file <- here::here("source", filename)
+      dat <- readr::read_csv(file, col_types = cols())
+      # logic to catch misnamed replicate
+      if(any(stringr::str_detect(dat[['X1']], suffix))){
+        # data with NA
+        file <- here::here("source", filename)
+        na_dat <- readr::read_csv(file, na = "Fail", col_types = cols()) %>%
+          janitor::clean_names() %>%
+          dplyr::rename(sample = x1) %>%
+          dplyr::mutate(rep = case_when(
+            stringr::str_detect(sample, suffix) ~ 2,
+            TRUE ~ 1),
+            sample = gsub(suffix, "", sample),
+            ind = stringr::str_detect(sample, "Blank")) %>%
+          dplyr::filter(ind != TRUE) %>%
+          dplyr::select(sample, rep, everything(), -ind)
+
+        # data with blanks for NA
+        all_dat <- read_csv(file, col_types = cols()) %>%
+          janitor::clean_names() %>%
+          dplyr::rename(sample = x1) %>%
+          dplyr::mutate(rep = case_when(
+            stringr::str_detect(sample, suffix) ~ 2,
+            TRUE ~ 1),
+            sample = gsub(suffix, "", sample),
+            ind = stringr::str_detect(sample, "Blank")) %>%
+          dplyr::filter(ind != TRUE) %>%
+          dplyr::select(sample, rep, everything(), -ind) %>%
+          tidyr::pivot_longer(cols = starts_with("x"),
+                              names_to = "marker",
+                              values_to = "val") %>%
+          dplyr::mutate(val = ifelse(val == "Fail", "", val)) %>%
+          tidyr::pivot_wider(names_from = marker,
+                             values_from = val)
+
+        out <- list(na_dat = na_dat, all_dat = all_dat)
+        return(out)
+      } else {
+        stop("The suffix chosen is not present in the raw data")
+      }
+    } else {
       # data with NA
       file <- here::here("source", filename)
       na_dat <- readr::read_csv(file, na = "Fail", col_types = cols()) %>%
@@ -112,8 +153,6 @@ data_in <- function(filename, suffix = "_dup"){
 
       out <- list(na_dat = na_dat, all_dat = all_dat)
       return(out)
-    } else{
-      stop("The suffix chosen is not present in the raw data")
     }
 
   })
@@ -134,6 +173,8 @@ data_in <- function(filename, suffix = "_dup"){
 #'         \item summary_error_results.csv}
 #'
 #'      These outputs are used in downstream processes and are further refined.
+#'      If raw data has no duplicates, only average amplification rate is
+#'      calculated.
 #'
 #' @param dl data list. This is a list containing two data frames as output from
 #'     the \code{\link{data_in}} function.
@@ -274,8 +315,17 @@ main_errors <- function(dl){
       num_out <- dplyr::bind_rows(num_out, num_vals)
     }
 
+    # clean out errors if a no duplicate data set
+    results_out_clean <- results_out %>%
+      tidyr::pivot_longer(cols = -sample,
+                          names_to = "error",
+                          values_to = "value") %>%
+      filter(!is.na(value)) %>%
+      tidyr::pivot_wider(names_from = error,
+                         values_from = value)
+
     # take the error results and further summarise
-    summaries <- results_out %>%
+    summaries <- results_out_clean %>%
       tidyr::pivot_longer(cols = -sample,
                           names_to = "error",
                           values_to = "value") %>%
@@ -284,7 +334,7 @@ main_errors <- function(dl){
                        se = sd(value, na.rm = TRUE)/sqrt(n()))
 
     # write to file errors per sample
-    readr::write_csv(results_out, here::here("results", "sample_error_results.csv"))
+    readr::write_csv(results_out_clean, here::here("results", "sample_error_results.csv"))
 
     # write to file summary errors for whole of data run
     readr::write_csv(summaries, here::here("results", "summary_error_results.csv"))
@@ -363,7 +413,6 @@ gen_errors <- function(filename, suffix = "_dup"){
 #' @param at Numeric value of the average amplification rate to filter the
 #'     numerical alleles. Values greater than or equal to are retained.
 #'
-#'
 #' @return It will write to `results/` three csv files:
 #'     \itemize{
 #'         \item filtered alleles data with threshold indicated in the name
@@ -426,6 +475,70 @@ amp_threshold <- function(at){
 
     # write to file props of NA per locus for histogram plotting
     readr::write_csv(loc_NA, here::here("results", "loci_NA.csv"))
+
+  })
+}
+
+#' Applies a "missingness" threshold to filtered numerical allele data.
+#'
+#' \code{miss_threshold} takes a "missingness" threshold and applies it to a
+#'     filtered numerical allele data set. Writes results to csv.
+#'
+#' @details The predetermined "missingness" threshold, ascertained through
+#'     visualisation \code{\link{miss_plot}}, is used to further filter the
+#'     numerical alleles data set and written to csv to the `results/`
+#'     sub-directory.
+#'
+#'     The amplification threshold parameter is used to select the correct
+#'     data set from the `results/` sub-directory that had been created by the
+#'     \code{\link{amp_threshold}} function.
+#'
+#' @param mt Numeric value of the "missingness" threshold to further filter the
+#'     numerical alleles. Values less than the threshold are retained.
+#'
+#' @param at Numeric value of the average amplification threshold used on the
+#'     input data. NOTE used to select a pre-made data.
+#'
+#' @return Writes a numerical alleles data csv, filtered to the `at` and `mt`
+#'     thresholds, to the `results/` sub-directory.
+#'
+#' @examples
+#' \dontrun{
+#' miss_threshold(mt = 0.2, at = 0.8)
+#' }
+#'
+#' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
+#'
+#' For more details see  \url{https://dbca-wa.github.io/DBCAscatR/index.html}
+#' {the DBCAscatR website}
+#'
+#' @import here
+#' @importFrom readr read_csv write_csv
+#' @import dplyr
+#'
+#' @export
+miss_threshold <- function(mt, at){
+  suppressWarnings({
+
+    # read in locus NA proportion data
+    loc_NA_names <- readr::read_csv(here::here("results", "loci_NA.csv"),
+                                    col_types = cols()) %>%
+      dplyr::filter(proportion >= mt) %>%
+      dplyr::pull(loci)
+
+    # make name of correct amplification filtered data and read in
+    num_name <- paste0("numerical_alleles_filtered_a", at, ".csv")
+    num_out_filt_samps <-  readr::read_csv(here::here("results", num_name),
+                                           col_types = cols())
+
+    # filter loci with high missingness from num_out dataframe
+    num_out_filt_loci <- num_out_filt_samps %>%
+      dplyr::select(-all_of(loc_NA_names))
+
+    # write to file numerical version that has been quality filtered for samples
+    # and loci
+    cname <- paste0("numerical_alleles_filtered_a", at, "_m", mt, ".csv")
+    readr::write_csv(num_out_filt_loci, here::here("results", cname))
 
   })
 }
