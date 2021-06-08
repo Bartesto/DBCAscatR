@@ -32,42 +32,44 @@
 #'
 #' @export
 amp_splots <- function(){
-  # grab data
-  dat <- readr::read_csv(here::here("results", "sample_error_results.csv"),
-                         col_types = cols())
+  suppressWarnings({
+    # grab data
+    dat <- readr::read_csv(here::here("results", "sample_error_results.csv"),
+                           col_types = cols())
 
-  # check dimensions logic no duplicate (no errors) data
-  if(dim(dat)[2] > 2){
-    error_out <- dat %>%
-      tidyr::drop_na(allele_error)
+    # check dimensions logic no duplicate (no errors) data
+    if(dim(dat)[2] > 2){
+      error_out <- dat %>%
+        tidyr::drop_na(allele_error)
 
-    # plot amplification rate vs allele error
-    p1 <- ggplot(error_out, aes(x = avg_amp_rate, y = allele_error)) +
-      geom_point(size = 2) +
-      geom_smooth(method = lm, se = FALSE) +
-      labs(title = "Amplification rate vs allele error",
-           x = "average amplification rate",
-           y = "allele error") +
-      theme_bw()
+      # plot amplification rate vs allele error
+      p1 <- ggplot(error_out, aes(x = avg_amp_rate, y = allele_error)) +
+        geom_point(size = 2) +
+        geom_smooth(method = lm, se = FALSE) +
+        labs(title = "Amplification rate vs allele error",
+             x = "average amplification rate",
+             y = "allele error") +
+        theme_bw()
 
-    # plot amplification rate vs allelic dropout
-    p2 <- ggplot(error_out, aes(x = avg_amp_rate, y = allelic_drop_out)) +
-      geom_point(size = 2) +
-      geom_smooth(method = lm, se = FALSE) +
-      labs(title = "Amplification rate vs allelic drop out",
-           x = "average amplification rate",
-           y = "allelic drop out") +
-      theme_bw()
+      # plot amplification rate vs allelic dropout
+      p2 <- ggplot(error_out, aes(x = avg_amp_rate, y = allelic_drop_out)) +
+        geom_point(size = 2) +
+        geom_smooth(method = lm, se = FALSE) +
+        labs(title = "Amplification rate vs allelic drop out",
+             x = "average amplification rate",
+             y = "allelic drop out") +
+        theme_bw()
 
-    p3 <- cowplot::plot_grid(p1, p2, labels = "auto", ncol = 1)
+      p3 <- cowplot::plot_grid(p1, p2, labels = "auto", ncol = 1)
 
-    fname <- here::here("results", "amplification_v_allele_scatterplots.jpg")
-    ggsave2(fname, p3)
-    print(p3)
-  } else {
-    stop(paste0("Not multivariate. Data probably has no error values and was ",
-                "most likely generated from raw data with no replicates"))
-  }
+      fname <- here::here("results", "threshold", "amplification_v_allele_scatterplots.jpg")
+      ggsave2(fname, p3)
+      print(p3)
+    } else {
+      stop(paste0("Not multivariate. Data probably has no error values and was ",
+                  "most likely generated from raw data with no replicates"))
+    }
+  })
 
 }
 
@@ -102,7 +104,7 @@ amp_splots <- function(){
 #' @export
 miss_hist <- function(){
   suppressWarnings({
-    dat <- readr::read_csv(here::here("results", "loci_NA.csv"),
+    dat <- readr::read_csv(here::here("results", "threshold", "loci_NA.csv"),
                            col_types = cols()) %>%
       dplyr::mutate(id = ifelse(stringr::str_detect(loci, "_a"), "a", "b")) %>%
       dplyr::filter(id == "a")
@@ -113,7 +115,7 @@ miss_hist <- function(){
            x = "proportion of NAs",
            y = "count") +
       theme_bw()
-    ggsave(here::here("results", "missingness_histogram.jpg"), p1)
+    ggsave(here::here("results", "threshold", "missingness_histogram.jpg"), p1)
     print(p1)
   })
 }
