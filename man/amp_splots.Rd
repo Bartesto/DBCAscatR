@@ -18,7 +18,7 @@ When run it uses the sample error results, an output from running
     amplification rate vs allele error and allelic drop out.
 
     The plots are printed to screen and also saved as a jpg file to the
-    `results/` sub-directory. It can be used to determine an amplification
+    `results/threshold/` sub-directory. It can be used to determine an amplification
     threshold for further data cleaning. Will error with message if no errors
     in raw data.
 }

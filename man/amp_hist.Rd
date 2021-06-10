@@ -18,9 +18,9 @@ When run it uses the "sample_error_results.csv", an output
     from running \code{\link{gen_errors}}, to produce a histogram to aid in
     visualising the distribution of amplification.
 
-    The plot is printed to screen and also saved as a jpg file to the
-    `results/` sub-directory. It can be used to determine an amplification
-    threshold for further data cleaning.
+    The plot is printed to screen and also saved as a jpg file to
+    the `results/threshold/` sub-directory. It can be used to determine an
+    amplification threshold for further data cleaning.
 }
 \examples{
 \dontrun{

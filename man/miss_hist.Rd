@@ -17,9 +17,9 @@ When run it uses the "loci_NA.csv", an output
     from running \code{\link{amp_threshold}}, to produce a histogram to aid in
     visualising data "missingness".
 
-    The plot is printed to screen and also saved as a jpg file to the
-    `results/` sub-directory. It can be used to determine a "missingness"
-    threshold for further data cleaning.
+    The plot is printed to screen and also saved as a jpg file to
+    the `results/threshold/` sub-directory. It can be used to determine a
+    "missingness" threshold for further data cleaning.
 }
 \examples{
 \dontrun{
