@@ -248,37 +248,37 @@ dissimilarity <- function(filtered_alleles, errors){
 #' \code{misassign} assesses different mismatch thresholds by comparing overlap
 #'     between allele mismatch distribution of samples assigned to the same group
 #'     versus different groups and calculates probability of misassignment of
-#'     group membership.
+#'     group membership then summarise them into plots and a table.
 #'
 #' @details The function compares different mismatch thresholds by generating the
 #'     distribution of the pairwise allele mismatch scores for each sample pair.
-#'     This distribution is then separated into two groups: allele mismatch
-#'     between samples assigned to the same group (mismatches between scats from
-#'     the same putative individual) and allele mismatch between samples assigned
-#'     to different groups (mismatches between scats from different putative
-#'     individual). To assess individual identification success, the same and
-#'     different group mismatch distributions were ranked, the upper and lower
-#'     0.5 percentiles were calculated. If the difference between the lower and
+#'     This distribution is then separated into two groups: allele mismatches
+#'     between samples assigned to the same group (i.e. mismatches between scats from
+#'     the same putative individual) and allele mismatches between samples assigned
+#'     to different groups (i.e. mismatches between scats from different putative
+#'     individuals). To assess individual identification success, the same and
+#'     different group mismatch distributions are ranked and the upper and lower
+#'     0.5 percentiles are calculated. If the difference between the lower and
 #'     the upper 0.5 percentile is positive (the overlap column in the summary
 #'     table), this means that the distributions are less overlapped and < 1% of
 #'     samples have been wrongly assigned. In addition, the probability of
-#'     misassignment was also calculated using the `overlap` function in the
+#'     misassignment is  calculated using the `overlap` function in the
 #'     package `birdring` with 100,000 simulation and the upper and lower
 #'     parameter space set at 99.5% and 0.5% (default).
 #'
-#'     Outputs of this function generates a series of plots for each threshold
+#'     Outputs of this function generates a series of plots for different thresholds
 #'     and a table summary. Each plot consists of the “within” group distribution
 #'     in red and “between” groups distribution in blue. The upper 0.5 percentiles
 #'     of “within” group distribution and the lower 0.5 percentile of “between”
 #'     groups distribution are plotted in dash lines. The number of individuals
-#'     indicates the total number of groups identified at each threshold. The
+#'     indicates the total number of groups identified from each threshold. The
 #'     probability of misassignment is calculated with the “overlap” function as
 #'     described above. The table summary consists of the following columns: h
 #'     indicates the threshold number, ind indicates the total number of groups
 #'     identified by each threshold, upper shows the upper 0.5 percentile value
 #'     of the “within” group distribution, lower shows the lower 0.5 percentile
 #'     value of the “between” groups distribution, overlap is the difference
-#'     between the upper  column and the lower 0.5 percentiles column, and
+#'     between the upper and lower 0.5 percentiles columns, and
 #'     prob_misassign is the probability of misassignment.
 #'
 #' @inheritParams dendro_plot
@@ -824,4 +824,77 @@ summary_tables <- function(groups_csv, metadata, prefix, sample, site_ID, field_
                                                   ngrps, ".csv")))
   })
 
+}
+
+#' Generate a leaflet plot showing site and individuals locations.
+#'
+#' \code{leaflet_map} generates a self contained leaflet html map showing
+#'     locations of capture sites and individuals.
+#'
+#' @details When run it it creates an html leaflet map showing the locations of
+#'     the capture locations and where the individuals were sampled. The map is
+#'     zoomable, layers can be turned on and off and there is a widget for
+#'     calculating approximate distances and areas. Please note that the accuracy
+#'     of the measurements is calculated using geodetic coordinates and
+leaflet_map <- function(groups_csv, metadata, prefix, sample, site_ID, field_date, lat, long){
+  suppressWarnings({
+    # standardise col names
+    rename_cols <- function(site_ID, field_date, lat, long){
+      d_clean <- readr::read_csv(here::here("source", metadata),
+                                 col_types = cols()) %>%
+        dplyr::select(!!sample, !!site_ID, !!field_date, !!lat, !!long)
+      names(d_clean) <- c("sample", "site", "date", "lat", "long")
+      return(d_clean)
+    }
+    ngrps <- stringr::str_split(groups_csv, pattern = "_")[[1]][4]
+    d1 <- rename_cols(site_ID, field_date, lat, long) %>%
+      dplyr::mutate(date = lubridate::parse_date_time(date, c("dmY", "ymd")),
+                    date = lubridate::as_date(date),
+                    year = lubridate::year(date),
+                    month = lubridate::month(date, label = TRUE))
+
+    d2 <- readr::read_csv(here::here("results", "cluster", groups_csv),
+                          col_types = cols()) %>%
+      dplyr::select(group, sample) %>%
+      dplyr::mutate(sample = gsub(pattern = prefix, "", sample)) %>%
+      dplyr::left_join(d1, by = "sample")
+
+    ## map
+    # get coords for each site
+    site_dat <- d2 %>%
+      dplyr::select(site, lat, long) %>%
+      dplyr::distinct() %>%
+      sf::st_as_sf(coords = c("long", "lat"), crs = 4326)
+    # get coords for each individual
+    ind_dat <- d2 %>%
+      dplyr::select(group, lat, long) %>%
+      dplyr::rename(individual = group) %>%
+      dplyr::distinct() %>%
+      sf::st_as_sf(coords = c("long", "lat"), crs = 4326)
+
+
+    map <- leaflet(options = leafletOptions(zoomControl = FALSE)) %>%
+      setView(lat = -23, lng = 119, zoom = 11) %>%
+      addProviderTiles(providers$Esri.WorldImagery) %>%
+      addMiniMap(zoomLevelFixed = 2) %>%
+      addMarkers(data = site_dat, popup = ~as.character(site),
+                 label = ~as.character(site),
+                 clusterOptions = markerClusterOptions(),
+                 clusterId = "site",
+                 group = "sites") %>%
+      addMarkers(data = ind_dat, popup = ~as.character(individual),
+                 label = ~as.character(individual),
+                 clusterOptions = markerClusterOptions(),
+                 clusterId = "individual",
+                 group = "individuals") %>%
+      addLayersControl(overlayGroups = c("sites", "individuals")) %>%
+      addMeasure(primaryLengthUnit = "meters",
+                 primaryAreaUnit = "hectares")
+
+    saveWidget(map, file = here::here("results",
+                                      "finalised",
+                                      paste0("cave_individual_locations_",
+                                             ngrps, ".html")))
+
+  })
 }
