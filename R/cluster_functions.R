@@ -616,3 +616,183 @@ majorities_html <- function(majorities_csv){
                              self_contained = TRUE)
   })
 }
+
+#' Summary tables with additional site and spatial information
+#'
+#' \code{summary_tables} joins individuals to site location metadata for to create
+#'     summary tables.
+#'
+#' @details Takes the groups csv, from running \code{\link{majorities}} and a
+#'     provided lookup table of metadata per sample and provides three summary
+#'     tables:
+#'     * capture history
+#'     * individual by date and site
+#'     * site stats
+#'
+#'     User is required to map required fields from the lookup table to the
+#'     function parameters. At a minimum the lookup should contain the
+#'     following:
+#'     * sample ID
+#'     * site ID
+#'     * collection date
+#'     * latitude (WGS84)
+#'     * longitude (WGS84)
+#'
+#' @param groups_csv Character vector. Name of the numerical allele groups csv.
+#' @param metadata Character vector. Name of the lookup csv which should be
+#'     located in the `source/` directory.
+#' @param prefix Character vector. Sample names in csv outputs often have a prefix
+#'     such as "ID_" to avoid starting with a numeral and the lookup data often
+#'     wont. Provide the prefix in the calculated data so that it can be matched
+#'     to the lookup data.
+#' @param sample Character vector. Name of the column in the lookup data that
+#'     contains the sample IDs.
+#' @param site_ID Character vector. Name of the column in the lookup data that
+#'     contains the site/cave IDs.
+#' @param field_date Character vector. Name of the column in the lookup data that
+#'     contains the sampling date.
+#' @param lat Character vector. Name of the column in the lookup data that
+#'     contains the latitude (WGS84) of the sample collection site.
+#' @param long Character vector. Name of the column in the lookup data that
+#'     contains the longitude (WGS84) of the sample collection site.
+#'
+#' @return Three csv tables are written to the `results/finalised/` sub-directory
+#'     as described in details above.
+#'
+#'  @examples
+#' \dontrun{
+#' summary_tables(groups_csv = "hclust_numerical_mismatch_4_withGroups.csv",
+#' metadata = "lookup.csv", prefix = "ID_", sample = "sample", site_ID = "roost_name",
+#' field_date = "collection_date", lat = "dec_lat", long = "dec_long")}
+#'
+#'  @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
+#'
+#' For more details see  \url{https://dbca-wa.github.io/DBCAscatR/index.html}
+#' {the DBCAscatR website}
+#'
+#' @import here
+#' @importFrom readr read_csv write_csv
+#' @import dplyr
+#' @importFrom stringr str_split
+#' @import lubridate
+#' @importFrom tidyr pivot_wider pivot_longer
+#' @importFrom tibble tibble
+#' @importFrom zoo as.yearmon
+#'
+#' @export
+summary_tables <- function(groups_csv, metadata, prefix, sample, site_ID, field_date, lat, long){
+  suppressWarnings({
+    # standardise col names
+    rename_cols <- function(site_ID, field_date, lat, long){
+      d_clean <- readr::read_csv(here::here("source", metadata),
+                                 col_types = cols()) %>%
+        dplyr::select(!!sample, !!site_ID, !!field_date, !!lat, !!long)
+      names(d_clean) <- c("sample", "site", "date", "lat", "long")
+      return(d_clean)
+    }
+    ngrps <- stringr::str_split(groups_csv, pattern = "_")[[1]][4]
+    d1 <- rename_cols(site_ID, field_date, lat, long) %>%
+      dplyr::mutate(date = lubridate::parse_date_time(date, c("dmY", "ymd")),
+                    date = lubridate::as_date(date),
+                    year = lubridate::year(date),
+                    month = lubridate::month(date, label = TRUE))
+
+    d2 <- readr::read_csv(here::here("results", "cluster", groups_csv),
+                          col_types = cols()) %>%
+      dplyr::select(group, sample) %>%
+      dplyr::mutate(sample = gsub(pattern = prefix, "", sample)) %>%
+      dplyr::left_join(d1, by = "sample")
+
+    ## tables by individuals
+
+    # construct full range of possible dates
+    mindate <- min(d2[['date']])
+    maxdate <- max(d2[['date']])
+
+    dum_dates <- tibble::tibble(date = seq(mindate, maxdate, by = "month")) %>%
+      dplyr::mutate(ym = zoo::as.yearmon(date)) %>%
+      dplyr::select((-date))
+
+    # first table count of scats by individual, per site, per month
+    t1 <- d2 %>%
+      dplyr::select(-sample, - lat, -long, -year, -month) %>%
+      dplyr::group_by(group, site, date) %>%
+      dplyr::count() %>%
+      dplyr::rename(scats = "n") %>%
+      dplyr::arrange(date) %>%
+      dplyr::mutate(date = zoo::as.yearmon(date)) %>%
+      tidyr::pivot_wider(names_from = date, values_from = scats) %>%
+      tidyr::pivot_longer(cols = -c(group, site), names_to = "ym", values_to = "scats") %>% #, total_scats
+      dplyr::filter(!is.na(scats)) %>%
+      tidyr::pivot_wider(names_from = site, values_from = scats) %>%
+      dplyr::arrange(group) %>%
+      dplyr::ungroup() %>%
+      dplyr::rowwise(group, ym) %>%
+      dplyr::mutate(total_scats = sum(c_across(where(is.numeric)), na.rm = TRUE)) %>%
+      dplyr::rename(date = ym,
+                    individual = group,
+                    `total scats` = total_scats)
+
+    readr::write_csv(t1,
+                     file = here::here("results",
+                                       "finalised",
+                                       paste0("individual_by_site_by_month_",
+                                              ngrps, ".csv")))
+
+    # second table minus length in months
+    t2 <- d2 %>%
+      dplyr::select(-sample, - lat, -long, -year, -month) %>%
+      dplyr::mutate(ym = zoo::as.yearmon(date)) %>%
+      dplyr::full_join(dum_dates, by = "ym") %>%
+      dplyr::select(-date) %>%
+      dplyr::group_by(group, site, ym) %>%
+      dplyr::count() %>%
+      dplyr::rename(scats = "n") %>%
+      dplyr::arrange(ym) %>%
+      dplyr::mutate(scats = ifelse(is.na(group), 0, scats)) %>%
+      tidyr::pivot_wider(names_from = ym, values_from = scats) %>%
+      dplyr::ungroup() %>%
+      dplyr::filter(!is.na(group)) %>%
+      dplyr::rowwise(group, site) %>%
+      dplyr::mutate(total_scats = sum(c_across(where(is.numeric)), na.rm = TRUE))
+
+    # calculate total months (add one later)
+    t2_1 <- d2 %>%
+      dplyr::group_by(group, site) %>%
+      dplyr::summarise(minmth = min(date),
+                       maxmth = max(date)) %>%
+      dplyr:: mutate(int = lubridate::interval(minmth, maxmth),
+                     total_mths = round(lubridate::time_length(int, "month"), 0)) %>%
+      dplyr::select(group, site, total_mths)
+
+    # second table capture history
+    t3 <- t2 %>%
+      dplyr::left_join(t2_1, by = c("group", "site")) %>%
+      dplyr::mutate(total_mths = ifelse(total_mths != 0, total_mths + 1,
+                                        total_mths)) %>%
+      dplyr::rename(individual = group,
+                    `total scats` = total_scats,
+                    `total months` = total_mths) %>%
+      dplyr::arrange(individual)
+    readr::write_csv(t3, file = here::here("results",
+                                           "finalised",
+                                           paste0("capture_history_",
+                                                  ngrps, ".csv")))
+
+
+    ## table by site
+    t4 <- d2 %>%
+      dplyr::select(-sample, - lat, -long, -year, -month) %>%
+      distinct() %>%
+      dplyr::group_by(site, date) %>%
+      dplyr::count() %>%
+      dplyr::rename(`# individuals` = "n") %>%
+      dplyr::mutate(date = zoo::as.yearmon(date))
+
+    readr::write_csv(t4, file = here::here("results",
+                                           "finalised",
+                                           paste0("site_stats_",
+                                                  ngrps, ".csv")))
+  })
+
+}
