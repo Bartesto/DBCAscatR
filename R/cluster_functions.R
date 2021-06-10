@@ -270,7 +270,7 @@ dissimilarity <- function(filtered_alleles, errors){
 #'
 #' @examples
 #' \dontrun{
-#'misassign(dist = dissimilarity_list, maxh = 5)
+#' misassign(dist = dissimilarity_list, maxh = 5)
 #' }
 #'
 #' @author Rujiporn Sun, \email{rujiporn.sun@@dbca.wa.gov.au}
@@ -386,8 +386,8 @@ misassign <- function(dist, maxh = 10, lt = 0.005, ut = 0.995){
 #'
 #' @examples
 #' \dontrun{
-#'group_data <- group_membership(dist = dissimilarity_list, h = 5,
-#'filtered_alleles = "numerical_alleles_filtered_a0.8_m0.2.csv")
+#' group_data <- group_membership(dist = dissimilarity_list, h = 5,
+#' filtered_alleles = "numerical_alleles_filtered_a0.8_m0.2.csv")
 #' }
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
@@ -449,9 +449,9 @@ group_membership <- function(dist, h, filtered_alleles){
 #'
 #' @examples
 #' \dontrun{
-#'majorities(dist = dissimilarity_list, h = 5,
-#'filtered_alleles = "numerical_alleles_filtered_a0.8_m0.2.csv",
-#'errors = "sample_error_results.csv")
+#' majorities(dist = dissimilarity_list, h = 5,
+#' filtered_alleles = "numerical_alleles_filtered_a0.8_m0.2.csv",
+#' errors = "sample_error_results.csv")
 #' }
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
@@ -535,4 +535,84 @@ majorities <- function(dist, h, filtered_alleles, errors){
                                        "_group_majorities_and_ties.csv")))
   })
 
+}
+
+#' Creates a formatted html table of the majorities data export.
+#'
+#' \code{majorities_html} turns the majorities export csv into a formatted html
+#'     table for easy querying.
+#'
+#' @details Takes the csv output from \code{\link{majorities}} and re-formats it
+#'     to an html table. Any ties can be queried thereby guiding manual edits of
+#'     the final groups data.
+#'
+#' @param majorities_csv Character vector. Name of the majorities and ties csv.
+#'
+#' @return An html table of numerical alleles with group assignation, majority
+#'     vote and indicated ties written to the `results/cluster/` sub-directory.
+#'
+#' @examples
+#' \dontrun{
+#' majorities_html(majorities_csv = "hclust_numerical_mismatch_4_group_majorities_and_ties.csv")}
+#'
+#'  @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
+#'
+#' For more details see  \url{https://dbca-wa.github.io/DBCAscatR/index.html}
+#' {the DBCAscatR website}
+#'
+#' @import here
+#' @import kableExtra
+#' @import dplyr
+#' @importFrom readr read_csv
+#' @importFrom tibble tibble
+#' @importFrom tidyr pivot_wider pivot_longer
+#'
+#' @export
+majorities_html <- function(majorities_csv){
+  suppressWarnings({
+    d <- readr::read_csv(here::here("results", "cluster", majorities_csv),
+                         col_types = cols())
+
+    grps <- unique(d[['group']])
+    tbl_df <- tibble::tibble()
+
+    # function for bulk of conditional formatting
+    diff_to_maj <- function(x){
+      ifelse(x == d1$majority,
+             kableExtra::cell_spec(x, "html", color = "green", italic = T),
+             kableExtra::cell_spec(x, "html", color = "red", bold = T))
+    }
+
+    # loop over groups and apply conditional formatting
+    for(i in seq_along(grps)){
+      d1 <- d %>%
+        dplyr::filter(group == grps[i]) %>%
+        dplyr::filter(sample != "tie") %>%
+        dplyr::select(-avg_amp_rate) %>%
+        tidyr::pivot_longer(cols = starts_with("x"), names_to = "vars",
+                            values_to = "vals") %>%
+        tidyr::pivot_wider(names_from = sample, values_from = vals) %>%
+        dplyr::mutate(across(everything(), ~replace_na(.x, 0)))
+
+      d2 <- d1 %>%
+        dplyr::mutate_at(vars(starts_with("ID_")), diff_to_maj) %>%
+        dplyr::mutate(majority = as.character(majority)) %>%
+        dplyr::mutate(majority = kableExtra::cell_spec(majority, background = "darkgrey",
+                                                       color = "white", align = "center")) %>%
+        tidyr::pivot_longer(cols = c(-group, -vars), names_to = "sample",
+                            values_to = "vals") %>%
+        tidyr::pivot_wider(names_from = vars, values_from = vals)
+
+      tbl_df <- dplyr::bind_rows(tbl_df, d2)
+    }
+
+    # make and view the table. Export as html from the plot window if needed
+    tbl_df %>%
+      kableExtra::kable(format = "html", escape = F) %>%
+      kableExtra::kable_styling("striped", fixed_thead = T, full_width = F) %>%
+      kableExtra::scroll_box(width = "100%", height = "800px") %>%
+      kableExtra::save_kable(file = here::here("results", "cluster",
+                                               "majorities_table.html"),
+                             self_contained = TRUE)
+  })
 }
