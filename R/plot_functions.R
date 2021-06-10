@@ -332,15 +332,20 @@ freq_hist <- function(dist){
 #' {the DBCAscatR website}
 #'
 #' @importFrom heatmaply heatmaply
+#' @importFrom webshot install_phantomjs
 #' @import here
 #'
 #' @export
 heat_plot <- function(dist){
-  suppressWarnings({
+  suppressMessages({
+    webshot::install_phantomjs()
     distobj <- dist[['dist']]
     m <- as.matrix(distobj)
     heatmaply::heatmaply(m, k_row = 2, k_col = 2,
                          file = here::here("results", "cluster", "hclust_heatmap_plot.html"),
+                         width = 1200, height = 750, plot_method = "ggplot")
+    heatmaply::heatmaply(m, k_row = 2, k_col = 2,
+                         file = here::here("results", "cluster", "hclust_heatmap_plot.png"),
                          width = 1200, height = 750, plot_method = "ggplot")
   })
 }
@@ -372,16 +377,22 @@ heat_plot <- function(dist){
 #' {the DBCAscatR website}
 #'
 #' @importFrom heatmaply heatmaply_cor
-#' @import here
 #'
+#' @import here
+#' @importFrom webshot install_phantomjs
 #' @export
 heat_cor_plot <- function(dist){
-  suppressWarnings({
+  suppressMessages({
+    webshot::install_phantomjs()
     distobj <- dist[['dist']]
     m <- as.matrix(distobj)
     heatmaply::heatmaply_cor(m, k_row = 2, k_col = 2,
                              file = here::here("results", "cluster",
                                                "hclust_heatmap_cor_plot.html"),
+                             width = 1200, height = 750, plot_method = "ggplot")
+    heatmaply::heatmaply_cor(m, k_row = 2, k_col = 2,
+                             file = here::here("results", "cluster",
+                                               "hclust_heatmap_cor_plot.png"),
                              width = 1200, height = 750, plot_method = "ggplot")
   })
 }
