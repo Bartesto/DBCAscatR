@@ -427,6 +427,9 @@ gen_errors <- function(filename, suffix = "_dup"){
 #'         \item sample that were filtered at with threshold indicated in the name
 #'         \item proportion of NA's for the loci}
 #'
+#'     It will also print to screen the number of samples filtered out at this
+#'     threshold.
+#'
 #' @examples
 #' \dontrun{
 #' amp_threshold(at = 0.8)
@@ -471,6 +474,10 @@ amp_threshold <- function(at){
       dplyr::filter(avg_amp_rate < at) %>%
       dplyr::select(sample, avg_amp_rate)
 
+    #print to screen number of removals
+    ls <- length(samples_x[['sample']])
+    cat("At an at of", at, ": filtering out", ls, "samples")
+
     # write to file samples filtered out based on average amplification rate (at)
     c2name <- paste0("samples_filtered_a", at, ".csv")
     readr::write_csv(samples_x, here::here("results", "threshold", c2name))
@@ -508,7 +515,8 @@ amp_threshold <- function(at){
 #'     input data. NOTE used to select a pre-made data.
 #'
 #' @return Writes a numerical alleles data csv, filtered to the `at` and `mt`
-#'     thresholds, to the `results/` sub-directory.
+#'     thresholds, to the `results/` sub-directory. It will also print to screen
+#'     the number of loci that will be filtered out at this "missingness" threshold.
 #'
 #' @examples
 #' \dontrun{
@@ -533,6 +541,10 @@ miss_threshold <- function(mt, at){
                                     col_types = cols()) %>%
       dplyr::filter(proportion >= mt) %>%
       dplyr::pull(loci)
+
+    #print to screen number of removals
+    ln <- length(loc_NA_names)
+    cat("At an mt of", mt, ": filtering out", ln, "loci")
 
     # make name of correct amplification filtered data and read in
     num_name <- paste0("numerical_alleles_filtered_a", at, ".csv")
