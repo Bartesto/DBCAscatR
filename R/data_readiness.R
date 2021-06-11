@@ -1,14 +1,14 @@
 # Main data cleaning functions
 
-#' Creates a directory structure for inputs and outputs for a `DBCAscatR` workflow.
+#' Creates a directory structure for inputs and outputs for a `ScatMatch` workflow.
 #'
-#' \code{workspace} creates a directory structure for use with the `DBCAscatR`
+#' \code{workspace} creates a directory structure for use with the `ScatMatch`
 #'     functions.
 #'
 #' @details When run within an `RStudio` project folder structure (highly
 #'     recommended), it will create  `results/` and `source/` sub-directories.
 #'     After running, the USER should place a copy of the raw data input csv file to the
-#'     newly created `source/` sub-directory. All outputs from `DBCAscatR` functions
+#'     newly created `source/` sub-directory. All outputs from `ScatMatch` functions
 #'     will be written to the `results/` sub-directory.
 #'
 #' @return Two sub-directories, `results/` and `source/` will be created in the
@@ -21,8 +21,8 @@
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://dbca-wa.github.io/DBCAscatR/index.html}
-#' {the DBCAscatR website}
+#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+#' {the ScatMatch website}
 #'
 #' @import here
 #'
@@ -76,8 +76,8 @@ workspace <- function(){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://dbca-wa.github.io/DBCAscatR/index.html}
-#' {the DBCAscatR website}
+#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+#' {the ScatMatch website}
 #'
 #' @import here
 #' @importFrom readr read_csv
@@ -198,8 +198,8 @@ data_in <- function(filename, replicates = TRUE, suffix = "_dup"){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://dbca-wa.github.io/DBCAscatR/index.html}
-#' {the DBCAscatR website}
+#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+#' {the ScatMatch website}
 #'
 #' @import dplyr
 #' @importFrom tibble tibble
@@ -383,8 +383,8 @@ main_errors <- function(dl){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://dbca-wa.github.io/DBCAscatR/index.html}
-#' {the DBCAscatR website}
+#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+#' {the ScatMatch website}
 #'
 #' @import here
 #' @importFrom readr read_csv write_csv
@@ -437,8 +437,8 @@ gen_errors <- function(filename, suffix = "_dup"){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://dbca-wa.github.io/DBCAscatR/index.html}
-#' {the DBCAscatR website}
+#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+#' {the ScatMatch website}
 #'
 #' @import here
 #' @importFrom readr read_csv write_csv
@@ -525,8 +525,8 @@ amp_threshold <- function(at){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://dbca-wa.github.io/DBCAscatR/index.html}
-#' {the DBCAscatR website}
+#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+#' {the ScatMatch website}
 #'
 #' @import here
 #' @importFrom readr read_csv write_csv
