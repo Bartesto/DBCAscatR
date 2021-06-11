@@ -4,13 +4,15 @@
 \alias{gen_errors}
 \title{Main function wrapper to create errors from genotype inputs}
 \usage{
-gen_errors(filename, suffix = "_dup")
+gen_errors(filename, replicates = TRUE, suffix = "_dup")
 }
 \arguments{
 \item{filename}{File name of raw data input csv as a character string.}
 
+\item{replicates}{Logical. TRUE if replicates are present in the raw data.}
+
 \item{suffix}{File suffix to denote sample replicates. Default is the character
-string"_dup", change if required. Ignore if replicates == TRUE.}
+string"_dup", change if required. Ignore if replicates = FALSE.}
 }
 \value{
 It will write to csv file genetic error file csv's for further
