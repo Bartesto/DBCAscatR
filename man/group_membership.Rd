@@ -31,7 +31,7 @@ When run it uses the list object created by running
 \examples{
 \dontrun{
 group_data <- group_membership(dist = dissimilarity_list, h = 5,
-filtered_alleles = "numerical_alleles_filtered_a0.8_m0.2.csv")
+filtered_alleles = "numerical_alleles_filtered_at0.8_mt0.2.csv")
 }
 
 }
