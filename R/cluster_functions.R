@@ -688,13 +688,13 @@ majorities_html <- function(majorities_csv){
 #' @return Three csv tables are written to the `results/finalised/` sub-directory
 #'     as described in details above.
 #'
-#'  @examples
+#' @examples
 #' \dontrun{
 #' summary_tables(groups_csv = "hclust_numerical_mismatch_4_withGroups.csv",
 #' metadata = "lookup.csv", prefix = "ID_", sample = "sample", site_ID = "roost_name",
 #' field_date = "collection_date", lat = "dec_lat", long = "dec_long")}
 #'
-#'  @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
+#' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
 #' For more details see  \url{https://dbca-wa.github.io/DBCAscatR/index.html}
 #' {the DBCAscatR website}
@@ -826,75 +826,56 @@ summary_tables <- function(groups_csv, metadata, prefix, sample, site_ID, field_
 
 }
 
-#' Generate a leaflet plot showing site and individuals locations.
+#' Converts majorities output to structure format
 #'
-#' \code{leaflet_map} generates a self contained leaflet html map showing
-#'     locations of capture sites and individuals.
+#' \code{structure_format} converts majorities output to structure format.
 #'
-#' @details When run it it creates an html leaflet map showing the locations of
-#'     the capture locations and where the individuals were sampled. The map is
-#'     zoomable, layers can be turned on and off and there is a widget for
-#'     calculating approximate distances and areas. Please note that the accuracy
-#'     of the measurements is calculated using geodetic coordinates and
-leaflet_map <- function(groups_csv, metadata, prefix, sample, site_ID, field_date, lat, long){
+#' @details Takes the majorities and ties csv, from running
+#'     \code{\link{majorities}} and converts to a "structure" format which is
+#'     saved as a csv to the `results/finalised/` sub-directory.
+#'
+#' @inheritParams majorities_html
+#'
+#' @return a csv in "structure" format of the majority data.
+#'
+#' @examples
+#' \dontrun{
+#' structure_format(majorities_csv = "hclust_numerical_mismatch_4_group_majorities_and_ties.csv")}
+#'
+#' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
+#'
+#' For more details see  \url{https://dbca-wa.github.io/DBCAscatR/index.html}
+#' {the DBCAscatR website}
+#'
+#' @importFrom readr read_csv write_csv
+#' @importFrom stringr str_split
+#' @import dplyr
+#' @import here
+#'
+#' @export
+structure_format <- function(majorities_csv){
   suppressWarnings({
-    # standardise col names
-    rename_cols <- function(site_ID, field_date, lat, long){
-      d_clean <- readr::read_csv(here::here("source", metadata),
-                                 col_types = cols()) %>%
-        dplyr::select(!!sample, !!site_ID, !!field_date, !!lat, !!long)
-      names(d_clean) <- c("sample", "site", "date", "lat", "long")
-      return(d_clean)
-    }
-    ngrps <- stringr::str_split(groups_csv, pattern = "_")[[1]][4]
-    d1 <- rename_cols(site_ID, field_date, lat, long) %>%
-      dplyr::mutate(date = lubridate::parse_date_time(date, c("dmY", "ymd")),
-                    date = lubridate::as_date(date),
-                    year = lubridate::year(date),
-                    month = lubridate::month(date, label = TRUE))
+    d <- readr::read_csv(here::here("results", "cluster", majorities_csv),
+                         col_types = cols())
 
-    d2 <- readr::read_csv(here::here("results", "cluster", groups_csv),
-                          col_types = cols()) %>%
-      dplyr::select(group, sample) %>%
-      dplyr::mutate(sample = gsub(pattern = prefix, "", sample)) %>%
-      dplyr::left_join(d1, by = "sample")
+    # grab only majorities, reformat and rearrange
+    structure_format <- d %>%
+      dplyr::filter(sample == "majority") %>%
+      dplyr::mutate(group = paste0("Group", group)) %>%
+      dplyr::select(-avg_amp_rate)
 
-    ## map
-    # get coords for each site
-    site_dat <- d2 %>%
-      dplyr::select(site, lat, long) %>%
-      dplyr::distinct() %>%
-      sf::st_as_sf(coords = c("long", "lat"), crs = 4326)
-    # get coords for each individual
-    ind_dat <- d2 %>%
-      dplyr::select(group, lat, long) %>%
-      dplyr::rename(individual = group) %>%
-      dplyr::distinct() %>%
-      sf::st_as_sf(coords = c("long", "lat"), crs = 4326)
+    # convert NA to -9
+    structure_format[is.na(structure_format)] <- -9
+
+    # get rid of first column name to match structure format
+    # doesnt stay like this when written to file
+    # colnames(structure_format)[1] <- ""
 
 
-    map <- leaflet(options = leafletOptions(zoomControl = FALSE)) %>%
-      setView(lat = -23, lng = 119, zoom = 11) %>%
-      addProviderTiles(providers$Esri.WorldImagery) %>%
-      addMiniMap(zoomLevelFixed = 2) %>%
-      addMarkers(data = site_dat, popup = ~as.character(site),
-                 label = ~as.character(site),
-                 clusterOptions = markerClusterOptions(),
-                 clusterId = "site",
-                 group = "sites") %>%
-      addMarkers(data = ind_dat, popup = ~as.character(individual),
-                 label = ~as.character(individual),
-                 clusterOptions = markerClusterOptions(),
-                 clusterId = "individual",
-                 group = "individuals") %>%
-      addLayersControl(overlayGroups = c("sites", "individuals")) %>%
-      addMeasure(primaryLengthUnit = "meters",
-                 primaryAreaUnit = "hectares")
-
-    saveWidget(map, file = here::here("results",
-                                      "finalised",
-                                      paste0("cave_individual_locations_",
-                                             ngrps, ".html")))
-
+    oname <- paste0(paste0(stringr::str_split(majorities_csv, "_")[[1]][1:6],
+                           collapse = "_"), "_structure_format.csv")
+    readr::write_csv(structure_format, file = here::here("results",
+                                                         "finalised",
+                                                         oname))
   })
 }
