@@ -31,6 +31,6 @@ freq_hist(dist = dissimilarity_list)
 \author{
 Bart Huntley, \email{bart.huntley@dbca.wa.gov.au}
 
-For more details see  \url{https://dbca-wa.github.io/DBCAscatR/index.html}
-{the DBCAscatR website}
+For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+{the ScatMatch website}
 }

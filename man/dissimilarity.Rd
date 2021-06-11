@@ -40,6 +40,6 @@ dist <- dissimilarity(filtered_alleles = "numerical_alleles_filtered_a0.8_m0.2.c
 \author{
 Bart Huntley, \email{bart.huntley@dbca.wa.gov.au}
 
-For more details see  \url{https://dbca-wa.github.io/DBCAscatR/index.html}
-{the DBCAscatR website}
+For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+{the ScatMatch website}
 }

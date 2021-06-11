@@ -2,7 +2,7 @@
 % Please edit documentation in R/data_readiness.R
 \name{workspace}
 \alias{workspace}
-\title{Creates a directory structure for inputs and outputs for a `DBCAscatR` workflow.}
+\title{Creates a directory structure for inputs and outputs for a `ScatMatch` workflow.}
 \usage{
 workspace()
 }
@@ -11,14 +11,14 @@ Two sub-directories, `results/` and `source/` will be created in the
     USERs `RStudio` project directory.
 }
 \description{
-\code{workspace} creates a directory structure for use with the `DBCAscatR`
+\code{workspace} creates a directory structure for use with the `ScatMatch`
     functions.
 }
 \details{
 When run within an `RStudio` project folder structure (highly
     recommended), it will create  `results/` and `source/` sub-directories.
     After running, the USER should place a copy of the raw data input csv file to the
-    newly created `source/` sub-directory. All outputs from `DBCAscatR` functions
+    newly created `source/` sub-directory. All outputs from `ScatMatch` functions
     will be written to the `results/` sub-directory.
 }
 \examples{
@@ -30,6 +30,6 @@ workspace()
 \author{
 Bart Huntley, \email{bart.huntley@dbca.wa.gov.au}
 
-For more details see  \url{https://dbca-wa.github.io/DBCAscatR/index.html}
-{the DBCAscatR website}
+For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+{the ScatMatch website}
 }
