@@ -24,7 +24,7 @@ Writes a numerical alleles data csv, filtered to the `at` and `mt`
 }
 \details{
 The predetermined "missingness" threshold, ascertained through
-    visualisation \code{\link{miss_plot}}, is used to further filter the
+    visualisation \code{\link{miss_hist}}, is used to further filter the
     numerical alleles data set and written to csv to the `results/`
     sub-directory.
 

@@ -22,7 +22,7 @@ Takes the majorities and ties csv, from running
 }
 \examples{
 \dontrun{
-structure_format(majorities_csv = "hclust_numerical_mismatch_4_group_majorities_and_ties.csv")}
+structure_format(majorities_csv = "hclust_numerical_mismatch_h4_group_majorities_and_ties.csv")}
 
 }
 \author{

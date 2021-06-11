@@ -59,7 +59,7 @@ When run it it creates an html leaflet map showing the locations of
 }
 \examples{
 \dontrun{
-leaflet_map(groups_csv = "hclust_numerical_mismatch_4_withGroups.csv",
+leaflet_map(groups_csv = "hclust_numerical_mismatch_h4_withGroups.csv",
 metadata = "lookup.csv", prefix = "ID_", sample = "sample", site_ID = "roost_name",
 field_date = "collection_date", lat = "dec_lat", long = "dec_long")
 }

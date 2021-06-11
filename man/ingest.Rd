@@ -33,7 +33,7 @@ When run it will read in the filtered numerical alleles from the
 }
 \examples{
 \dontrun{
-data_list <- ingest(filtered_alleles = "numerical_alleles_filtered_a0.8_m0.2.csv",
+data_list <- ingest(filtered_alleles = "numerical_alleles_filtered_at0.8_mt0.2.csv",
     errors = "sample_error_results.csv")
 }
 

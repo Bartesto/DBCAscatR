@@ -72,7 +72,7 @@ Takes the groups csv, from running \code{\link{majorities}} and a
 }
 \examples{
 \dontrun{
-summary_tables(groups_csv = "hclust_numerical_mismatch_4_withGroups.csv",
+summary_tables(groups_csv = "hclust_numerical_mismatch_h4_withGroups.csv",
 metadata = "lookup.csv", prefix = "ID_", sample = "sample", site_ID = "roost_name",
 field_date = "collection_date", lat = "dec_lat", long = "dec_long")}
 

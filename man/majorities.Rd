@@ -37,7 +37,7 @@ When run it uses the list object created by running
 \examples{
 \dontrun{
 majorities(dist = dissimilarity_list, h = 5,
-filtered_alleles = "numerical_alleles_filtered_a0.8_m0.2.csv",
+filtered_alleles = "numerical_alleles_filtered_at0.8_mt0.2.csv",
 errors = "sample_error_results.csv")
 }
 
