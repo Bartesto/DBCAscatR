@@ -377,9 +377,9 @@ heat_plot <- function(dist){
 #' {the DBCAscatR website}
 #'
 #' @importFrom heatmaply heatmaply_cor
-#'
 #' @import here
 #' @importFrom webshot install_phantomjs
+#'
 #' @export
 heat_cor_plot <- function(dist){
   suppressMessages({
@@ -397,4 +397,103 @@ heat_cor_plot <- function(dist){
   })
 }
 
+#' Generate a leaflet plot showing site and individuals locations.
 #'
+#' \code{leaflet_map} generates a self contained leaflet html map showing
+#'     locations of capture sites and individuals.
+#'
+#' @details When run it it creates an html leaflet map showing the locations of
+#'     the field sites and where the individuals were sampled. The map is
+#'     zoomable, layers can be turned on and off and there is a widget for
+#'     calculating approximate distances and areas. Please note that the accuracy
+#'     of the measurements is calculated using geodetic coordinates and is
+#'     unlikely to be as accurate as measurements calculated using projected
+#'     coordinates. The map will be saved to `results/finalised/`.
+#'
+#' @inheritParams summary_tables
+#'
+#' @return It will write to html a leaflet map showing site and individuals locations.
+#'
+#' @examples
+#' \dontrun{
+#' leaflet_map(groups_csv = "hclust_numerical_mismatch_4_withGroups.csv",
+#' metadata = "lookup.csv", prefix = "ID_", sample = "sample", site_ID = "roost_name",
+#' field_date = "collection_date", lat = "dec_lat", long = "dec_long")
+#' }
+#'
+#' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
+#'
+#' For more details see  \url{https://dbca-wa.github.io/DBCAscatR/index.html}
+#' {the DBCAscatR website}
+#'
+#' @importFrom readr read_csv
+#' @importFrom stringr str_split
+#' @importFrom sf st_as_sf
+#' @importFrom htmlwidgets saveWidget
+#' @import dplyr
+#' @import lubridate
+#' @import leaflet
+#' @import here
+#'
+#' @export
+leaflet_map <- function(groups_csv, metadata, prefix, sample, site_ID, field_date, lat, long){
+  suppressWarnings({
+    # standardise col names
+    rename_cols <- function(site_ID, field_date, lat, long){
+      d_clean <- readr::read_csv(here::here("source", metadata),
+                                 col_types = cols()) %>%
+        dplyr::select(!!sample, !!site_ID, !!field_date, !!lat, !!long)
+      names(d_clean) <- c("sample", "site", "date", "lat", "long")
+      return(d_clean)
+    }
+    ngrps <- stringr::str_split(groups_csv, pattern = "_")[[1]][4]
+    d1 <- rename_cols(site_ID, field_date, lat, long) %>%
+      dplyr::mutate(date = lubridate::parse_date_time(date, c("dmY", "ymd")),
+                    date = lubridate::as_date(date),
+                    year = lubridate::year(date),
+                    month = lubridate::month(date, label = TRUE))
+
+    d2 <- readr::read_csv(here::here("results", "cluster", groups_csv),
+                          col_types = cols()) %>%
+      dplyr::select(group, sample) %>%
+      dplyr::mutate(sample = gsub(pattern = prefix, "", sample)) %>%
+      dplyr::left_join(d1, by = "sample")
+
+    ## map
+    # get coords for each site
+    site_dat <- d2 %>%
+      dplyr::select(site, lat, long) %>%
+      dplyr::distinct() %>%
+      sf::st_as_sf(coords = c("long", "lat"), crs = 4326)
+    # get coords for each individual
+    ind_dat <- d2 %>%
+      dplyr::select(group, lat, long) %>%
+      dplyr::rename(individual = group) %>%
+      dplyr::distinct() %>%
+      sf::st_as_sf(coords = c("long", "lat"), crs = 4326)
+
+    map <- leaflet(options = leafletOptions(zoomControl = FALSE)) %>%
+      setView(lat = -23, lng = 119, zoom = 11) %>%
+      addProviderTiles(providers$Esri.WorldImagery) %>%
+      addMiniMap(zoomLevelFixed = 2) %>%
+      addMarkers(data = site_dat, popup = ~as.character(site),
+                 label = ~as.character(site),
+                 clusterOptions = markerClusterOptions(),
+                 clusterId = "site",
+                 group = "sites") %>%
+      addMarkers(data = ind_dat, popup = ~as.character(individual),
+                 label = ~as.character(individual),
+                 clusterOptions = markerClusterOptions(),
+                 clusterId = "individual",
+                 group = "individuals") %>%
+      addLayersControl(overlayGroups = c("sites", "individuals")) %>%
+      addMeasure(primaryLengthUnit = "meters",
+                 primaryAreaUnit = "hectares")
+
+    htmlwidgets::saveWidget(map, file = here::here("results",
+                                      "finalised",
+                                      paste0("site_individual_locations_",
+                                             ngrps, ".html")))
+
+  })
+}
