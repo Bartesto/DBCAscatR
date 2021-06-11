@@ -38,3 +38,7 @@ Imports:
 Depends: 
     R (>= 4.0.0)
 RoxygenNote: 7.1.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
