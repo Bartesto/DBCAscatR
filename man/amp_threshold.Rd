@@ -16,6 +16,9 @@ It will write to `results/` three csv files:
         \item filtered alleles data with threshold indicated in the name
         \item sample that were filtered at with threshold indicated in the name
         \item proportion of NA's for the loci}
+
+    It will also print to screen the number of samples filtered out at this
+    threshold.
 }
 \description{
 \code{amp_threshold} takes a threshold value and applies it to the numerical

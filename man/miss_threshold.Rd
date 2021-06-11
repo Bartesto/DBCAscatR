@@ -15,7 +15,8 @@ input data. NOTE used to select a pre-made data.}
 }
 \value{
 Writes a numerical alleles data csv, filtered to the `at` and `mt`
-    thresholds, to the `results/` sub-directory.
+    thresholds, to the `results/` sub-directory. It will also print to screen
+    the number of loci that will be filtered out at this "missingness" threshold.
 }
 \description{
 \code{miss_threshold} takes a "missingness" threshold and applies it to a

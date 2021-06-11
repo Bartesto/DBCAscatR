@@ -27,38 +27,38 @@ A number of histogram plots, governed by maxh parameter, showing
 \code{misassign} assesses different mismatch thresholds by comparing overlap
     between allele mismatch distribution of samples assigned to the same group
     versus different groups and calculates probability of misassignment of
-    group membership.
+    group membership then summarise them into plots and a table.
 }
 \details{
 The function compares different mismatch thresholds by generating the
     distribution of the pairwise allele mismatch scores for each sample pair.
-    This distribution is then separated into two groups: allele mismatch
-    between samples assigned to the same group (mismatches between scats from
-    the same putative individual) and allele mismatch between samples assigned
-    to different groups (mismatches between scats from different putative
-    individual). To assess individual identification success, the same and
-    different group mismatch distributions were ranked, the upper and lower
-    0.5 percentiles were calculated. If the difference between the lower and
+    This distribution is then separated into two groups: allele mismatches
+    between samples assigned to the same group (i.e. mismatches between scats from
+    the same putative individual) and allele mismatches between samples assigned
+    to different groups (i.e. mismatches between scats from different putative
+    individuals). To assess individual identification success, the same and
+    different group mismatch distributions are ranked and the upper and lower
+    0.5 percentiles are calculated. If the difference between the lower and
     the upper 0.5 percentile is positive (the overlap column in the summary
     table), this means that the distributions are less overlapped and < 1% of
     samples have been wrongly assigned. In addition, the probability of
-    misassignment was also calculated using the `overlap` function in the
+    misassignment is  calculated using the `overlap` function in the
     package `birdring` with 100,000 simulation and the upper and lower
     parameter space set at 99.5% and 0.5% (default).
 
-    Outputs of this function generates a series of plots for each threshold
+    Outputs of this function generates a series of plots for different thresholds
     and a table summary. Each plot consists of the “within” group distribution
     in red and “between” groups distribution in blue. The upper 0.5 percentiles
     of “within” group distribution and the lower 0.5 percentile of “between”
     groups distribution are plotted in dash lines. The number of individuals
-    indicates the total number of groups identified at each threshold. The
+    indicates the total number of groups identified from each threshold. The
     probability of misassignment is calculated with the “overlap” function as
     described above. The table summary consists of the following columns: h
     indicates the threshold number, ind indicates the total number of groups
     identified by each threshold, upper shows the upper 0.5 percentile value
     of the “within” group distribution, lower shows the lower 0.5 percentile
     value of the “between” groups distribution, overlap is the difference
-    between the upper  column and the lower 0.5 percentiles column, and
+    between the upper and lower 0.5 percentiles columns, and
     prob_misassign is the probability of misassignment.
 }
 \examples{
