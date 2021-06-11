@@ -27,7 +27,7 @@ It will write to `results/` three csv files:
 }
 \details{
 The predetermined amplification threshold, ascertained through
-    visualisation \code{\link{amp_plots}}, is used to filter the numerical
+    visualisation \code{\link{amp_splots}}, is used to filter the numerical
     alleles data set and written to csv. The names of all the samples that are
     rejected at this threshold are also written to csv file.
 

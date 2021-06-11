@@ -25,7 +25,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' data_list <- ingest(filtered_alleles = "numerical_alleles_filtered_a0.8_m0.2.csv",
+#' data_list <- ingest(filtered_alleles = "numerical_alleles_filtered_at0.8_mt0.2.csv",
 #'     errors = "sample_error_results.csv")
 #' }
 #'
@@ -35,7 +35,7 @@
 #' {the ScatMatch website}
 #'
 #' @import here
-#' @importFrom readr read_csv
+#' @import readr
 ingest <- function(filtered_alleles, errors){
   suppressWarnings({
     # inputs
@@ -219,7 +219,7 @@ calc_dissimilarity <- function(slist1){
 #'
 #' @examples
 #' \dontrun{
-#' dist <- dissimilarity(filtered_alleles = "numerical_alleles_filtered_a0.8_m0.2.csv",
+#' dist <- dissimilarity(filtered_alleles = "numerical_alleles_filtered_at0.8_mt0.2.csv",
 #'     errors = "sample_error_results.csv")
 #' }
 #'
@@ -231,7 +231,7 @@ calc_dissimilarity <- function(slist1){
 #' @import dplyr
 #' @import tidyr
 #' @import here
-#' @importFrom readr read_csv
+#' @import readr
 #'
 #' @export
 dissimilarity <- function(filtered_alleles, errors){
@@ -412,7 +412,7 @@ misassign <- function(dist, maxh = 10, lt = 0.005, ut = 0.995){
 #' @examples
 #' \dontrun{
 #' group_data <- group_membership(dist = dissimilarity_list, h = 5,
-#' filtered_alleles = "numerical_alleles_filtered_a0.8_m0.2.csv")
+#' filtered_alleles = "numerical_alleles_filtered_at0.8_mt0.2.csv")
 #' }
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
@@ -420,7 +420,7 @@ misassign <- function(dist, maxh = 10, lt = 0.005, ut = 0.995){
 #' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
-#' @importFrom readr read_csv write_csv
+#' @import readr
 #' @import dplyr
 #'
 #' @export
@@ -446,7 +446,7 @@ group_membership <- function(dist, h, filtered_alleles){
     # write to file errors per sample
     readr::write_csv(mmout_df,
                      here::here("results", "cluster",
-                                paste0("hclust_numerical_mismatch_",
+                                paste0("hclust_numerical_mismatch_h",
                                        h, "_withGroups.csv")))
     return(mmout_df)
   })
@@ -475,7 +475,7 @@ group_membership <- function(dist, h, filtered_alleles){
 #' @examples
 #' \dontrun{
 #' majorities(dist = dissimilarity_list, h = 5,
-#' filtered_alleles = "numerical_alleles_filtered_a0.8_m0.2.csv",
+#' filtered_alleles = "numerical_alleles_filtered_at0.8_mt0.2.csv",
 #' errors = "sample_error_results.csv")
 #' }
 #'
@@ -484,7 +484,7 @@ group_membership <- function(dist, h, filtered_alleles){
 #' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
-#' @importFrom readr read_csv write_csv
+#' @import readr
 #' @import dplyr
 #' @importFrom tidyr pivot_wider pivot_longer
 #' @import here
@@ -556,7 +556,7 @@ majorities <- function(dist, h, filtered_alleles, errors){
     #write out table
     readr::write_csv(d4,
                      here::here("results", "cluster",
-                                paste0("hclust_numerical_mismatch_", h,
+                                paste0("hclust_numerical_mismatch_h", h,
                                        "_group_majorities_and_ties.csv")))
   })
 
@@ -578,7 +578,7 @@ majorities <- function(dist, h, filtered_alleles, errors){
 #'
 #' @examples
 #' \dontrun{
-#' majorities_html(majorities_csv = "hclust_numerical_mismatch_4_group_majorities_and_ties.csv")}
+#' majorities_html(majorities_csv = "hclust_numerical_mismatch_h4_group_majorities_and_ties.csv")}
 #'
 #'  @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
@@ -588,7 +588,7 @@ majorities <- function(dist, h, filtered_alleles, errors){
 #' @import here
 #' @import dplyr
 #' @importFrom  kableExtra cell_spec kable kable_styling scroll_box save_kable
-#' @importFrom readr read_csv
+#' @import readr
 #' @importFrom tibble tibble
 #' @importFrom tidyr pivot_wider pivot_longer
 #'
@@ -690,7 +690,7 @@ majorities_html <- function(majorities_csv){
 #'
 #' @examples
 #' \dontrun{
-#' summary_tables(groups_csv = "hclust_numerical_mismatch_4_withGroups.csv",
+#' summary_tables(groups_csv = "hclust_numerical_mismatch_h4_withGroups.csv",
 #' metadata = "lookup.csv", prefix = "ID_", sample = "sample", site_ID = "roost_name",
 #' field_date = "collection_date", lat = "dec_lat", long = "dec_long")}
 #'
@@ -700,7 +700,7 @@ majorities_html <- function(majorities_csv){
 #' {the ScatMatch website}
 #'
 #' @import here
-#' @importFrom readr read_csv write_csv
+#' @import readr
 #' @import dplyr
 #' @importFrom stringr str_split
 #' @import lubridate
@@ -840,14 +840,14 @@ summary_tables <- function(groups_csv, metadata, prefix, sample, site_ID, field_
 #'
 #' @examples
 #' \dontrun{
-#' structure_format(majorities_csv = "hclust_numerical_mismatch_4_group_majorities_and_ties.csv")}
+#' structure_format(majorities_csv = "hclust_numerical_mismatch_h4_group_majorities_and_ties.csv")}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
 #' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
-#' @importFrom readr read_csv write_csv
+#' @import readr
 #' @importFrom stringr str_split
 #' @import dplyr
 #' @import here

@@ -32,7 +32,7 @@ When run it takes filtered data and calculates mismatches between
 }
 \examples{
 \dontrun{
-dist <- dissimilarity(filtered_alleles = "numerical_alleles_filtered_a0.8_m0.2.csv",
+dist <- dissimilarity(filtered_alleles = "numerical_alleles_filtered_at0.8_mt0.2.csv",
     errors = "sample_error_results.csv")
 }
 

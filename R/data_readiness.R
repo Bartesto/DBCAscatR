@@ -64,7 +64,7 @@ workspace <- function(){
 #' @param replicates Logical. TRUE if replicates are present in the raw data.
 #'
 #' @param suffix File suffix to denote sample replicates. Default is the character
-#'     string"_dup", change if required. Ignore if replicates == TRUE.
+#'     string"_dup", change if required. Ignore if replicates = FALSE.
 #'
 #' @return When assigned to an object it will create a list containing two data
 #'     frames.
@@ -80,7 +80,7 @@ workspace <- function(){
 #' {the ScatMatch website}
 #'
 #' @import here
-#' @importFrom readr read_csv
+#' @import readr
 #' @importFrom janitor clean_names
 #' @importFrom stringr str_detect
 #' @import dplyr
@@ -203,7 +203,7 @@ data_in <- function(filename, replicates = TRUE, suffix = "_dup"){
 #'
 #' @import dplyr
 #' @importFrom tibble tibble
-#' @importFrom readr write_csv
+#' @import readr
 #' @import tidyr
 main_errors <- function(dl){
   suppressWarnings({
@@ -387,7 +387,7 @@ main_errors <- function(dl){
 #' {the ScatMatch website}
 #'
 #' @import here
-#' @importFrom readr read_csv write_csv
+#' @import readr
 #' @importFrom janitor clean_names
 #' @importFrom stringr str_detect
 #' @importFrom tibble tibble
@@ -395,7 +395,7 @@ main_errors <- function(dl){
 #' @import tidyr
 #'
 #' @export
-gen_errors <- function(filename, suffix = "_dup"){
+gen_errors <- function(filename, replicates = TRUE, suffix = "_dup"){
   suppressWarnings({
     # ingest data and make data list
     dl <- data_in(filename, replicates, suffix)
@@ -411,7 +411,7 @@ gen_errors <- function(filename, suffix = "_dup"){
 #'     proportions of NA's per loci.
 #'
 #' @details The predetermined amplification threshold, ascertained through
-#'     visualisation \code{\link{amp_plots}}, is used to filter the numerical
+#'     visualisation \code{\link{amp_splots}}, is used to filter the numerical
 #'     alleles data set and written to csv. The names of all the samples that are
 #'     rejected at this threshold are also written to csv file.
 #'
@@ -441,7 +441,7 @@ gen_errors <- function(filename, suffix = "_dup"){
 #' {the ScatMatch website}
 #'
 #' @import here
-#' @importFrom readr read_csv write_csv
+#' @import readr
 #' @import dplyr
 #' @import tidyr
 #' @importFrom stringr str_replace
@@ -466,7 +466,7 @@ amp_threshold <- function(at){
     num_out_filt_samps <- num_out[num_out[['sample']] %in% filt_names[['sample']], ]
 
     # write to file interim filtered alleles on average amplification rate (at)
-    cname <- paste0("numerical_alleles_filtered_a", at, ".csv")
+    cname <- paste0("numerical_alleles_filtered_at", at, ".csv")
     readr::write_csv(num_out_filt_samps, here::here("results", "threshold", cname))
 
     # for records, get a list of samples that were filtered
@@ -476,10 +476,10 @@ amp_threshold <- function(at){
 
     #print to screen number of removals
     ls <- length(samples_x[['sample']])
-    cat("At an at of", at, ": filtering out", ls, "samples")
+    cat("At an amplification threshold  of", at, ": filtering out", ls, "samples")
 
     # write to file samples filtered out based on average amplification rate (at)
-    c2name <- paste0("samples_filtered_a", at, ".csv")
+    c2name <- paste0("samples_filtered_at", at, ".csv")
     readr::write_csv(samples_x, here::here("results", "threshold", c2name))
 
     # summarise proportion NAs per locus in filtered num_out dataframe
@@ -500,7 +500,7 @@ amp_threshold <- function(at){
 #'     filtered numerical allele data set. Writes results to csv.
 #'
 #' @details The predetermined "missingness" threshold, ascertained through
-#'     visualisation \code{\link{miss_plot}}, is used to further filter the
+#'     visualisation \code{\link{miss_hist}}, is used to further filter the
 #'     numerical alleles data set and written to csv to the `results/`
 #'     sub-directory.
 #'
@@ -529,7 +529,7 @@ amp_threshold <- function(at){
 #' {the ScatMatch website}
 #'
 #' @import here
-#' @importFrom readr read_csv write_csv
+#' @import readr
 #' @import dplyr
 #'
 #' @export
@@ -544,10 +544,10 @@ miss_threshold <- function(mt, at){
 
     #print to screen number of removals
     ln <- length(loc_NA_names)
-    cat("At an mt of", mt, ": filtering out", ln, "loci")
+    cat("At an missingness threshold of", mt, ": filtering out", ln, "loci")
 
     # make name of correct amplification filtered data and read in
-    num_name <- paste0("numerical_alleles_filtered_a", at, ".csv")
+    num_name <- paste0("numerical_alleles_filtered_at", at, ".csv")
     num_out_filt_samps <-  readr::read_csv(here::here("results", "threshold",
                                                       num_name),
                                            col_types = cols())
@@ -558,7 +558,7 @@ miss_threshold <- function(mt, at){
 
     # write to file numerical version that has been quality filtered for samples
     # and loci
-    cname <- paste0("numerical_alleles_filtered_a", at, "_m", mt, ".csv")
+    cname <- paste0("numerical_alleles_filtered_at", at, "_mt", mt, ".csv")
     readr::write_csv(num_out_filt_loci, here::here("results", "threshold", cname))
 
   })

@@ -12,7 +12,7 @@ data_in(filename, replicates = TRUE, suffix = "_dup")
 \item{replicates}{Logical. TRUE if replicates are present in the raw data.}
 
 \item{suffix}{File suffix to denote sample replicates. Default is the character
-string"_dup", change if required. Ignore if replicates == TRUE.}
+string"_dup", change if required. Ignore if replicates = FALSE.}
 }
 \value{
 When assigned to an object it will create a list containing two data

@@ -25,7 +25,7 @@
 #' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
-#' @importFrom readr read_csv
+#' @import readr
 #' @import here
 #' @import ggplot2
 #' @importFrom cowplot plot_grid
@@ -63,7 +63,7 @@ amp_splots <- function(){
       p3 <- cowplot::plot_grid(p1, p2, labels = "auto", ncol = 1)
 
       fname <- here::here("results", "threshold", "amplification_v_allele_scatterplots.jpg")
-      ggsave2(fname, p3)
+      ggsave(fname, p3)
       print(p3)
     } else {
       stop(paste0("Not multivariate. Data probably has no error values and was ",
@@ -97,7 +97,7 @@ amp_splots <- function(){
 #' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
-#' @importFrom readr read_csv
+#' @import readr
 #' @import here
 #' @import ggplot2
 #'
@@ -145,7 +145,7 @@ miss_hist <- function(){
 #' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
-#' @importFrom readr read_csv
+#' @import readr
 #' @import here
 #' @import ggplot2
 #'
@@ -162,7 +162,7 @@ amp_hist <- function(){
            x = "average amplification rate",
            y = "count") +
       theme_bw()
-    ggsave(here::here("results", "amplification_histogram.jpg"), p1)
+    ggsave(here::here("results", "threshold", "amplification_histogram.jpg"), p1)
     print(p1)
   })
 }
@@ -337,17 +337,20 @@ freq_hist <- function(dist){
 #'
 #' @export
 heat_plot <- function(dist){
-  suppressMessages({
-    webshot::install_phantomjs()
-    distobj <- dist[['dist']]
-    m <- as.matrix(distobj)
-    heatmaply::heatmaply(m, k_row = 2, k_col = 2,
-                         file = here::here("results", "cluster", "hclust_heatmap_plot.html"),
-                         width = 1200, height = 750, plot_method = "ggplot")
-    heatmaply::heatmaply(m, k_row = 2, k_col = 2,
-                         file = here::here("results", "cluster", "hclust_heatmap_plot.png"),
-                         width = 1200, height = 750, plot_method = "ggplot")
+  suppressWarnings({
+    suppressMessages({
+      webshot::install_phantomjs()
+      distobj <- dist[['dist']]
+      m <- as.matrix(distobj)
+      heatmaply::heatmaply(m, k_row = 2, k_col = 2,
+                           file = here::here("results", "cluster", "hclust_heatmap_plot.html"),
+                           width = 1200, height = 750, plot_method = "ggplot")
+      heatmaply::heatmaply(m, k_row = 2, k_col = 2,
+                           file = here::here("results", "cluster", "hclust_heatmap_plot.png"),
+                           width = 1200, height = 750, plot_method = "ggplot")
+    })
   })
+
 }
 
 #' Sample correlation heatplot
@@ -382,18 +385,21 @@ heat_plot <- function(dist){
 #'
 #' @export
 heat_cor_plot <- function(dist){
-  suppressMessages({
-    webshot::install_phantomjs()
-    distobj <- dist[['dist']]
-    m <- as.matrix(distobj)
-    heatmaply::heatmaply_cor(m, k_row = 2, k_col = 2,
-                             file = here::here("results", "cluster",
-                                               "hclust_heatmap_cor_plot.html"),
-                             width = 1200, height = 750, plot_method = "ggplot")
-    heatmaply::heatmaply_cor(m, k_row = 2, k_col = 2,
-                             file = here::here("results", "cluster",
-                                               "hclust_heatmap_cor_plot.png"),
-                             width = 1200, height = 750, plot_method = "ggplot")
+  suppressWarnings({
+    suppressMessages({
+      webshot::install_phantomjs()
+      distobj <- dist[['dist']]
+      m <- as.matrix(distobj)
+      heatmaply::heatmaply_cor(m, k_row = 2, k_col = 2,
+                               file = here::here("results", "cluster",
+                                                 "hclust_heatmap_cor_plot.html"),
+                               width = 1200, height = 750, plot_method = "ggplot")
+      heatmaply::heatmaply_cor(m, k_row = 2, k_col = 2,
+                               file = here::here("results", "cluster",
+                                                 "hclust_heatmap_cor_plot.png"),
+                               width = 1200, height = 750, plot_method = "ggplot")
+    })
+
   })
 }
 
@@ -416,7 +422,7 @@ heat_cor_plot <- function(dist){
 #'
 #' @examples
 #' \dontrun{
-#' leaflet_map(groups_csv = "hclust_numerical_mismatch_4_withGroups.csv",
+#' leaflet_map(groups_csv = "hclust_numerical_mismatch_h4_withGroups.csv",
 #' metadata = "lookup.csv", prefix = "ID_", sample = "sample", site_ID = "roost_name",
 #' field_date = "collection_date", lat = "dec_lat", long = "dec_long")
 #' }
@@ -426,7 +432,7 @@ heat_cor_plot <- function(dist){
 #' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
-#' @importFrom readr read_csv
+#' @import readr
 #' @importFrom stringr str_split
 #' @importFrom sf st_as_sf
 #' @importFrom htmlwidgets saveWidget
