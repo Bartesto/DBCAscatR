@@ -1,0 +1,58 @@
+template:
+  params:
+    bootswatch: flatly
+
+destination: docs
+
+articles:
+  - title: Helpful guide
+    desc: >
+      Helpful guides that describe the worflow utilising the ScatMatch package
+    contents:
+      - one
+      - two
+      - three
+      - four
+
+reference:
+  - title: "Getting started"
+    desc: >
+      Install the package and create folder structure required for user data.
+    contents:
+      - workspace
+
+  - title: "Data cleaning"
+    desc: >
+      Readying the raw data for further analysis.
+    contents:
+      - gen_errors
+      - amp_splots
+      - amp_hist
+      - amp_threshold
+      - miss_hist
+      - miss_threshold
+
+   - title: "Clustering"
+    desc: >
+      Finding and assigning group membership.
+    contents:
+      - dissimilarity
+      - dendro_plot
+      - elbow_plot
+      - freq_hist
+      - heat_plot
+      - heat_cor_plot
+      - misassign
+      - majorities
+      - majorities_html
+
+  - title: "Summaries"
+    desc: >
+      Useful summaries and exports.
+    contents:
+      - structure_format
+      - summary_tables
+      - leaflet_map
+
+
+url: https://Bartesto.github.io/ScatMatch
