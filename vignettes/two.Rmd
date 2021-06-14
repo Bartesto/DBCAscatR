@@ -33,8 +33,8 @@ parameters for the function. These are:
 
 * replicates - TRUE or FALSE. Does your raw data have replicate samples?
 
-* suffix - if your data has duplicates it will have a suffix at the end of the 
-sample name. Include it here with any separators. Ignore if no duplicates.
+* suffix - if your data has replicates it will have a suffix at the end of the 
+sample name. Include it here with any separators. Ignore if no replicates.
 
 Here is the function, change the parameters to suit your needs.
 ```{r, data_in, eval=FALSE}

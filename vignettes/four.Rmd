@@ -36,16 +36,16 @@ your metadata csv to the `source` folder. Without this only item one above can
 be generated.
 
 ## Structure format
-The following code exports the group majorities data to csv.
+The following code exports the group majorities data to csv in structure format.
 ```{r, structure, eval=FALSE}
 # export to structure format
 structure_format(majorities_csv = "hclust_numerical_mismatch_h4_group_majorities_and_ties.csv")
 ```
 
 ## Summary tables
-Metadata comes in all shapes and sizes and may largely depend on who collects the 
-data and what it is collected in as to what format it is in. For the summary 
-tables function to work there are two things that the user needs to ensure:
+Metadata comes in all types of formats and this largely depends on who collects  
+the data and what it is collected with. For the summary tables function to 
+work there are two things that the user needs to ensure:
 
 1. That the data is in a wide format with each sample represented by one row of 
 data.
@@ -84,7 +84,7 @@ summary_tables(groups_csv = "hclust_numerical_mismatch_h4_withGroups.csv",
  should include any underscores or hashes etc. If there is no prefix that needs 
  to be accounted for, empty quotes e.g. "", should be used.
  
- ## A map
+## A leaflet map
  Lastly create a leaflet map. The software that handles the mapping requires all 
  coordinates to be in WGS84. This is the usual default output of most GPS systems. 
  If the map fails or produces unexpected results then this could be the issue. 

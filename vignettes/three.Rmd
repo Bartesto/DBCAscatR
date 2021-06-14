@@ -92,7 +92,8 @@ at each (h).
 
 ## Create the groups
 After looking at all of the plots an (h) value should be apparent and its now 
-time to apply it to the data and create some groups.
+time to apply it to the data and create some groups. Make sure you adjust (h) to 
+your value.
 ```{r, majority, eval=FALSE}
 # create groups
 majorities(dist = dis_list, 
