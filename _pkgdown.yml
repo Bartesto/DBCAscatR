@@ -17,7 +17,8 @@ articles:
 reference:
   - title: "Getting started"
     desc: >
-      Install the package and create folder structure required for user data.
+      Install the package and create folder structure required for user data and
+      function outputs.
     contents:
       - workspace
 
@@ -32,7 +33,7 @@ reference:
       - miss_hist
       - miss_threshold
 
-   - title: "Clustering"
+  - title: "Clustering"
     desc: >
       Finding and assigning group membership.
     contents:
