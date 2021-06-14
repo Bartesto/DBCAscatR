@@ -58,7 +58,9 @@ data.
     + longitude (WGS84)
     
 The data should look something like the example shown here.
+
 ![](plots/meta.png)
+
 
 The information as specified in item 2 above could be named in many different ways  
 so the user is required provide the column names that align with the parameters. 
@@ -104,7 +106,9 @@ leaflet_map(groups_csv = "hclust_numerical_mismatch_h4_withGroups.csv",
 
 The output is shareable, will open in any browser and has a few features apart 
 from being able to pan and zoom.
+
 ![](plots/map.png)
+
 
 * Red arrow - toggle off and on layers (sites, individuals)
 

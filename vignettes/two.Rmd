@@ -45,7 +45,9 @@ gen_errors(filename = "CAGRF20021407_raw.csv",
 ```
 
 After running this there should be 3 new csv files in the `results` directory.
+
 ![](plots/fstruct2.png)
+
 
 * **numerical_alleles.csv** - raw data converted to numerical values
 
@@ -66,7 +68,9 @@ amp_hist()
 ```
 
 After running this there will be 2 plots saved as jpg's as below.
+
 ![](plots/fstruct3.png)
+
 
 Note that they are in the `threhold` folder as that is the current task. 
 They will also be printed to screen.
@@ -80,7 +84,9 @@ amp_threshold(at = 0.8)
 
 When that is run it will filter out some samples from the data and will print to 
 screen how many you will lose. It will generate 3 new csv files as per below.
+
 ![](plots/fstruct4.png)
+
 
 * **loci_NA.csv** - a summary of the proportion of NA's per locus in the filtered 
 data.
@@ -109,7 +115,9 @@ miss_threshold(at = 0.8, mt = 0.2)
 ```
 
 Now the folder structure should look like this.
+
 ![](plots/fstruct5.png)
+
 
 **numerical_alleles_filtered_at0.8_mt0.2.csv** is the numerical alleles now 
 filtered to the at and mt values. Note that the at and mt values will always be 

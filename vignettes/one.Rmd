@@ -47,7 +47,9 @@ work within it. If you're not sure read on.
 
 First up open up RStudio and in the top right hand corner (circled in red) click 
 and open the dialogue box displayed below.
+
 ![](plots/project.png)
+
 You have the option to either create the project in a new directory (blue tick) 
 or use an existing one (green tick). I would suggest starting fresh with a new one. 
 From your selection follow the prompts to create a new project. 
@@ -85,7 +87,9 @@ workspace()
 This will make the following folders. Note the RStudio project that the example 
 was run in was called ScatMatch_processing and the .Rproj file will be named as 
 per your choice of project name.
+
 ![](plots/fstruct.png)
+
 
 Don't worry if you run it again down the track, it won't write over any data 
 that may be stored there.
@@ -93,11 +97,15 @@ that may be stored there.
 The directory to pay attention to is `source` which is where you need to put 
 your input data which should be in csv format. You need your raw data from the 
 lab and it should look something like below.
+
 ![](plots/raw.png)
+
 
 And you will also need a csv format copy of your metadata for your samples which should look 
 something like this.
+
 ![](plots/meta.png)
+
 
 This metadata or lookup table will be discussed further in the *Summaries* article.
 

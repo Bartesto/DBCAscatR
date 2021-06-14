@@ -81,7 +81,9 @@ misassign(dist = dis_list, maxh = 10, lt = 0.005, ut = 0.995)
 ```
 The function defaults to the lt and ut values as above and is supported in the 
 literature. An example of a plot.
+
 ![](plots/gdistance.png)
+
 
 The plots indicate how many individuals and the probability of misassignment 
 at the given (h). The (h) value is captured in the file name of the plot. A csv 
@@ -91,7 +93,7 @@ at each (h).
 ## Create the groups
 After looking at all of the plots an (h) value should be apparent and its now 
 time to apply it to the data and create some groups.
-```{r, misass, eval=FALSE}
+```{r, majority, eval=FALSE}
 # create groups
 majorities(dist = dis_list, 
            h = 4, 
@@ -115,7 +117,7 @@ avoid confusion if multiple runs are undertaken.
 Lastly, because it's nicer to look at colour formatted html tables instead of 
 csv files, running the function below will make a **majorities_table.html** saved 
 to the `results/cluster/` directory.
-```{r, misass, eval=FALSE}
+```{r, majority_html, eval=FALSE}
 # majorities html scrollable table
 majorities_html(majorities_csv = "hclust_numerical_mismatch_h4_group_majorities_and_ties.csv")
 ```
