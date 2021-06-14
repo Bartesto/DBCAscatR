@@ -104,7 +104,7 @@ After inspecting the histogram and choosing an appropriate missingness threshold
 (mt) run the next function to further filter the data. Make sure you apply your 
 own at and mt values.
 ```{r, fin_thresh, eval=FALSE}
-# missingness histogram
+# missingness threshold
 miss_threshold(at = 0.8, mt = 0.2)
 ```
 
