@@ -11,11 +11,6 @@ calc_mismatches(slist)
 }
 \value{
 An updated list containing calculated mismatches between samples.
-
- @examples
-\dontrun{
-calc_mismatches(slist = data_list)
-}
 }
 \description{
 \code{calc_mismatches} calculates mismatches between samples and stores
@@ -26,9 +21,15 @@ When run it calculates the mismatch between all combinations of
     samples which have been stored in the input list. It then writes the
     results back into the input list.
 }
+\examples{
+\dontrun{
+calc_mismatches(slist = data_list)
+}
+
+}
 \author{
 Bart Huntley, \email{bart.huntley@dbca.wa.gov.au}
 
-For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
 {the ScatMatch website}
 }

@@ -24,11 +24,12 @@ Takes the csv output from \code{\link{majorities}} and re-formats it
 }
 \examples{
 \dontrun{
-majorities_html(majorities_csv = "hclust_numerical_mismatch_h4_group_majorities_and_ties.csv")}
+majorities_html(majorities_csv = "hclust_numerical_mismatch_h4_group_majorities_and_ties.csv")
+}
 
  @author Bart Huntley, \email{bart.huntley@dbca.wa.gov.au}
 
-For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
 {the ScatMatch website}
 
 }
