@@ -105,7 +105,7 @@ After inspecting the histogram and choosing an appropriate missingness threshold
 own at and mt values.
 ```{r, fin_thresh, eval=FALSE}
 # missingness histogram
-miss_hist()
+miss_threshold(at = 0.8, mt = 0.2)
 ```
 
 Now the folder structure should look like this.
