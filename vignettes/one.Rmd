@@ -82,7 +82,9 @@ for the various functions you will run.
 workspace()
 ```
 
-This will make the following folders.
+This will make the following folders. Note the RStudio project that the example 
+was run in was called ScatMatch_processing and the .Rproj file will be named as 
+per your choice of project name.
 ![](plots/fstruct.png)
 
 Don't worry if you run it again down the track, it won't write over any data 
