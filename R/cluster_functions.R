@@ -23,11 +23,11 @@
 #'     errors, a data frame of sample combinations and a matrix ready for
 #'     dissimilarity calculations.
 #'
-#' @examples
-#' \dontrun{
-#' data_list <- ingest(filtered_alleles = "numerical_alleles_filtered_at0.8_mt0.2.csv",
-#'     errors = "sample_error_results.csv")
-#' }
+#'@examples
+#'\dontrun{
+#'data_list <- ingest(filtered_alleles = "numerical_alleles_filtered_at0.8_mt0.2.csv",
+#'    errors = "sample_error_results.csv")
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
@@ -77,10 +77,10 @@ ingest <- function(filtered_alleles, errors){
 #'
 #' @return An updated list containing calculated mismatches between samples.
 #'
-#'  @examples
-#' \dontrun{
+#'@examples
+#'\dontrun{
 #' calc_mismatches(slist = data_list)
-#' }
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
@@ -145,10 +145,10 @@ calc_mismatches <- function(slist){
 #'
 #' @return An updated list containing calculated dissimilarity matrix.
 #'
-#' @examples
-#' \dontrun{
+#'@examples
+#'\dontrun{
 #' calc_mismatches(slist = data_list)
-#' }
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
@@ -217,11 +217,11 @@ calc_dissimilarity <- function(slist1){
 #'     calculated dissimilarity matrix. It will also contain distance objects
 #'     that will aid in visualising group memberships.
 #'
-#' @examples
-#' \dontrun{
-#' dist <- dissimilarity(filtered_alleles = "numerical_alleles_filtered_at0.8_mt0.2.csv",
-#'     errors = "sample_error_results.csv")
-#' }
+#'@examples
+#'\dontrun{
+#'dist <- dissimilarity(filtered_alleles = "numerical_alleles_filtered_at0.8_mt0.2.csv",
+#'    errors = "sample_error_results.csv")
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
@@ -293,10 +293,10 @@ dissimilarity <- function(filtered_alleles, errors){
 #'     possible overlap and probability of misassignment are written to jpg file.
 #'     A csv summary of key values is also saved.
 #'
-#' @examples
-#' \dontrun{
-#' misassign(dist = dissimilarity_list, maxh = 5)
-#' }
+#'@examples
+#'\dontrun{
+#'misassign(dist = dissimilarity_list, maxh = 5)
+#'}
 #'
 #' @author Rujiporn Sun, \email{rujiporn.sun@@dbca.wa.gov.au}
 #'
@@ -409,11 +409,11 @@ misassign <- function(dist, maxh = 10, lt = 0.005, ut = 0.995){
 #'     used in further processing also a csv file ("...withGroups.csv") written
 #'     to the `results/cluster/` sub-directory.
 #'
-#' @examples
-#' \dontrun{
-#' group_data <- group_membership(dist = dissimilarity_list, h = 5,
-#' filtered_alleles = "numerical_alleles_filtered_at0.8_mt0.2.csv")
-#' }
+#'@examples
+#'\dontrun{
+#'group_data <- group_membership(dist = dissimilarity_list, h = 5,
+#'filtered_alleles = "numerical_alleles_filtered_at0.8_mt0.2.csv")
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
@@ -472,12 +472,12 @@ group_membership <- function(dist, h, filtered_alleles){
 #' @return A csv of numerical alleles with group assignation, majority vote and
 #'     indicated ties written to the `results/cluster/` sub-directory.
 #'
-#' @examples
-#' \dontrun{
-#' majorities(dist = dissimilarity_list, h = 5,
-#' filtered_alleles = "numerical_alleles_filtered_at0.8_mt0.2.csv",
-#' errors = "sample_error_results.csv")
-#' }
+#'@examples
+#'\dontrun{
+#'majorities(dist = dissimilarity_list, h = 5,
+#'filtered_alleles = "numerical_alleles_filtered_at0.8_mt0.2.csv",
+#'errors = "sample_error_results.csv")
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
@@ -576,9 +576,10 @@ majorities <- function(dist, h, filtered_alleles, errors){
 #' @return An html table of numerical alleles with group assignation, majority
 #'     vote and indicated ties written to the `results/cluster/` sub-directory.
 #'
-#' @examples
-#' \dontrun{
-#' majorities_html(majorities_csv = "hclust_numerical_mismatch_h4_group_majorities_and_ties.csv")}
+#'@examples
+#'\dontrun{
+#'majorities_html(majorities_csv = "hclust_numerical_mismatch_h4_group_majorities_and_ties.csv")
+#'}
 #'
 #'  @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
@@ -688,11 +689,12 @@ majorities_html <- function(majorities_csv){
 #' @return Three csv tables are written to the `results/finalised/` sub-directory
 #'     as described in details above.
 #'
-#' @examples
-#' \dontrun{
-#' summary_tables(groups_csv = "hclust_numerical_mismatch_h4_withGroups.csv",
-#' metadata = "lookup.csv", prefix = "ID_", sample = "sample", site_ID = "roost_name",
-#' field_date = "collection_date", lat = "dec_lat", long = "dec_long")}
+#'@examples
+#'\dontrun{
+#'summary_tables(groups_csv = "hclust_numerical_mismatch_h4_withGroups.csv",
+#'metadata = "lookup.csv", prefix = "ID_", sample = "sample", site_ID = "roost_name",
+#'field_date = "collection_date", lat = "dec_lat", long = "dec_long")
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
@@ -838,9 +840,10 @@ summary_tables <- function(groups_csv, metadata, prefix, sample, site_ID, field_
 #'
 #' @return a csv in "structure" format of the majority data.
 #'
-#' @examples
-#' \dontrun{
-#' structure_format(majorities_csv = "hclust_numerical_mismatch_h4_group_majorities_and_ties.csv")}
+#'@examples
+#'\dontrun{
+#'structure_format(majorities_csv = "hclust_numerical_mismatch_h4_group_majorities_and_ties.csv")
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'

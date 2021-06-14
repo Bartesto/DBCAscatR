@@ -14,10 +14,10 @@
 #' @return Two sub-directories, `results/` and `source/` will be created in the
 #'     USERs `RStudio` project directory.
 #'
-#' @examples
-#' \dontrun{
-#' workspace()
-#' }
+#'@examples
+#'\dontrun{
+#'workspace()
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
@@ -69,10 +69,10 @@ workspace <- function(){
 #' @return When assigned to an object it will create a list containing two data
 #'     frames.
 #'
-#' @examples
-#' \dontrun{
-#' data_in(filename = "CAGRF20021407_raw.csv", suffix = "_dup")
-#' }
+#'@examples
+#'\dontrun{
+#'data_in(filename = "CAGRF20021407_raw.csv", suffix = "_dup")
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
@@ -191,10 +191,10 @@ data_in <- function(filename, replicates = TRUE, suffix = "_dup"){
 #' @return It will write to csv file genetic error file csv's for further
 #'     processing and/or evaluation.
 #'
-#' @examples
-#' \dontrun{
-#' main_errors(dl)
-#' }
+#'@examples
+#'\dontrun{
+#'main_errors(dl)
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
@@ -376,10 +376,10 @@ main_errors <- function(dl){
 #' @return It will write to csv file genetic error file csv's for further
 #'     processing and/or evaluation.
 #'
-#' @examples
-#' \dontrun{
-#' gen_errors(filename = "CAGRF20021407_raw.csv", suffix = "_dup")
-#' }
+#'@examples
+#'\dontrun{
+#'gen_errors(filename = "CAGRF20021407_raw.csv", suffix = "_dup")
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
@@ -430,10 +430,10 @@ gen_errors <- function(filename, replicates = TRUE, suffix = "_dup"){
 #'     It will also print to screen the number of samples filtered out at this
 #'     threshold.
 #'
-#' @examples
-#' \dontrun{
-#' amp_threshold(at = 0.8)
-#' }
+#'@examples
+#'\dontrun{
+#'amp_threshold(at = 0.8)
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
@@ -518,10 +518,10 @@ amp_threshold <- function(at){
 #'     thresholds, to the `results/` sub-directory. It will also print to screen
 #'     the number of loci that will be filtered out at this "missingness" threshold.
 #'
-#' @examples
-#' \dontrun{
-#' miss_threshold(mt = 0.2, at = 0.8)
-#' }
+#'@examples
+#'\dontrun{
+#'miss_threshold(mt = 0.2, at = 0.8)
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'

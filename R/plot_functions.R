@@ -15,10 +15,10 @@
 #'
 #' @return It will write to jpg file a panel plot of amplification rates.
 #'
-#' @examples
-#' \dontrun{
-#' amp_splots()
-#' }
+#'@examples
+#'\dontrun{
+#'amp_splots()
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
@@ -87,10 +87,10 @@ amp_splots <- function(){
 #'
 #' @return It will write to jpg file a histogram of NA proportions for the loci.
 #'
-#' @examples
-#' \dontrun{
-#' miss_hist()
-#' }
+#'@examples
+#'\dontrun{
+#'miss_hist()
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
@@ -135,10 +135,10 @@ miss_hist <- function(){
 #'
 #' @return It will write to jpg file a histogram average amplification rates.
 #'
-#' @examples
-#' \dontrun{
-#' amp_hist()
-#' }
+#'@examples
+#'\dontrun{
+#'amp_hist()
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
@@ -182,10 +182,10 @@ amp_hist <- function(){
 #'
 #' @return It will write to jpg file a dendrogram plot.
 #'
-#' @examples
-#' \dontrun{
-#' dendro_plot(dist = dissimilarity_list)
-#' }
+#'@examples
+#'\dontrun{
+#'dendro_plot(dist = dissimilarity_list)
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
@@ -224,10 +224,10 @@ dendro_plot <- function(dist){
 #'
 #' @return It will write to jpg file an elbow plot.
 #'
-#' @examples
-#' \dontrun{
-#' elbow_plot(dist = dissimilarity_list, maxh = 5)
-#' }
+#'@examples
+#'\dontrun{
+#'elbow_plot(dist = dissimilarity_list, maxh = 5)
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
@@ -276,10 +276,10 @@ elbow_plot <- function(dist, maxh = 10){
 #'
 #' @return It will write to png file a histogram of mismatch frequency.
 #'
-#' @examples
-#' \dontrun{
-#' freq_hist(dist = dissimilarity_list)
-#' }
+#'@examples
+#'\dontrun{
+#'freq_hist(dist = dissimilarity_list)
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
@@ -321,10 +321,10 @@ freq_hist <- function(dist){
 #'
 #' @return It will write to png file a heat map.
 #'
-#' @examples
-#' \dontrun{
-#' heat_plot(dist = dissimilarity_list)
-#' }
+#'@examples
+#'\dontrun{
+#'heat_plot(dist = dissimilarity_list)
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
@@ -369,10 +369,10 @@ heat_plot <- function(dist){
 #'
 #' @return It will write to png file a correlation heat map.
 #'
-#' @examples
-#' \dontrun{
-#' heat_cor_plot(dist = dissimilarity_list)
-#' }
+#'@examples
+#'\dontrun{
+#'heat_cor_plot(dist = dissimilarity_list)
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
@@ -420,12 +420,12 @@ heat_cor_plot <- function(dist){
 #'
 #' @return It will write to html a leaflet map showing site and individuals locations.
 #'
-#' @examples
-#' \dontrun{
-#' leaflet_map(groups_csv = "hclust_numerical_mismatch_h4_withGroups.csv",
-#' metadata = "lookup.csv", prefix = "ID_", sample = "sample", site_ID = "roost_name",
-#' field_date = "collection_date", lat = "dec_lat", long = "dec_long")
-#' }
+#'@examples
+#'\dontrun{
+#'leaflet_map(groups_csv = "hclust_numerical_mismatch_h4_withGroups.csv",
+#'metadata = "lookup.csv", prefix = "ID_", sample = "sample", site_ID = "roost_name",
+#'field_date = "collection_date", lat = "dec_lat", long = "dec_long")
+#'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
