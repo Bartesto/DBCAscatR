@@ -820,7 +820,7 @@ summary_tables <- function(groups_csv, metadata, prefix, sample, site_ID, field_
 
     readr::write_csv(t4, file = here::here("results",
                                            "finalised",
-                                           paste0("site_stats_",
+                                           paste0("site_history_",
                                                   ngrps, ".csv")))
   })
 
