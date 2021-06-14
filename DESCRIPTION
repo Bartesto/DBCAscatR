@@ -8,8 +8,8 @@ Authors@R: c(
       comment = c(ORCID = "0000-0002-9519-4105")),
     person("Kym", "Ottewell", email = "kym.ottewell@dbca.wa.gov.au",
       role = "cre"))
-URL: https://github.com/dbca-wa/ScatMatch
-BugReports: https://github.com/dbca-wa/ScatMatch/issues
+URL: https://github.com/bartesto/ScatMatch
+BugReports: https://github.com/bartesto/ScatMatch/issues
 Description: Functions in this package will assist with error calculations,
     the determination of groups and majority cases, some visualisations and
     export to other formats.

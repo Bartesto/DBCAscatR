@@ -21,7 +21,7 @@
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @import here
@@ -76,7 +76,7 @@ workspace <- function(){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @import here
@@ -198,7 +198,7 @@ data_in <- function(filename, replicates = TRUE, suffix = "_dup"){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @import dplyr
@@ -383,7 +383,7 @@ main_errors <- function(dl){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @import here
@@ -437,7 +437,7 @@ gen_errors <- function(filename, replicates = TRUE, suffix = "_dup"){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @import here
@@ -525,7 +525,7 @@ amp_threshold <- function(at){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @import here

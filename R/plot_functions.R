@@ -22,7 +22,7 @@
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @import readr
@@ -94,7 +94,7 @@ amp_splots <- function(){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @import readr
@@ -142,7 +142,7 @@ miss_hist <- function(){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @import readr
@@ -189,7 +189,7 @@ amp_hist <- function(){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @import ggplot2
@@ -231,7 +231,7 @@ dendro_plot <- function(dist){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @importFrom tibble tibble
@@ -283,7 +283,7 @@ elbow_plot <- function(dist, maxh = 10){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @import here
@@ -328,7 +328,7 @@ freq_hist <- function(dist){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @importFrom heatmaply heatmaply
@@ -376,7 +376,7 @@ heat_plot <- function(dist){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @importFrom heatmaply heatmaply_cor
@@ -429,7 +429,7 @@ heat_cor_plot <- function(dist){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @import readr

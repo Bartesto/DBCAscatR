@@ -13,15 +13,15 @@ data and determine group majorities through the use of visualisations.
 ## Installation
 
 You can install the development version from
-[GitHub](https://github.com/dbca-wa) with:
+[GitHub](https://github.com/bartesto) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("dbca-wa/SactMatch")
+devtools::install_github("bartesto/ScatMatch")
 ```
 
 ## Help Files
 
 All functions within ScatMatch have the usual R help files, however the
 best place to see these and some vignettes is the [ScatMatch
-website](https://dbca-wa.github.io/ScatMatch/index.html)
+website](https://bartesto.github.io/ScatMatch/index.html)
