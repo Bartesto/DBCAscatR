@@ -37,7 +37,8 @@ Imports:
     sf,
     leaflet,
     htmlwidgets,
-    zoo
+    zoo,
+    ICSNP
 Depends: 
     R (>= 4.0.0)
 RoxygenNote: 7.1.1
