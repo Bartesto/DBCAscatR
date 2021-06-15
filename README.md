@@ -38,5 +38,6 @@ devtools::install_github("bartesto/ScatMatch")
 ## Help Files
 
 All functions within ScatMatch have the usual R help files, however the
-best place to see these and some vignettes is the [ScatMatch
+best place to see these and some helpful articles describing the
+intended workflow is the [ScatMatch
 website](https://bartesto.github.io/ScatMatch/index.html)
