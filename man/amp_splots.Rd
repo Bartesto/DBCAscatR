@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_functions.R
 \name{amp_splots}
 \alias{amp_splots}
-\title{Amplification Plots}
+\title{Amplification plots}
 \usage{
 amp_splots()
 }
