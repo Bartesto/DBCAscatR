@@ -1,6 +1,6 @@
 # Main plotting functions
 
-#' Amplification Plots
+#' Amplification plots
 #'
 #' \code{amp_splots} produces amplification plots from the sample error results.
 #'
