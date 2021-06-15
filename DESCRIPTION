@@ -9,8 +9,9 @@ Authors@R: c(
     person("Kym", "Ottewell", email = "kym.ottewell@dbca.wa.gov.au",
       role = "ctb",
       comment = c(ORCID = "0000-0002-4273-3224")),
-    person("Rujiporn", "Sun", email = "rujiporn.sun@dbca.wa.gov.au",
-      role = "ctb"))
+    person("Rujiporn", "Thavornkanlapachai", email = "rujiporn.sun@dbca.wa.gov.au",
+      role = "ctb",
+      comment = c(ORCID = "0000-0002-9870-1969")))
 URL: https://github.com/bartesto/ScatMatch
 BugReports: https://github.com/bartesto/ScatMatch/issues
 Description: Functions in this package will assist with error calculations,
