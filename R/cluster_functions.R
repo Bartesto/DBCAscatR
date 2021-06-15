@@ -314,7 +314,7 @@ dissimilarity <- function(filtered_alleles, errors){
 #'misassign(dist = dissimilarity_list, maxh = 5)
 #'}
 #'
-#' @author Rujiporn Sun, \email{rujiporn.sun@@dbca.wa.gov.au}
+#' @author Rujiporn Thavornkanlapachai, \email{rujiporn.sun@@dbca.wa.gov.au}
 #'
 #' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
@@ -495,7 +495,7 @@ group_membership <- function(dist, h, filtered_alleles){
 #'errors = "sample_error_results.csv")
 #'}
 #'
-#' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
+#'@author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
 #' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
@@ -597,7 +597,7 @@ majorities <- function(dist, h, filtered_alleles, errors){
 #'majorities_html(majorities_csv = "hclust_numerical_mismatch_h4_group_majorities_and_ties.csv")
 #'}
 #'
-#'  @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
+#'@author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
 #' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
