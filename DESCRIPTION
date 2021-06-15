@@ -7,7 +7,8 @@ Authors@R: c(
       role = c("aut", "cre", "prg", "res"),
       comment = c(ORCID = "0000-0002-9519-4105")),
     person("Kym", "Ottewell", email = "kym.ottewell@dbca.wa.gov.au",
-      role = "ctb"),
+      role = "ctb",
+      comment = c(ORCID = "0000-0002-4273-3224")),
     person("Rujiporn", "Sun", email = "rujiporn.sun@dbca.wa.gov.au",
       role = "ctb"))
 URL: https://github.com/bartesto/ScatMatch
