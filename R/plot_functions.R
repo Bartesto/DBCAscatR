@@ -311,15 +311,17 @@ freq_hist <- function(dist){
 #' \code{heat_plot} creates a heat plot based on mismatches.
 #'
 #' @details When run it uses the list object created by running
-#'     \code{\link{dissimilarity}} and generates a heat map. The heat map can
-#'     help visualise groupings of samples based on mismatch values. The plot is
-#'     written to the `results/cluster/` sub-directory. It also generates a
-#'     "plotly" visualisation in the viewer if using RStudio whereby values can
-#'     be interrogated by hovering the mouse cursor.
+#'     \code{\link{dissimilarity}} and creates a heat map. The heat map can
+#'     help visualise groupings of samples based on mismatch values. It generates
+#'     a "plotly" visualisation in the viewer when using RStudio whereby values
+#'     can be interrogated by hovering the mouse cursor. The heat map can be saved
+#'     to file either by using the interactive menu in the "plotly" html or by using
+#'     the export button in the RStudio viewer. The html version is saved to
+#'     `results/cluster/`.
 #'
 #' @inheritParams dendro_plot
 #'
-#' @return It will write to png file a heat map.
+#' @return It will save and print to screen a plotly interactive html heat map.
 #'
 #'@examples
 #'\dontrun{
@@ -332,21 +334,16 @@ freq_hist <- function(dist){
 #' {the ScatMatch website}
 #'
 #' @importFrom heatmaply heatmaply
-#' @importFrom webshot install_phantomjs
 #' @import here
 #'
 #' @export
 heat_plot <- function(dist){
   suppressWarnings({
     suppressMessages({
-      webshot::install_phantomjs()
       distobj <- dist[['dist']]
       m <- as.matrix(distobj)
       heatmaply::heatmaply(m, k_row = 2, k_col = 2,
                            file = here::here("results", "cluster", "hclust_heatmap_plot.html"),
-                           width = 1200, height = 750, plot_method = "ggplot")
-      heatmaply::heatmaply(m, k_row = 2, k_col = 2,
-                           file = here::here("results", "cluster", "hclust_heatmap_plot.png"),
                            width = 1200, height = 750, plot_method = "ggplot")
     })
   })
@@ -358,16 +355,18 @@ heat_plot <- function(dist){
 #' \code{heat_cor_plot} creates a heat plot based on correlations.
 #'
 #' @details When run it uses the list object created by running
-#'     \code{\link{dissimilarity}} and generates a correlation heat map. The heat
-#'     map can help visualise groupings of samples based on correlations of
-#'     mismatch values. The plot is written to the `results/cluster/`
-#'     sub-directory. It also generates a "plotly" visualisation in the viewer
-#'     if using RStudio whereby values can be interrogated by hovering the mouse
-#'     cursor.
+#'     \code{\link{dissimilarity}} and generates a correlation heat map. The
+#'     correlation heat map can help visualise groupings of samples based on
+#'     mismatch values. It generates a "plotly" visualisation in the viewer when
+#'     using RStudio whereby values can be interrogated by hovering the mouse
+#'     cursor. The heat map can be saved to png file either by using the interactive
+#'     menu in the "plotly" html or by using the export button in the RStudio
+#'     viewer. The html version is saved to `results/cluster/`.
 #'
 #' @inheritParams dendro_plot
 #'
-#' @return It will write to png file a correlation heat map.
+#' @return It will save and print to screen a plotly interactive html correlation
+#'     heat map.
 #'
 #'@examples
 #'\dontrun{
@@ -381,22 +380,16 @@ heat_plot <- function(dist){
 #'
 #' @importFrom heatmaply heatmaply_cor
 #' @import here
-#' @importFrom webshot install_phantomjs
 #'
 #' @export
 heat_cor_plot <- function(dist){
   suppressWarnings({
     suppressMessages({
-      webshot::install_phantomjs()
       distobj <- dist[['dist']]
       m <- as.matrix(distobj)
       heatmaply::heatmaply_cor(m, k_row = 2, k_col = 2,
                                file = here::here("results", "cluster",
                                                  "hclust_heatmap_cor_plot.html"),
-                               width = 1200, height = 750, plot_method = "ggplot")
-      heatmaply::heatmaply_cor(m, k_row = 2, k_col = 2,
-                               file = here::here("results", "cluster",
-                                                 "hclust_heatmap_cor_plot.png"),
                                width = 1200, height = 750, plot_method = "ggplot")
     })
 

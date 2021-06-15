@@ -10,18 +10,20 @@ heat_plot(dist)
 \item{dist}{A list object created after running \code{\link{dissimilarity}}.}
 }
 \value{
-It will write to png file a heat map.
+It will save and print to screen a plotly interactive html heat map.
 }
 \description{
 \code{heat_plot} creates a heat plot based on mismatches.
 }
 \details{
 When run it uses the list object created by running
-    \code{\link{dissimilarity}} and generates a heat map. The heat map can
-    help visualise groupings of samples based on mismatch values. The plot is
-    written to the `results/cluster/` sub-directory. It also generates a
-    "plotly" visualisation in the viewer if using RStudio whereby values can
-    be interrogated by hovering the mouse cursor.
+    \code{\link{dissimilarity}} and creates a heat map. The heat map can
+    help visualise groupings of samples based on mismatch values. It generates
+    a "plotly" visualisation in the viewer when using RStudio whereby values
+    can be interrogated by hovering the mouse cursor. The heat map can be saved
+    to file either by using the interactive menu in the "plotly" html or by using
+    the export button in the RStudio viewer. The html version is saved to
+    `results/cluster/`.
 }
 \examples{
 \dontrun{
