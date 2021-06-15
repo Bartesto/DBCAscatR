@@ -87,45 +87,61 @@ ingest <- function(filtered_alleles, errors){
 #' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
-#' @import dplyr
-#' @import tidyr
+#' @importFrom  ICSNP pair.diff
 calc_mismatches <- function(slist){
   suppressWarnings({
     # inputs
     out_df <- slist[['combo']]
     num_out <- slist[['num_out']]
 
-    # calculate mismatches between unique pairs
-    allcombo <- length(out_df[,1])
-    for(i in seq_along(out_df[,1])){
-      cat("missmatch calc ", i , " of ", allcombo, "\n")
-      samp <- out_df[i, 1]
-      samp2 <- out_df[i, 2]
+    # strip off sample
+    nums <- num_out[-1]
 
-      df <- num_out %>%
-        dplyr::filter(sample == samp) %>%
-        tidyr::pivot_longer(cols = starts_with("x"),
-                            names_to = "vars",
-                            values_to = "val")
+    # make NAs impossibly big
+    nums[is.na(nums)] <- 1000
 
-      df2 <- num_out %>%
-        dplyr::filter(sample == samp2) %>%
-        tidyr::pivot_longer(cols = starts_with("x"),
-                            names_to = "vars",
-                            values_to = "val")
+    # find pairwise diffs
+    pdfs <- ICSNP::pair.diff(as.matrix(nums))
 
-      df3 <- df %>%
-        dplyr::mutate(val2 = df2$val,
-                      s = val + val2,
-                      mm = case_when(
-                        s > 200 & val != val2 ~ 1,
-                        TRUE ~ 0
-                      )) %>%
-        dplyr::summarise(tmm = sum(mm))
+    # recode NAs to 0
+    pdfs[abs(pdfs) > 500] <- 0
 
-      out_df[i, 3] <- df3[[1]]
+    # recode leftovers to mismatch
+    pdfs[pdfs != 0] <- 1
 
-    }
+    out_df[['mm']] <- rowSums(pdfs)
+
+    # calculate mismatches between unique pairs - slow
+    # allcombo <- length(out_df[,1])
+    # for(i in seq_along(out_df[,1])){
+    #   cat("missmatch calc ", i , " of ", allcombo, "\n")
+    #   samp <- out_df[i, 1]
+    #   samp2 <- out_df[i, 2]
+    #
+    #   df <- num_out %>%
+    #     dplyr::filter(sample == samp) %>%
+    #     tidyr::pivot_longer(cols = starts_with("x"),
+    #                         names_to = "vars",
+    #                         values_to = "val")
+    #
+    #   df2 <- num_out %>%
+    #     dplyr::filter(sample == samp2) %>%
+    #     tidyr::pivot_longer(cols = starts_with("x"),
+    #                         names_to = "vars",
+    #                         values_to = "val")
+    #
+    #   df3 <- df %>%
+    #     dplyr::mutate(val2 = df2$val,
+    #                   s = val + val2,
+    #                   mm = case_when(
+    #                     s > 200 & val != val2 ~ 1,
+    #                     TRUE ~ 0
+    #                   )) %>%
+    #     dplyr::summarise(tmm = sum(mm))
+    #
+    #   out_df[i, 3] <- df3[[1]]
+    #
+    # }
 
     # update combos with values
     slist[['combo']] <- out_df

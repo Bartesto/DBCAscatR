@@ -92,7 +92,7 @@
 <div id="finding-dissimilarities" class="section level2">
 <h2 class="hasAnchor">
 <a href="#finding-dissimilarities" class="anchor"></a>Finding dissimilarities</h2>
-<p>The function below creates and stores a lot of data which is why you need to assign it to an object. The list object that it creates, stores among other data, mismatch scores and dissimilarity matrices. Depending on how large your raw data is, the function can take a while to run. To give some indication of progress it will print to screen which mismatch score it is calculating from the total number of possible sample combinations.</p>
+<p>The function below creates and stores a lot of data which is why you need to assign it to an object. The list object that it creates, stores among other data, mismatch scores and dissimilarity matrices.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create dissimilarities and store in an object</span>
 <span class="va">dis_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dissimilarity.html">dissimilarity</a></span><span class="op">(</span>filtered_alleles <span class="op">=</span> <span class="st">"numerical_alleles_filtered_at0.8_mt0.2.csv"</span>,
