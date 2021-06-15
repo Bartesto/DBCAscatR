@@ -36,7 +36,8 @@ Imports:
     kableExtra,
     sf,
     leaflet,
-    htmlwidgets
+    htmlwidgets,
+    zoo
 Depends: 
     R (>= 4.0.0)
 RoxygenNote: 7.1.1
