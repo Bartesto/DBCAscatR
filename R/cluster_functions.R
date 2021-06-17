@@ -756,6 +756,15 @@ summary_tables <- function(groups_csv, metadata, prefix, sample, site_ID, field_
     mindate <- min(d2[['date']], na.rm = TRUE)
     maxdate <- max(d2[['date']], na.rm = TRUE)
 
+    # error handler in case user metadata has bad dates
+    if(!is.na(mindate)){
+      dum_dates <- tibble::tibble(date = seq(mindate, maxdate, by = "month")) %>%
+        dplyr::mutate(ym = zoo::as.yearmon(date)) %>%
+        dplyr::select((-date))
+    } else {
+      stop("Some date/s failed to parse. Please check all dates in your metadata")
+    }
+
     dum_dates <- tibble::tibble(date = seq(mindate, maxdate, by = "month")) %>%
       dplyr::mutate(ym = zoo::as.yearmon(date)) %>%
       dplyr::select((-date))
