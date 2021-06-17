@@ -42,7 +42,8 @@ Imports:
     htmlwidgets,
     zoo,
     ICSNP,
-    prettydoc
+    prettydoc,
+    lubridate
 Depends: 
     R (>= 4.0.0)
 RoxygenNote: 7.1.1
