@@ -502,7 +502,7 @@ amp_threshold <- function(at){
 #' allowed per locus above which loci are discarded
 #'
 #' \code{miss_threshold} takes a "missingness" threshold and applies it to a
-#'     filtered numerical allele data set. Writes results to csv.
+#'     filtered numerical allele data set and then writes the results to csv.
 #'
 #' @details The predetermined "missingness" threshold, ascertained through
 #'     visualisation \code{\link{miss_hist}}, is used to further filter the
