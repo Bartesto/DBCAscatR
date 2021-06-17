@@ -40,7 +40,8 @@ Imports:
     leaflet,
     htmlwidgets,
     zoo,
-    ICSNP
+    ICSNP,
+    prettydoc
 Depends: 
     R (>= 4.0.0)
 RoxygenNote: 7.1.1
