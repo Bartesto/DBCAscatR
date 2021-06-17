@@ -753,8 +753,8 @@ summary_tables <- function(groups_csv, metadata, prefix, sample, site_ID, field_
     ## tables by individuals
 
     # construct full range of possible dates
-    mindate <- min(d2[['date']])
-    maxdate <- max(d2[['date']])
+    mindate <- min(d2[['date']], na.rm = TRUE)
+    maxdate <- max(d2[['date']], na.rm = TRUE)
 
     dum_dates <- tibble::tibble(date = seq(mindate, maxdate, by = "month")) %>%
       dplyr::mutate(ym = zoo::as.yearmon(date)) %>%
