@@ -37,6 +37,7 @@ Imports:
     birdring,
     kableExtra,
     sf,
+    rgdal,
     leaflet,
     htmlwidgets,
     zoo,
