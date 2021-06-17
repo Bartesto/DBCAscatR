@@ -472,7 +472,7 @@ leaflet_map <- function(groups_csv, metadata, prefix, sample, site_ID, field_dat
       sf::st_as_sf(coords = c("long", "lat"), crs = 4326)
 
     map <- leaflet(options = leafletOptions(zoomControl = FALSE)) %>%
-      setView(lat = -23, lng = 119, zoom = 11) %>%
+      # setView(lat = -23, lng = 119, zoom = 11) %>%
       addProviderTiles(providers$Esri.WorldImagery) %>%
       addMiniMap(zoomLevelFixed = 2) %>%
       addMarkers(data = site_dat, popup = ~as.character(site),
