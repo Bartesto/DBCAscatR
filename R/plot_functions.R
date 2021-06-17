@@ -111,7 +111,7 @@ miss_hist <- function(){
 
     p1 <- ggplot(dat) +
       geom_histogram(aes(proportion), binwidth = 0.005) +
-      labs(title = "Missingness histogram",
+      labs(title = "Locus missingness histogram",
            x = "proportion of NAs",
            y = "count") +
       theme_bw()
