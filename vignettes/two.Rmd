@@ -57,7 +57,7 @@ allelic dropout and false allele values per sample.
 * **summary_error.csv** - gives average and standard error of all the sample errors 
 combined.
 
-## Apply thresholds to the data
+## Apply filtering thresholds to the data
 Next step is to visualise the data to get an understanding of what amplification 
 value should be used to reduce the dataset. Run the below.
 ```{r, amp_plots, eval=FALSE}
@@ -72,7 +72,7 @@ After running this there will be 2 plots saved as jpg's as below.
 ![](plots/fstruct3.png)
 
 
-Note that they are in the `threhold` folder as that is the current task. 
+Note that they are in the `threshold` folder as that is the current task. 
 They will also be printed to screen.
 
 After inspecting the plots and choosing an appropriate amplification threshold 
@@ -82,7 +82,7 @@ After inspecting the plots and choosing an appropriate amplification threshold
 amp_threshold(at = 0.8)
 ```
 
-When that is run it will filter out some samples from the data and will print to 
+When that is run, it will filter out some samples from the data and will print to 
 screen how many you will lose. It will generate 3 new csv files as per below.
 
 ![](plots/fstruct4.png)
@@ -120,10 +120,13 @@ Now the folder structure should look like this.
 
 
 **numerical_alleles_filtered_at0.8_mt0.2.csv** is the numerical alleles now 
-filtered to the at and mt values. Note that the at and mt values will always be 
-saved within the name so that you can keep track of multiple versions. This dataset 
-will be used for all the work to follow so its important that you are happy with 
-it before progressing.
+filtered to the (at) and (mt) values. You can try different filter combinations  
+until you are happy with the threshold settings for your data. At each (at) and  
+(mt) value, the output files will be saved with filter combinations in the name 
+so that you can keep track of multiple versions. In the next part of the workflow, 
+you can trial the threshold combinations by changing which input file you use. 
+This dataset will be used for all the work to follow so its important that you 
+are happy with it before progressing.
 
 Now that there is a clean dataset, clustering is next and you can read about it 
 in the *Clustering* article.

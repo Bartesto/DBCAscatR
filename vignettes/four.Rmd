@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 ![](plots/scatmatch_logo.png)
 
 ## Introduction
-Now that groups have been assigned to the samples the data can be summarised in 
+Now that groups have been assigned to the samples, the data can be summarised in 
 various ways:
 
 1. Exported to "structure" format to make it useful for other software types
@@ -45,7 +45,7 @@ structure_format(majorities_csv = "hclust_numerical_mismatch_h4_group_majorities
 ## Summary tables
 Metadata comes in all types of formats and this largely depends on who collects  
 the data and what it is collected with. For the summary tables function to 
-work there are two things that the user needs to ensure:
+work, there are two things that the user needs to ensure:
 
 1. That the data is in a wide format with each sample represented by one row of 
 data.
@@ -82,7 +82,7 @@ summary_tables(groups_csv = "hclust_numerical_mismatch_h4_withGroups.csv",
  sample name that appears in the groups csv. The user needs to provide this so 
  that when stripped off it will match the sample names in the metadata csv. It 
  should include any underscores or hashes etc. If there is no prefix that needs 
- to be accounted for, empty quotes e.g. "", should be used.
+ to be accounted for, empty quotes e.g. "" should be used.
  
 ## A leaflet map
  Lastly create a leaflet map. The software that handles the mapping requires all 
@@ -91,7 +91,7 @@ summary_tables(groups_csv = "hclust_numerical_mismatch_h4_withGroups.csv",
  Whoever captured or provided the data should know the coordinate reference system 
  used when logging the data.
  
- The function for the map uses the same  parameters as for the summary tables.
+ The function for the map uses the same parameters as for the summary tables.
 ```{r, leaf, eval=FALSE}
 # export to structure format
 leaflet_map(groups_csv = "hclust_numerical_mismatch_h4_withGroups.csv", 
@@ -116,7 +116,7 @@ from being able to pan and zoom.
 
 * Blue arrow - zoomed out location map
 
-* Yellow arrows - shows sites or locations depending what layer you are showing. 
+* Yellow arrows - show sites or locations depending on which layer you are showing. 
 Blue marker is a single entity. Green circle with number indicates multiple 
-records at this location. Zooming in on a green circle will "explode" the 
-entities so all can be interrogated (mouse over) for information.
+records at this location. Zooming in on a green circle will expand the 
+site or locations so all can be interrogated (mouse over) for information.
