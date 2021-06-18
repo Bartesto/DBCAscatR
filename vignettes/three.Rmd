@@ -80,7 +80,7 @@ misassign(dist = dis_list, maxh = 10, lt = 0.005, ut = 0.995)
 The function defaults to the lt and ut values as above and is supported in the 
 literature. An example of a plot.
 
-![](plots/gdistance.png)
+![](plots/gdistance.png){width=60%}
 
 
 The plots indicate how many individuals and the probability of misassignment 

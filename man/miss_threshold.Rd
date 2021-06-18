@@ -2,7 +2,8 @@
 % Please edit documentation in R/data_readiness.R
 \name{miss_threshold}
 \alias{miss_threshold}
-\title{Applies a "missingness" threshold to filtered numerical allele data.}
+\title{Applies quality filtering of loci by applying a maximum amount of missing data
+allowed per locus above which loci are discarded}
 \usage{
 miss_threshold(mt, at)
 }
@@ -20,7 +21,7 @@ Writes a numerical alleles data csv, filtered to the `at` and `mt`
 }
 \description{
 \code{miss_threshold} takes a "missingness" threshold and applies it to a
-    filtered numerical allele data set. Writes results to csv.
+    filtered numerical allele data set and then writes the results to csv.
 }
 \details{
 The predetermined "missingness" threshold, ascertained through

@@ -112,9 +112,9 @@
 <li><p><strong>summary_error.csv</strong> - gives average and standard error of all the sample errors combined.</p></li>
 </ul>
 </div>
-<div id="apply-thresholds-to-the-data" class="section level2">
+<div id="apply-filtering-thresholds-to-the-data" class="section level2">
 <h2 class="hasAnchor">
-<a href="#apply-thresholds-to-the-data" class="anchor"></a>Apply thresholds to the data</h2>
+<a href="#apply-filtering-thresholds-to-the-data" class="anchor"></a>Apply filtering thresholds to the data</h2>
 <p>Next step is to visualise the data to get an understanding of what amplification value should be used to reduce the dataset. Run the below.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># amplification scatterplots</span>
@@ -123,12 +123,12 @@
 <span class="fu"><a href="../reference/amp_hist.html">amp_hist</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>After running this there will be 2 plots saved as jpg’s as below.</p>
 <p><img src="plots/fstruct3.png"></p>
-<p>Note that they are in the <code>threhold</code> folder as that is the current task. They will also be printed to screen.</p>
+<p>Note that they are in the <code>threshold</code> folder as that is the current task. They will also be printed to screen.</p>
 <p>After inspecting the plots and choosing an appropriate amplification threshold (at) run the next function to filter the data. Make sure you apply your at value.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># apply the amplification threshold</span>
 <span class="fu"><a href="../reference/amp_threshold.html">amp_threshold</a></span><span class="op">(</span>at <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></code></pre></div>
-<p>When that is run it will filter out some samples from the data and will print to screen how many you will lose. It will generate 3 new csv files as per below.</p>
+<p>When that is run, it will filter out some samples from the data and will print to screen how many you will lose. It will generate 3 new csv files as per below.</p>
 <p><img src="plots/fstruct4.png"></p>
 <ul>
 <li><p><strong>loci_NA.csv</strong> - a summary of the proportion of NA’s per locus in the filtered data.</p></li>
@@ -146,7 +146,9 @@
 <span class="fu"><a href="../reference/miss_threshold.html">miss_threshold</a></span><span class="op">(</span>at <span class="op">=</span> <span class="fl">0.8</span>, mt <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></code></pre></div>
 <p>Now the folder structure should look like this.</p>
 <p><img src="plots/fstruct5.png"></p>
-<p><strong>numerical_alleles_filtered_at0.8_mt0.2.csv</strong> is the numerical alleles now filtered to the at and mt values. Note that the at and mt values will always be saved within the name so that you can keep track of multiple versions. This dataset will be used for all the work to follow so its important that you are happy with it before progressing.</p>
+<p><strong>numerical_alleles_filtered_at0.8_mt0.2.csv</strong> is the numerical alleles now filtered to the (at) and (mt) values. You can try different filter combinations<br>
+until you are happy with the threshold settings for your data. At each (at) and<br>
+(mt) value, the output files will be saved with filter combinations in the name so that you can keep track of multiple versions. In the next part of the workflow, you can trial the threshold combinations by changing which input file you use. This dataset will be used for all the work to follow so its important that you are happy with it before progressing.</p>
 <p>Now that there is a clean dataset, clustering is next and you can read about it in the <em>Clustering</em> article.</p>
 </div>
   </div>

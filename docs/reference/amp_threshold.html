@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Applies an amplification threshold and produces interim filtered results. — amp_threshold • ScatMatch</title>
+<title>Applies quality filtering of samples by choosing an amplification threshold
+below which samples are discarded and produces interim filtered results. — amp_threshold • ScatMatch</title>
 
 
 <!-- jquery -->
@@ -39,7 +40,8 @@
 
 
 
-<meta property="og:title" content="Applies an amplification threshold and produces interim filtered results. — amp_threshold" />
+<meta property="og:title" content="Applies quality filtering of samples by choosing an amplification threshold
+below which samples are discarded and produces interim filtered results. — amp_threshold" />
 <meta property="og:description" content="amp_threshold takes a threshold value and applies it to the numerical
     allele data. Also produces a record of which samples were filtered out and
     proportions of NA's per loci." />
@@ -116,7 +118,8 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Applies an amplification threshold and produces interim filtered results.</h1>
+    <h1>Applies quality filtering of samples by choosing an amplification threshold
+below which samples are discarded and produces interim filtered results.</h1>
     <small class="dont-index">Source: <a href='https://github.com/bartesto/ScatMatch/blob/master/R/data_readiness.R'><code>R/data_readiness.R</code></a></small>
     <div class="hidden name"><code>amp_threshold.Rd</code></div>
     </div>
@@ -155,8 +158,8 @@ numerical alleles. Values greater than or equal to are retained.</p></td>
     visualisation <code><a href='amp_splots.html'>amp_splots</a></code>, is used to filter the numerical
     alleles data set and written to csv. The names of all the samples that are
     rejected at this threshold are also written to csv file.</p>
-<p>Lastly the proportion of NA's for the loci are written to csv. All outputs
-    are written to `results/`.</p>
+<p>Lastly the proportion of missing data (NA’s) per locus is written to csv.
+    All outputs are written to `results/`.</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Bart Huntley, <a href='mailto:bart.huntley@dbca.wa.gov.au'>bart.huntley@dbca.wa.gov.au</a></p>

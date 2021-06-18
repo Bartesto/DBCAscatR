@@ -30,7 +30,8 @@ When run, it reads in a raw data csv file from the `source/` sub-directory
     coded as blank cells.
 
     The raw data expected is SNP genotypes generated through the Agena
-    Bioscience MassARRAY genotyping system.
+    Bioscience MassARRAY genotyping system as provided by the Australian
+    Genome Research Facility (AGRF).
 }
 \examples{
 \dontrun{

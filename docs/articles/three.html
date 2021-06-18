@@ -87,7 +87,7 @@
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>Clustering is about finding similarities between samples so that they can be grouped which in essence differentiates individuals within the data. The functions here will use hierarchical clustering methods on a calculated mismatch scores.</p>
+<p>Clustering is about finding similarities between samples so that they can be grouped which, in essence differentiates individuals within the data. The functions here will use hierarchical clustering methods on a calculated mismatch scores.</p>
 </div>
 <div id="finding-dissimilarities" class="section level2">
 <h2 class="hasAnchor">
@@ -102,7 +102,7 @@
 <div id="visualisation-for-h" class="section level2">
 <h2 class="hasAnchor">
 <a href="#visualisation-for-h" class="anchor"></a>Visualisation for (h)</h2>
-<p>The task at hand now is to determine a height (h) at which to “cut” the data. This makes the most sense when you look at the dendrogram plot. The height will determine how many groups are created from the data and thereby how many individuals there in the sampling.</p>
+<p>The task at hand now is to determine a height (h) at which to “cut” the data or define the maximum number of allele differences allowed to allocate samples as the same individual. This makes the most sense when you look at the dendrogram plot. The height will determine how many groups are created from the data and thereby how many individuals there in the sampling.</p>
 <p>The code section below will generate a dendrogram, an elbow plot, a histogram of mismatches, a heat map and a heat map of correlations. The heat maps are plotly objects which enable the user to interrogate the plot using the mouse cursor on the html outputs. These are all saved to the <code>results/cluster/</code> directory.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create some visualisations to determine (h)</span>
@@ -117,18 +117,18 @@
 <li><p>lt - is the lower percentile of the “between” groups distribution and in the plots is represented by a blue dashed line.</p></li>
 <li><p>ut - is the upper percentile of the “within” group distribution and in the plots is represented by a red dashed line.</p></li>
 </ul>
-<p>The area between these two values is the overlap feature space and by running many simulations the probability of distributions overlapping here determines the misassignment probability.</p>
+<p>The area between these two values is the overlap feature space and by running many simulations, the probability of distributions overlapping here determines the misassignment probability.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># misassignment plots and </span>
 <span class="fu"><a href="../reference/misassign.html">misassign</a></span><span class="op">(</span>dist <span class="op">=</span> <span class="va">dis_list</span>, maxh <span class="op">=</span> <span class="fl">10</span>, lt <span class="op">=</span> <span class="fl">0.005</span>, ut <span class="op">=</span> <span class="fl">0.995</span><span class="op">)</span></code></pre></div>
 <p>The function defaults to the lt and ut values as above and is supported in the literature. An example of a plot.</p>
-<p><img src="plots/gdistance.png"></p>
+<p><img src="plots/gdistance.png" style="width:60.0%"></p>
 <p>The plots indicate how many individuals and the probability of misassignment at the given (h). The (h) value is captured in the file name of the plot. A csv file, <strong>misassignment_table.csv</strong>, is also saved which summarises these values at each (h).</p>
 </div>
 <div id="create-the-groups" class="section level2">
 <h2 class="hasAnchor">
 <a href="#create-the-groups" class="anchor"></a>Create the groups</h2>
-<p>After looking at all of the plots an (h) value should be apparent and its now time to apply it to the data and create some groups. Make sure you adjust (h) to your value.</p>
+<p>After looking at all of the plots, an (h) value should be apparent and it is now time to apply it to the data and create some groups. Make sure you adjust (h) to your value.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create groups</span>
 <span class="fu"><a href="../reference/majorities.html">majorities</a></span><span class="op">(</span>dist <span class="op">=</span> <span class="va">dis_list</span>, 
@@ -141,7 +141,7 @@
 <li><p><strong>hclust_numerical_mismatch_h4_withGroups.csv</strong> - this is just the numerical allele data with groups assigned.</p></li>
 </ul>
 <p>Note that the (h) value used to create the cut forms part of the file names to avoid confusion if multiple runs are undertaken.</p>
-<p>Lastly, because it’s nicer to look at colour formatted html tables instead of csv files, running the function below will make a <strong>majorities_table.html</strong> saved to the <code>results/cluster/</code> directory.</p>
+<p>Lastly, to aid visualisation of allele differences within each group, colour formatted html tables can be created by running the function below. This will save a file called <strong>majorities_table.html</strong> in the <code>results/cluster/</code> directory.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># majorities html scrollable table</span>
 <span class="fu"><a href="../reference/majorities_html.html">majorities_html</a></span><span class="op">(</span>majorities_csv <span class="op">=</span> <span class="st">"hclust_numerical_mismatch_h4_group_majorities_and_ties.csv"</span><span class="op">)</span></code></pre></div>

@@ -160,7 +160,7 @@
         <td>
           <p><code><a href="gen_errors.html">gen_errors()</a></code> </p>
         </td>
-        <td><p>Main function wrapper to create errors from genotype inputs</p></td>
+        <td><p>Main function wrapper to calculate genotyping error rates</p></td>
       </tr><tr>
         
         <td>
@@ -178,7 +178,8 @@
         <td>
           <p><code><a href="amp_threshold.html">amp_threshold()</a></code> </p>
         </td>
-        <td><p>Applies an amplification threshold and produces interim filtered results.</p></td>
+        <td><p>Applies quality filtering of samples by choosing an amplification threshold
+below which samples are discarded and produces interim filtered results.</p></td>
       </tr><tr>
         
         <td>
@@ -190,7 +191,8 @@
         <td>
           <p><code><a href="miss_threshold.html">miss_threshold()</a></code> </p>
         </td>
-        <td><p>Applies a "missingness" threshold to filtered numerical allele data.</p></td>
+        <td><p>Applies quality filtering of loci by applying a maximum amount of missing data
+allowed per locus above which loci are discarded</p></td>
       </tr>
     </tbody><tbody>
       <tr>

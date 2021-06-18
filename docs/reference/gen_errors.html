@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Main function wrapper to create errors from genotype inputs — gen_errors • ScatMatch</title>
+<title>Main function wrapper to calculate genotyping error rates — gen_errors • ScatMatch</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Main function wrapper to create errors from genotype inputs — gen_errors" />
-<meta property="og:description" content="gen_errors takes a raw data file and generates genetic error outputs
+<meta property="og:title" content="Main function wrapper to calculate genotyping error rates — gen_errors" />
+<meta property="og:description" content="gen_errors takes a raw data file and generates genotyping error outputs
     which are written to csv file." />
 
 
@@ -115,13 +115,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Main function wrapper to create errors from genotype inputs</h1>
+    <h1>Main function wrapper to calculate genotyping error rates</h1>
     <small class="dont-index">Source: <a href='https://github.com/bartesto/ScatMatch/blob/master/R/data_readiness.R'><code>R/data_readiness.R</code></a></small>
     <div class="hidden name"><code>gen_errors.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>gen_errors</code> takes a raw data file and generates genetic error outputs
+    <p><code>gen_errors</code> takes a raw data file and generates genotyping error outputs
     which are written to csv file.</p>
     </div>
 
@@ -147,21 +147,24 @@ string"_dup", change if required. Ignore if replicates = FALSE.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>It will write to csv file genetic error file csv's for further
+    <p>It will write to csv file genotype error file csv's for further
     processing and/or evaluation.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>When run it calculates genetic errors on the complete raw data set
+    <p>When run it calculates genotyping errors on the complete raw data set
     which it reads in from the `source/` sub-directory. The raw data expected
     is SNP genotypes generated through the Agena Bioscience MassARRAY
-    genotyping system.</p>
+    genotyping system as provided by the Australian Genome Research Facility
+    (AGRF).</p>
 <p>Outputs are written to csv file to the `results/` sub-directory as:</p><ul>
 <li><p>numerical_alleles.csv</p></li>
 <li><p>sample_error_results.csv</p></li>
 <li><p>summary_error_results.csv</p></li>
 </ul>
 
-<p>These outputs are used in downstream processes and are further refined.</p>
+<p>The genotyping error rates (sample amplification rate and, when replicate
+     samples provided, allelic dropout and false allele rates) are used in
+     downstream processes and are further refined.</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Bart Huntley, <a href='mailto:bart.huntley@dbca.wa.gov.au'>bart.huntley@dbca.wa.gov.au</a></p>

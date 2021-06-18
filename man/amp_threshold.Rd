@@ -2,7 +2,8 @@
 % Please edit documentation in R/data_readiness.R
 \name{amp_threshold}
 \alias{amp_threshold}
-\title{Applies an amplification threshold and produces interim filtered results.}
+\title{Applies quality filtering of samples by choosing an amplification threshold
+below which samples are discarded and produces interim filtered results.}
 \usage{
 amp_threshold(at)
 }
@@ -31,8 +32,8 @@ The predetermined amplification threshold, ascertained through
     alleles data set and written to csv. The names of all the samples that are
     rejected at this threshold are also written to csv file.
 
-    Lastly the proportion of NA's for the loci are written to csv. All outputs
-    are written to `results/`.
+    Lastly the proportion of missing data (NA’s) per locus is written to csv.
+    All outputs are written to `results/`.
 }
 \examples{
 \dontrun{

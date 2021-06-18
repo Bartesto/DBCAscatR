@@ -2,7 +2,7 @@
 % Please edit documentation in R/data_readiness.R
 \name{gen_errors}
 \alias{gen_errors}
-\title{Main function wrapper to create errors from genotype inputs}
+\title{Main function wrapper to calculate genotyping error rates}
 \usage{
 gen_errors(filename, replicates = TRUE, suffix = "_dup")
 }
@@ -15,18 +15,19 @@ gen_errors(filename, replicates = TRUE, suffix = "_dup")
 string"_dup", change if required. Ignore if replicates = FALSE.}
 }
 \value{
-It will write to csv file genetic error file csv's for further
+It will write to csv file genotype error file csv's for further
     processing and/or evaluation.
 }
 \description{
-\code{gen_errors} takes a raw data file and generates genetic error outputs
+\code{gen_errors} takes a raw data file and generates genotyping error outputs
     which are written to csv file.
 }
 \details{
-When run it calculates genetic errors on the complete raw data set
+When run it calculates genotyping errors on the complete raw data set
     which it reads in from the `source/` sub-directory. The raw data expected
     is SNP genotypes generated through the Agena Bioscience MassARRAY
-    genotyping system.
+    genotyping system as provided by the Australian Genome Research Facility
+    (AGRF).
 
     Outputs are written to csv file to the `results/` sub-directory as:
     \itemize{
@@ -34,7 +35,9 @@ When run it calculates genetic errors on the complete raw data set
         \item sample_error_results.csv
         \item summary_error_results.csv}
 
-     These outputs are used in downstream processes and are further refined.
+     The genotyping error rates (sample amplification rate and, when replicate
+     samples provided, allelic dropout and false allele rates) are used in
+     downstream processes and are further refined.
 }
 \examples{
 \dontrun{
