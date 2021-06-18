@@ -286,23 +286,28 @@ elbow_plot <- function(dist, maxh = 10){
 #' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
+#' @importFrom tibble tibble
+#' @import ggplot2
 #' @import here
 #'
 #' @export
 freq_hist <- function(dist){
   suppressWarnings({
-    #func for max # missmatch
-    my_max <- function(x) ifelse(!all(is.na(x)), max(x, na.rm = TRUE), NA)
-    dissobj <- dist[['diss']]
-    freq <- unlist(dissobj)
-    hist_out <- here::here("results", "cluster", "hclust_group_mismatch_histogram.png")
-    png(hist_out)
-    hist(freq,
-         xlab = "No. of mismatch",
-         ylab = "Frequency",
-         labels = TRUE,
-         breaks = -1:my_max(freq))
-    dev.off()
+    mmobj =  tibble::tibble(id = "s",
+                            missmatch = dist[['combo']]$mm)
+
+    p1 <- ggplot(aes(x= missmatch), data = mmobj) +
+      geom_histogram(colour = "black", fill = "grey") +
+      stat_bin(geom="text", colour="black", size=3.5,
+               aes(label=..count..), position=position_stack(vjust=1.2)) +
+      labs(y = "Frequency",
+           x = "Missmatch",
+           title = "Histogram of missmatch frequency") +
+      theme_bw()
+    ggsave(here::here("results", "cluster",
+                      "hclust_group_mismatch_histogram.png"), p1)
+    print(p1)
+
   })
 }
 
