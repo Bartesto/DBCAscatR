@@ -59,8 +59,8 @@ Note the only parameter to tweak is the maxh or maximum height (h) for the elbow
 plot. Larger values will make a longer x-axis but most plots will stabilise with 
 a value of 10 (default).
 
-Another way of visualising is to generate histograms of the "within" group and 
-"between" groups mismatches at various values of (h). Overlap between the 
+Another way of visualising is to generate histograms of the within group and 
+between groups mismatches at various values of (h). Overlap between the 
 distributions can indicate misassignment of group inclusion. These plots can be 
 thought of as genetic distance plots. In the function to follow: 
 
@@ -72,21 +72,72 @@ is represented by a red dashed line.
 
 The area between these two values is the overlap feature space and by running 
 many simulations, the probability of distributions overlapping here determines 
-the misassignment probability. 
+the misassignment probability. The function defaults to the lt and ut values as 
+below and is supported in the literature. 
 ```{r, misass, eval=FALSE}
 # misassignment plots and 
 misassign(dist = dis_list, maxh = 10, lt = 0.005, ut = 0.995)
 ```
-The function defaults to the lt and ut values as above and is supported in the 
-literature. An example of a plot.
 
-![](plots/gdistance.png){width=60%}
-
-
-The plots indicate how many individuals and the probability of misassignment 
-at the given (h). The (h) value is captured in the file name of the plot. A csv 
+The (h) value is captured in the file name of the plot. A csv 
 file, **misassignment_table.csv**,  is also saved which summarises these values 
 at each (h).
+
+## Selecting (h)
+The elbow graph, heat map and misassignment graph are designed to help users identify
+the most likely (h). These graphs may not agree on a specify value and it is up 
+to the user to pick this value. The choice of (h) depends on quality of the data 
+and how conservative the user is in selecting (h). For instance, the user may 
+choose to be more stringent if the data is very good quality and the error rate 
+between replicates is low. However, if the data quality is not great i.e. 
+incomplete, high error rate etc, the user may want to adopt a more conservative 
+choice knowing that he/she is likely to underestimate the true number of 
+individuals. On the other hand, being too stringent may over estimate the true 
+number by over splitting samples that belong to the same individual. In addition, 
+the user may want to try different filter settings for both loci and individual 
+genotypes to see if the grouping would change with different settings. This final 
+decision should be accompanied by sexing results (to be updated) and the 
+metadata to see if the grouping makes biological sense. The decision of choosing 
+the most likely (h) for each type of graph is described below.
+
+### Elbow graph
+To determine a suitable (h), the user needs to look for the largest drop of group 
+number as well as the value when the graph starts to flatten out. For the example 
+below, a) shows a mismatch threshold of 2 would be a suitable value to select. 
+However, with some data such as b) where the graph doesn't show a clear drop. 
+Thresholds of 3, 4, and 5 are all potential. You would need other types of graphs 
+to make the decision.  
+
+![](plots/elbow.png)
+
+### Heat maps
+In the interactive version of the heat map, you can zoom in to the area of 
+interest by dragging a box around the area. You can hover the mouse over the 
+edge of each deep blue coloured box to inspect how many allele differences between 
+inside and outside the box. Try a few boxes, especially those that are large in 
+size, then compare them with more distinct smaller boxes to get an idea of what
+would be a potential (h).
+
+![](plots/heatmap.png)
+
+### Misassignment graphs
+The misassignment graph plots frequency of allelic differences within and between 
+groups assigned by selected (h). The graph assumes allelic differences between 
+groups to follow a binomial distribution (blue). Any allelic differences falling 
+outside the distribution are likely to be caused by other means such genotyping 
+errors or variation between samples from the same individual (red). At each (h), 
+the graph will indicate how many groups or individuals are detected. This number 
+is the same as shown in the elbow graph. The probability of misassignment is also 
+calculated which can be converted into the percentage of error. For example, 
+graph a) the probability of assigning samples to a wrong group is 0.000006%. The 
+minimum suggested percentage is 0.5%. Overlap of the upper 0.995 percentile (red 
+dashed line) and lower 0.005 percentile (blue dashed line) suggested the 
+possibility of misassigning samples to between and within group distributions. 
+The location of the overlap suggests which distribution the samples will likely 
+to misassign to. For example, if the overlap falls in the between group 
+distribution (blue), the samples from the within group distribution (red) are 
+likely to be misassigned to the between group distribution (blue).
+
 
 ## Create the groups
 After looking at all of the plots, an (h) value should be apparent and it is now 
