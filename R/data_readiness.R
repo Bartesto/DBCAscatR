@@ -301,11 +301,19 @@ main_errors <- function(dl){
           b1 == "G" ~ 130,
           b1 == "C" ~ 140)
         ) %>%
+        # dplyr::select(sample, vars, a, b) %>%
+        # tidyr::pivot_longer(cols = c("a", "b"),
+        #                     names_to = "locus",
+        #                     values_to = "value") %>%
+        # dplyr::arrange(vars, locus) %>%
+        # tidyr::pivot_wider(names_from = c(vars, locus), values_from = value)
         dplyr::select(sample, vars, a, b) %>%
         tidyr::pivot_longer(cols = c("a", "b"),
-                            names_to = "locus",
+                            names_to = "rep",#
                             values_to = "value") %>%
-        dplyr::arrange(vars, locus) %>%
+        dplyr::arrange(vars, value) %>%
+        dplyr::mutate(locus = rep(c("a", "b"), dim(d)[1])) %>%
+        dplyr::select(-rep) %>%
         tidyr::pivot_wider(names_from = c(vars, locus), values_from = value)
 
       # take interim data and calculate errors for export
