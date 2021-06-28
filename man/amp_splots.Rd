@@ -10,7 +10,7 @@ amp_splots()
 It will write to jpg file a panel plot of amplification rates.
 }
 \description{
-\code{amp_splots} produces amplification plots from the sample error results.
+\code{amp_splots} plots sample amplification rate against sample error rates.
 }
 \details{
 When run it uses the sample error results, an output from running

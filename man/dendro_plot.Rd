@@ -13,7 +13,7 @@ dendro_plot(dist)
 It will write to jpg file a dendrogram plot.
 }
 \description{
-\code{dendro_plot} creates and dendrogram plot.
+\code{dendro_plot} creates a dendrogram of samples clustered by genotype similarity.
 }
 \details{
 When run it uses the list object created by running

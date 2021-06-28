@@ -2,7 +2,7 @@
 % Please edit documentation in R/cluster_functions.R
 \name{group_membership}
 \alias{group_membership}
-\title{Produces a numerical allele data set at a defined h value}
+\title{Produces a numerical allele data set with groups as defined by selected (h) value.}
 \usage{
 group_membership(dist, h, filtered_alleles)
 }

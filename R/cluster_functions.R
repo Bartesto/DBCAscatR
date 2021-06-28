@@ -287,7 +287,7 @@ dissimilarity <- function(filtered_alleles, errors){
 #'     in red and “between” groups distribution in blue. The upper 0.5 percentiles
 #'     of “within” group distribution and the lower 0.5 percentile of “between”
 #'     groups distribution are plotted in dash lines. The number of individuals
-#'     indicates the total number of groups identified from each threshold. The
+#'     indicates the total number of groups identified from each threshold (h) value. The
 #'     probability of misassignment is calculated with the “overlap” function as
 #'     described above. The table summary consists of the following columns: h
 #'     indicates the threshold number, ind indicates the total number of groups
@@ -407,7 +407,7 @@ misassign <- function(dist, maxh = 10, lt = 0.005, ut = 0.995){
   })
 }
 
-#' Produces a numerical allele data set at a defined h value
+#' Produces a numerical allele data set with groups as defined by selected (h) value.
 #'
 #' \code{group_membership} creates a data frame of numerical alleles based on a
 #'     provided h value.
@@ -853,7 +853,7 @@ summary_tables <- function(groups_csv, metadata, prefix, sample, site_ID, field_
 
 }
 
-#' Converts majorities output to structure format
+#' Converts majorities output into Structure input file format for downstream analysis
 #'
 #' \code{structure_format} converts majorities output to structure format.
 #'

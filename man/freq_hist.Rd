@@ -13,7 +13,7 @@ freq_hist(dist)
 It will write to png file a histogram of mismatch frequency.
 }
 \description{
-\code{freq_hist} creates a histogram of the frequency of mismatches.
+\code{freq_hist} creates a histogram of the frequency of genotype mismatches.
 }
 \details{
 When run it uses the list object created by running

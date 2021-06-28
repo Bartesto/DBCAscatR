@@ -2,7 +2,7 @@
 
 #' Amplification plots
 #'
-#' \code{amp_splots} produces amplification plots from the sample error results.
+#' \code{amp_splots} plots sample amplification rate against sample error rates.
 #'
 #' @details When run it uses the sample error results, an output from running
 #'     \code{\link{gen_errors}}, to produce a panel plot to aid in visualising
@@ -75,7 +75,7 @@ amp_splots <- function(){
 
 #' Data "missingness" plot
 #'
-#' \code{miss_hist} creates a histogram to visualise NA proportions for the loci.
+#' \code{miss_hist} creates a histogram of the proportion missing data (NA) per locus.
 #'
 #' @details When run it uses the "loci_NA.csv", an output
 #'     from running \code{\link{amp_threshold}}, to produce a histogram to aid in
@@ -169,7 +169,7 @@ amp_hist <- function(){
 
 #' Dendrogram plot
 #'
-#' \code{dendro_plot} creates and dendrogram plot.
+#' \code{dendro_plot} creates a dendrogram of samples clustered by genotype similarity.
 #'
 #' @details When run it uses the list object created by running
 #'     \code{\link{dissimilarity}} and generates a dendrogram. A dendrogram can
@@ -264,7 +264,7 @@ elbow_plot <- function(dist, maxh = 10){
 
 #' Mismatch histogram
 #'
-#' \code{freq_hist} creates a histogram of the frequency of mismatches.
+#' \code{freq_hist} creates a histogram of the frequency of genotype mismatches.
 #'
 #' @details When run it uses the list object created by running
 #'     \code{\link{dissimilarity}} and generates a histogram. The histogram can

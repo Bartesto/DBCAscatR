@@ -10,7 +10,7 @@ miss_hist()
 It will write to jpg file a histogram of NA proportions for the loci.
 }
 \description{
-\code{miss_hist} creates a histogram to visualise NA proportions for the loci.
+\code{miss_hist} creates a histogram of the proportion missing data (NA) per locus.
 }
 \details{
 When run it uses the "loci_NA.csv", an output

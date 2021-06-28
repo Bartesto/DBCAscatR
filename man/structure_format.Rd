@@ -2,7 +2,7 @@
 % Please edit documentation in R/cluster_functions.R
 \name{structure_format}
 \alias{structure_format}
-\title{Converts majorities output to structure format}
+\title{Converts majorities output into Structure input file format for downstream analysis}
 \usage{
 structure_format(majorities_csv)
 }
