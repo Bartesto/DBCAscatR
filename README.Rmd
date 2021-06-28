@@ -20,15 +20,16 @@ knitr::opts_chunk$set(
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![GitHub issues](https://img.shields.io/github/issues/bartesto/ScatMatch.svg?style=popout)](https://github.com/bartesto/ScatMatch/issues/)
 [![Last-changedate](https://img.shields.io/github/last-commit/bartesto/ScatMatch.svg)](https://github.com/bartesto/ScatMatch/commits/master)
-[![Travis build status](https://travis-ci.org/bartesto/ScatMatch.svg?branch=master)](https://travis-ci.org/bartesto/ScatMatch)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/bartesto/ScatMatch?branch=master&svg=true)](https://ci.appveyor.com/project/bartesto/ScatMatch)
 [![Github top language](https://img.shields.io/github/languages/top/bartesto/ScatMatch.svg)](https://github.com/bartesto/ScatMatch/)
 [![DOI](https://zenodo.org/badge/202643428.svg)](https://zenodo.org/badge/latestdoi/202643428)
 [![R-CMD-check](https://github.com/bartesto/ScatMatch/workflows/R-CMD-check/badge.svg)](https://github.com/bartesto/ScatMatch/actions)
 <!-- badges: end -->
 
-The goal of ScatMatch is to to aid error filtering from SNP genotype data and 
-determine group majorities through the use of visualisations.
+The goal of ScatMatch is to provide a range of functions and visualisations to 
+assist in cleaning and filtering SNP genotype data from non-invasively collected 
+samples (e.g. scats) and to cluster samples into groups to identify source 
+individuals. Functions are also provided to summarise and map individual capture 
+histories.
 
 ## Installation
 
