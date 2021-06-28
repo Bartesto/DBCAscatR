@@ -93,7 +93,7 @@ summary_tables(groups_csv = "hclust_numerical_mismatch_h4_withGroups.csv",
  
  The function for the map uses the same parameters as for the summary tables.
 ```{r, leaf, eval=FALSE}
-# export to structure format
+# make an interactive map
 leaflet_map(groups_csv = "hclust_numerical_mismatch_h4_withGroups.csv", 
                metadata = "lookup.csv", 
                prefix = "ID_", 
