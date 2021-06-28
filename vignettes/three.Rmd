@@ -127,7 +127,7 @@ groups to follow a binomial distribution (blue). Any allelic differences falling
 outside the distribution are likely to be caused by other means such genotyping 
 errors or variation between samples from the same individual (red). At each (h), 
 the graph will indicate how many groups or individuals are detected. This number 
-is the same number as shown in the elbow graph. The probability of misassignment  
+is the same number as shown in the elbow graph. The probability of misassignment
 is also calculated which can be converted into the percentage of error. 
 
 For example, the probability of assigning samples to a wrong group is 0.006% for 
