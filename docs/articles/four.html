@@ -133,7 +133,7 @@ the data and what it is collected with. For the summary tables function to work,
 <p>The information as specified in item 2 above could be named in many different ways<br>
 so the user is required provide the column names that align with the parameters. The example below demostrates the parameters used for the metadata as displayed above.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># export to structure format</span>
+<code class="sourceCode R"><span class="co"># produce capture history summary tables</span>
 <span class="fu"><a href="../reference/summary_tables.html">summary_tables</a></span><span class="op">(</span>groups_csv <span class="op">=</span> <span class="st">"hclust_numerical_mismatch_h4_withGroups.csv"</span>, 
                metadata <span class="op">=</span> <span class="st">"lookup.csv"</span>, 
                prefix <span class="op">=</span> <span class="st">"ID_"</span>, 
@@ -150,7 +150,7 @@ so the user is required provide the column names that align with the parameters.
 <p>Lastly create a leaflet map. The software that handles the mapping requires all coordinates to be in WGS84. This is the usual default output of most GPS systems. If the map fails or produces unexpected results then this could be the issue. Whoever captured or provided the data should know the coordinate reference system used when logging the data.</p>
 <p>The function for the map uses the same parameters as for the summary tables.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># export to structure format</span>
+<code class="sourceCode R"><span class="co"># make an interactive map</span>
 <span class="fu"><a href="../reference/leaflet_map.html">leaflet_map</a></span><span class="op">(</span>groups_csv <span class="op">=</span> <span class="st">"hclust_numerical_mismatch_h4_withGroups.csv"</span>, 
                metadata <span class="op">=</span> <span class="st">"lookup.csv"</span>, 
                prefix <span class="op">=</span> <span class="st">"ID_"</span>, 
