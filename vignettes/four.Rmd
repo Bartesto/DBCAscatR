@@ -67,7 +67,7 @@ so the user is required provide the column names that align with the parameters.
 The example below demostrates the parameters used for the metadata as displayed 
 above.
 ```{r, summary_tables, eval=FALSE}
-# export to structure format
+# produce capture history summary tables
 summary_tables(groups_csv = "hclust_numerical_mismatch_h4_withGroups.csv", 
                metadata = "lookup.csv", 
                prefix = "ID_", 
