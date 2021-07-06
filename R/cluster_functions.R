@@ -304,6 +304,7 @@ dissimilarity <- function(filtered_alleles, errors){
 #'     individuals distribution. Defaults to 0.005.
 #' @param ut Numeric. Upper threshold. Represents the upper tail of the within
 #'     individuals distribution. Defaults to 0.995.
+#' @param bins Numeric. Number of bins to split the data. Defaults to 30.
 #'
 #' @return A number of histogram plots, governed by maxh parameter, showing
 #'     possible overlap and probability of misassignment are written to jpg file.
@@ -327,7 +328,7 @@ dissimilarity <- function(filtered_alleles, errors){
 #' @import here
 #'
 #' @export
-misassign <- function(dist, maxh = 10, lt = 0.005, ut = 0.995){
+misassign <- function(dist, maxh = 10, lt = 0.005, ut = 0.995, bins = 30){
   suppressWarnings({
     distobj <- dist[['dist']]
     clust <- hclust(distobj, method = "average")
@@ -384,10 +385,10 @@ misassign <- function(dist, maxh = 10, lt = 0.005, ut = 0.995){
 
       p1 <- ggplot(out_df3, aes(x=mm, fill=type)) +
         geom_histogram(data = subset(out_df3, type == 'same'), fill = "red",
-                       alpha = 0.2, bins = 40) +
+                       alpha = 0.2, bins = bins) +
         geom_vline(xintercept = upper, colour = "red", linetype = "longdash") +
         geom_histogram(data = subset(out_df3, type == 'diff'), fill = "blue",
-                       alpha = 0.2, bins = 40) +
+                       alpha = 0.2, bins = bins) +
         geom_vline(xintercept = ifelse(lower == upper, lower +0.15, lower),
                    colour="blue", linetype = "longdash") +
         labs(title = paste(" Number of individuals = ", g_ind, "\n",

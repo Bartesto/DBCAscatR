@@ -4,7 +4,7 @@
 \alias{misassign}
 \title{Misassign probability plots and table}
 \usage{
-misassign(dist, maxh = 10, lt = 0.005, ut = 0.995)
+misassign(dist, maxh = 10, lt = 0.005, ut = 0.995, bins = 30)
 }
 \arguments{
 \item{dist}{A list object created after running \code{\link{dissimilarity}}.}
@@ -17,6 +17,8 @@ individuals distribution. Defaults to 0.005.}
 
 \item{ut}{Numeric. Upper threshold. Represents the upper tail of the within
 individuals distribution. Defaults to 0.995.}
+
+\item{bins}{Numeric. Number of bins to split the data. Defaults to 30.}
 }
 \value{
 A number of histogram plots, governed by maxh parameter, showing
