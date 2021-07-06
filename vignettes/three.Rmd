@@ -50,14 +50,15 @@ the html outputs. These are all saved to the `results/cluster/` directory.
 # create some visualisations to determine (h)
 dendro_plot(dist = dis_list)
 elbow_plot(dist = dis_list, maxh = 10)
-freq_hist(dist = dis_list)
+freq_hist(dist = dis_list, bins = 30)
 heat_plot(dist = dis_list)
 heat_cor_plot(dist = dis_list)
 ```
 
-Note the only parameter to tweak is the maxh or maximum height (h) for the elbow 
-plot. Larger values will make a longer x-axis but most plots will stabilise with 
-a value of 10 (default).
+Note the maxh or maximum height (h) parameter for the elbow plot will make a 
+longer x-axis but most plots will stabilise with a value of 10 (default). The 
+bins parameter in the the frequency histogram determines the number 
+of bins with which to display the data.
 
 Another way of visualising is to generate histograms of the within group and 
 between groups mismatches at various values of (h). Overlap between the 

@@ -108,10 +108,10 @@
 <code class="sourceCode R"><span class="co"># create some visualisations to determine (h)</span>
 <span class="fu"><a href="../reference/dendro_plot.html">dendro_plot</a></span><span class="op">(</span>dist <span class="op">=</span> <span class="va">dis_list</span><span class="op">)</span>
 <span class="fu"><a href="../reference/elbow_plot.html">elbow_plot</a></span><span class="op">(</span>dist <span class="op">=</span> <span class="va">dis_list</span>, maxh <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
-<span class="fu"><a href="../reference/freq_hist.html">freq_hist</a></span><span class="op">(</span>dist <span class="op">=</span> <span class="va">dis_list</span><span class="op">)</span>
+<span class="fu"><a href="../reference/freq_hist.html">freq_hist</a></span><span class="op">(</span>dist <span class="op">=</span> <span class="va">dis_list</span>, bins <span class="op">=</span> <span class="fl">30</span><span class="op">)</span>
 <span class="fu"><a href="../reference/heat_plot.html">heat_plot</a></span><span class="op">(</span>dist <span class="op">=</span> <span class="va">dis_list</span><span class="op">)</span>
 <span class="fu"><a href="../reference/heat_cor_plot.html">heat_cor_plot</a></span><span class="op">(</span>dist <span class="op">=</span> <span class="va">dis_list</span><span class="op">)</span></code></pre></div>
-<p>Note the only parameter to tweak is the maxh or maximum height (h) for the elbow plot. Larger values will make a longer x-axis but most plots will stabilise with a value of 10 (default).</p>
+<p>Note the maxh or maximum height (h) parameter for the elbow plot will make a longer x-axis but most plots will stabilise with a value of 10 (default). The bins parameter in the the frequency histogram determines the number of bins with which to display the data.</p>
 <p>Another way of visualising is to generate histograms of the within group and between groups mismatches at various values of (h). Overlap between the distributions can indicate misassignment of group inclusion. These plots can be thought of as genetic distance plots. In the function to follow:</p>
 <ul>
 <li><p>lt - is the lower percentile of the “between” groups distribution and in the plots is represented by a blue dashed line.</p></li>

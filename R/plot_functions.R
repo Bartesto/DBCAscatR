@@ -273,6 +273,7 @@ elbow_plot <- function(dist, maxh = 10){
 #'     `results/cluster/` sub-directory.
 #'
 #' @inheritParams dendro_plot
+#' @param bins numeric. Number of bins to split the data. Defaults to 30.
 #'
 #' @return It will write to png file a histogram of mismatch frequency.
 #'
@@ -291,15 +292,16 @@ elbow_plot <- function(dist, maxh = 10){
 #' @import here
 #'
 #' @export
-freq_hist <- function(dist){
+freq_hist <- function(dist, bins = 30){
   suppressWarnings({
     mmobj =  tibble::tibble(id = "s",
                             missmatch = dist[['combo']]$mm)
 
     p1 <- ggplot(aes(x= missmatch), data = mmobj) +
-      geom_histogram(colour = "black", fill = "grey") +
+      geom_histogram(colour = "black", fill = "grey", bins = bins) +
       stat_bin(geom="text", colour="black", size=3.5,
-               aes(label=..count..), position=position_stack(vjust=1.2)) +
+               aes(label=..count..), position=position_stack(vjust=1.2),
+               bins = bins) +
       labs(y = "Frequency",
            x = "Missmatch",
            title = "Histogram of missmatch frequency") +

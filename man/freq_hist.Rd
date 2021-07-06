@@ -4,10 +4,12 @@
 \alias{freq_hist}
 \title{Mismatch histogram}
 \usage{
-freq_hist(dist)
+freq_hist(dist, bins = 30)
 }
 \arguments{
 \item{dist}{A list object created after running \code{\link{dissimilarity}}.}
+
+\item{bins}{numeric. Number of bins to split the data. Defaults to 30.}
 }
 \value{
 It will write to png file a histogram of mismatch frequency.

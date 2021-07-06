@@ -123,7 +123,7 @@
     <p><code>freq_hist</code> creates a histogram of the frequency of genotype mismatches.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>freq_hist</span><span class='op'>(</span><span class='va'>dist</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>freq_hist</span><span class='op'>(</span><span class='va'>dist</span>, bins <span class='op'>=</span> <span class='fl'>30</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -131,6 +131,10 @@
     <tr>
       <th>dist</th>
       <td><p>A list object created after running <code><a href='dissimilarity.html'>dissimilarity</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>bins</th>
+      <td><p>numeric. Number of bins to split the data. Defaults to 30.</p></td>
     </tr>
     </table>
 
