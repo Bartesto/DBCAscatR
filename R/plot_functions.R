@@ -29,6 +29,7 @@
 #' @import here
 #' @import ggplot2
 #' @importFrom cowplot plot_grid
+#' @importFrom rland .data
 #'
 #' @export
 amp_splots <- function(){
@@ -40,21 +41,21 @@ amp_splots <- function(){
     # check dimensions logic no duplicate (no errors) data
     if(dim(dat)[2] > 2){
       error_out <- dat %>%
-        tidyr::drop_na(allele_error)
+        tidyr::drop_na(.data$allele_error)
 
       # plot amplification rate vs allele error
-      p1 <- ggplot(error_out, aes(x = avg_amp_rate, y = allele_error)) +
+      p1 <- ggplot(error_out, aes(x = .data$avg_amp_rate, y = .data$allele_error)) +
         geom_point(size = 2) +
-        geom_smooth(method = lm, se = FALSE) +
+        geom_smooth(method = .data$lm, se = FALSE) +
         labs(title = "Amplification rate vs allele error",
              x = "average amplification rate",
              y = "allele error") +
         theme_bw()
 
       # plot amplification rate vs allelic dropout
-      p2 <- ggplot(error_out, aes(x = avg_amp_rate, y = allelic_drop_out)) +
+      p2 <- ggplot(error_out, aes(x = .data$avg_amp_rate, y = .data$allelic_drop_out)) +
         geom_point(size = 2) +
-        geom_smooth(method = lm, se = FALSE) +
+        geom_smooth(method = .data$lm, se = FALSE) +
         labs(title = "Amplification rate vs allelic drop out",
              x = "average amplification rate",
              y = "allelic drop out") +
@@ -148,16 +149,17 @@ miss_hist <- function(){
 #' @import readr
 #' @import here
 #' @import ggplot2
+#' @importFrom rlang .data
 #'
 #' @export
 amp_hist <- function(){
   suppressWarnings({
     dat <- readr::read_csv(here::here("results", "sample_error_results.csv"),
                            col_types = cols()) %>%
-      dplyr::mutate(amp = avg_amp_rate)
+      dplyr::mutate(amp = .data$avg_amp_rate)
 
     p1 <- ggplot(dat) +
-      geom_histogram(aes(amp)) +
+      geom_histogram(aes(.data$amp)) +
       labs(title = "Amplification histogram",
            x = "average amplification rate",
            y = "count") +
