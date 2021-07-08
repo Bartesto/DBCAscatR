@@ -303,8 +303,8 @@ freq_hist <- function(dist, bins = 30){
                aes(label=..count..), position=position_stack(vjust=1.2),
                bins = bins) +
       labs(y = "Frequency",
-           x = "Missmatch",
-           title = "Histogram of missmatch frequency") +
+           x = "Mismatch",
+           title = "Histogram of mismatch frequency") +
       theme_bw()
     ggsave(here::here("results", "cluster",
                       "hclust_group_mismatch_histogram.png"), p1)
