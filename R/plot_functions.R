@@ -29,7 +29,7 @@
 #' @import here
 #' @import ggplot2
 #' @importFrom cowplot plot_grid
-#' @importFrom rland .data
+#' @importFrom rlang .data
 #'
 #' @export
 amp_splots <- function(){
