@@ -448,13 +448,15 @@ group_membership <- function(dist, h){
 #'     majority vote per group and any ties.
 #'
 #' @inheritParams group_membership
+#' @param errors File name of the sample error results data csv as a character
+#'     string.
 #'
 #' @return A csv of numerical alleles with group assignation, majority vote and
 #'     indicated ties written to the `results/cluster/` sub-directory.
 #'
 #'@examples
 #'\dontrun{
-#'majorities(dist = dissimilarity_list, h = 5)
+#'majorities(dist = dissimilarity_list, h = 5, errors = "sample_error_results.csv")
 #'}
 #'
 #'@author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
@@ -468,11 +470,13 @@ group_membership <- function(dist, h){
 #' @import here
 #'
 #' @export
-majorities <- function(dist, h){
+majorities <- function(dist, h, errors){
   suppressWarnings({
     mmout_df <- group_membership(dist, h)
 
-    results_out <- dist[['results_out']]
+    # not pulled from dist list as user can import dummy if required
+    results_out <- readr::read_csv(here::here("results", errors),
+                                   col_types = cols())
 
     # function to return mode of a vector with NAs
     Mode <- function(x, na.rm = FALSE) {

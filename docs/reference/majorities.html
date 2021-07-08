@@ -127,7 +127,7 @@
     ties.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>majorities</span><span class='op'>(</span><span class='va'>dist</span>, <span class='va'>h</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>majorities</span><span class='op'>(</span><span class='va'>dist</span>, <span class='va'>h</span>, <span class='va'>errors</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -139,6 +139,11 @@
     <tr>
       <th>h</th>
       <td><p>Integer. Represents determined mismatch value.</p></td>
+    </tr>
+    <tr>
+      <th>errors</th>
+      <td><p>File name of the sample error results data csv as a character
+string.</p></td>
     </tr>
     </table>
 
@@ -163,7 +168,7 @@ the ScatMatch website</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>majorities</span><span class='op'>(</span>dist <span class='op'>=</span> <span class='va'>dissimilarity_list</span>, h <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+<span class='fu'>majorities</span><span class='op'>(</span>dist <span class='op'>=</span> <span class='va'>dissimilarity_list</span>, h <span class='op'>=</span> <span class='fl'>5</span>, errors <span class='op'>=</span> <span class='st'>"sample_error_results.csv"</span><span class='op'>)</span>
 <span class='op'>}</span>
 
 </div></pre>
