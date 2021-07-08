@@ -111,38 +111,6 @@ calc_mismatches <- function(slist){
 
     out_df[['mm']] <- rowSums(pdfs)
 
-    # calculate mismatches between unique pairs - slow
-    # allcombo <- length(out_df[,1])
-    # for(i in seq_along(out_df[,1])){
-    #   cat("missmatch calc ", i , " of ", allcombo, "\n")
-    #   samp <- out_df[i, 1]
-    #   samp2 <- out_df[i, 2]
-    #
-    #   df <- num_out %>%
-    #     dplyr::filter(sample == samp) %>%
-    #     tidyr::pivot_longer(cols = starts_with("x"),
-    #                         names_to = "vars",
-    #                         values_to = "val")
-    #
-    #   df2 <- num_out %>%
-    #     dplyr::filter(sample == samp2) %>%
-    #     tidyr::pivot_longer(cols = starts_with("x"),
-    #                         names_to = "vars",
-    #                         values_to = "val")
-    #
-    #   df3 <- df %>%
-    #     dplyr::mutate(val2 = df2$val,
-    #                   s = val + val2,
-    #                   mm = case_when(
-    #                     s > 200 & val != val2 ~ 1,
-    #                     TRUE ~ 0
-    #                   )) %>%
-    #     dplyr::summarise(tmm = sum(mm))
-    #
-    #   out_df[i, 3] <- df3[[1]]
-    #
-    # }
-
     # update combos with values
     slist[['combo']] <- out_df
     return(slist)
@@ -419,8 +387,6 @@ misassign <- function(dist, maxh = 10, lt = 0.005, ut = 0.995, bins = 30){
 #'
 #' @inheritParams dendro_plot
 #' @param h Integer. Represents determined mismatch value.
-#' @param filtered_alleles Character vector. Name of the filtered allele data
-#'     set created by running \code{\link{miss_threshold}}.
 #'
 #' @return A data frame object of numerical alleles with group assignation to be
 #'     used in further processing also a csv file ("...withGroups.csv") written
@@ -428,8 +394,7 @@ misassign <- function(dist, maxh = 10, lt = 0.005, ut = 0.995, bins = 30){
 #'
 #'@examples
 #'\dontrun{
-#'group_data <- group_membership(dist = dissimilarity_list, h = 5,
-#'filtered_alleles = "numerical_alleles_filtered_at0.8_mt0.2.csv")
+#'group_data <- group_membership(dist = dissimilarity_list, h = 5)
 #'}
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
@@ -441,7 +406,7 @@ misassign <- function(dist, maxh = 10, lt = 0.005, ut = 0.995, bins = 30){
 #' @import dplyr
 #'
 #' @export
-group_membership <- function(dist, h, filtered_alleles){
+group_membership <- function(dist, h){
   suppressWarnings({
     distobj <- dist[['dist']]
     clust <- hclust(distobj, method = "average")
@@ -450,8 +415,7 @@ group_membership <- function(dist, h, filtered_alleles){
     subgrp <- cutree(clust, k = NULL, h = h)
 
     # get num_out data
-    num_out <- readr::read_csv(here::here("results", "threshold",
-                                          filtered_alleles), col_types = cols())
+    num_out <- dist[['num_out']]
 
     # add to numerical data
     mmout_df <- num_out %>%
@@ -484,16 +448,13 @@ group_membership <- function(dist, h, filtered_alleles){
 #'     majority vote per group and any ties.
 #'
 #' @inheritParams group_membership
-#' @param errors Character vector. The name of the sample errors csv.
 #'
 #' @return A csv of numerical alleles with group assignation, majority vote and
 #'     indicated ties written to the `results/cluster/` sub-directory.
 #'
 #'@examples
 #'\dontrun{
-#'majorities(dist = dissimilarity_list, h = 5,
-#'filtered_alleles = "numerical_alleles_filtered_at0.8_mt0.2.csv",
-#'errors = "sample_error_results.csv")
+#'majorities(dist = dissimilarity_list, h = 5)
 #'}
 #'
 #'@author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
@@ -507,12 +468,11 @@ group_membership <- function(dist, h, filtered_alleles){
 #' @import here
 #'
 #' @export
-majorities <- function(dist, h, filtered_alleles, errors){
+majorities <- function(dist, h){
   suppressWarnings({
-    mmout_df <- group_membership(dist, h, filtered_alleles)
+    mmout_df <- group_membership(dist, h)
 
-    results_out <- readr::read_csv(here::here("results", errors),
-                                   col_types = cols())
+    results_out <- dist[['results_out']]
 
     # function to return mode of a vector with NAs
     Mode <- function(x, na.rm = FALSE) {

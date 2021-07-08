@@ -158,9 +158,7 @@ your value.
 ```{r, majority, eval=FALSE}
 # create groups
 majorities(dist = dis_list, 
-           h = 4, 
-           filtered_alleles = "numerical_alleles_filtered_at0.8_mt0.2.csv",
-           errors = "sample_error_results.csv")
+           h = 4)
 ```
 
 This will create 2 new csv datasets in `results/cluster/`:

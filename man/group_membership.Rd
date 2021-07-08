@@ -4,15 +4,12 @@
 \alias{group_membership}
 \title{Produces a numerical allele data set with groups as defined by selected (h) value.}
 \usage{
-group_membership(dist, h, filtered_alleles)
+group_membership(dist, h)
 }
 \arguments{
 \item{dist}{A list object created after running \code{\link{dissimilarity}}.}
 
 \item{h}{Integer. Represents determined mismatch value.}
-
-\item{filtered_alleles}{Character vector. Name of the filtered allele data
-set created by running \code{\link{miss_threshold}}.}
 }
 \value{
 A data frame object of numerical alleles with group assignation to be
@@ -30,8 +27,7 @@ When run it uses the list object created by running
 }
 \examples{
 \dontrun{
-group_data <- group_membership(dist = dissimilarity_list, h = 5,
-filtered_alleles = "numerical_alleles_filtered_at0.8_mt0.2.csv")
+group_data <- group_membership(dist = dissimilarity_list, h = 5)
 }
 
 }

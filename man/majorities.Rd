@@ -4,17 +4,12 @@
 \alias{majorities}
 \title{Calculates the group majorities and ties data.}
 \usage{
-majorities(dist, h, filtered_alleles, errors)
+majorities(dist, h)
 }
 \arguments{
 \item{dist}{A list object created after running \code{\link{dissimilarity}}.}
 
 \item{h}{Integer. Represents determined mismatch value.}
-
-\item{filtered_alleles}{Character vector. Name of the filtered allele data
-set created by running \code{\link{miss_threshold}}.}
-
-\item{errors}{Character vector. The name of the sample errors csv.}
 }
 \value{
 A csv of numerical alleles with group assignation, majority vote and
@@ -36,9 +31,7 @@ When run it uses the list object created by running
 }
 \examples{
 \dontrun{
-majorities(dist = dissimilarity_list, h = 5,
-filtered_alleles = "numerical_alleles_filtered_at0.8_mt0.2.csv",
-errors = "sample_error_results.csv")
+majorities(dist = dissimilarity_list, h = 5)
 }
 
 }
