@@ -84,6 +84,7 @@ workspace <- function(){
 #' @import readr
 #' @importFrom janitor clean_names
 #' @importFrom stringr str_detect
+#' @importFrom rlang .data
 #' @import dplyr
 #' @import tidyr
 data_in <- function(filename, replicates = TRUE, suffix = "_dup"){
@@ -97,32 +98,32 @@ data_in <- function(filename, replicates = TRUE, suffix = "_dup"){
         file <- here::here("source", filename)
         na_dat <- readr::read_csv(file, na = "Fail", col_types = cols()) %>%
           janitor::clean_names() %>%
-          dplyr::rename(sample = x1) %>%
+          dplyr::rename(sample = .data$x1) %>%
           dplyr::mutate(rep = case_when(
             stringr::str_detect(sample, suffix) ~ 2,
             TRUE ~ 1),
             sample = gsub(suffix, "", sample),
             ind = stringr::str_detect(sample, "Blank")) %>%
-          dplyr::filter(ind != TRUE) %>%
-          dplyr::select(sample, rep, everything(), -ind)
+          dplyr::filter(.data$ind != TRUE) %>%
+          dplyr::select(sample, rep, everything(), -.data$ind)
 
         # data with blanks for NA
         all_dat <- read_csv(file, col_types = cols()) %>%
           janitor::clean_names() %>%
-          dplyr::rename(sample = x1) %>%
+          dplyr::rename(sample = .data$x1) %>%
           dplyr::mutate(rep = case_when(
             stringr::str_detect(sample, suffix) ~ 2,
             TRUE ~ 1),
             sample = gsub(suffix, "", sample),
             ind = stringr::str_detect(sample, "Blank")) %>%
-          dplyr::filter(ind != TRUE) %>%
-          dplyr::select(sample, rep, everything(), -ind) %>%
+          dplyr::filter(.data$ind != TRUE) %>%
+          dplyr::select(sample, rep, everything(), -.data$ind) %>%
           tidyr::pivot_longer(cols = starts_with("x"),
                               names_to = "marker",
                               values_to = "val") %>%
-          dplyr::mutate(val = ifelse(val == "Fail", "", val)) %>%
-          tidyr::pivot_wider(names_from = marker,
-                             values_from = val)
+          dplyr::mutate(val = ifelse(.data$val == "Fail", "", .data$val)) %>%
+          tidyr::pivot_wider(names_from = .data$marker,
+                             values_from = .data$val)
 
         out <- list(na_dat = na_dat, all_dat = all_dat)
         return(out)
@@ -134,32 +135,32 @@ data_in <- function(filename, replicates = TRUE, suffix = "_dup"){
       file <- here::here("source", filename)
       na_dat <- readr::read_csv(file, na = "Fail", col_types = cols()) %>%
         janitor::clean_names() %>%
-        dplyr::rename(sample = x1) %>%
+        dplyr::rename(sample = .data$x1) %>%
         dplyr::mutate(rep = case_when(
           stringr::str_detect(sample, suffix) ~ 2,
           TRUE ~ 1),
           sample = gsub(suffix, "", sample),
           ind = stringr::str_detect(sample, "Blank")) %>%
-        dplyr::filter(ind != TRUE) %>%
-        dplyr::select(sample, rep, everything(), -ind)
+        dplyr::filter(.data$ind != TRUE) %>%
+        dplyr::select(sample, rep, everything(), -.data$ind)
 
       # data with blanks for NA
       all_dat <- read_csv(file, col_types = cols()) %>%
         janitor::clean_names() %>%
-        dplyr::rename(sample = x1) %>%
+        dplyr::rename(sample = .data$x1) %>%
         dplyr::mutate(rep = case_when(
           stringr::str_detect(sample, suffix) ~ 2,
           TRUE ~ 1),
           sample = gsub(suffix, "", sample),
           ind = stringr::str_detect(sample, "Blank")) %>%
-        dplyr::filter(ind != TRUE) %>%
-        dplyr::select(sample, rep, everything(), -ind) %>%
+        dplyr::filter(.data$ind != TRUE) %>%
+        dplyr::select(sample, rep, everything(), -.data$ind) %>%
         tidyr::pivot_longer(cols = starts_with("x"),
                             names_to = "marker",
                             values_to = "val") %>%
-        dplyr::mutate(val = ifelse(val == "Fail", "", val)) %>%
-        tidyr::pivot_wider(names_from = marker,
-                           values_from = val)
+        dplyr::mutate(val = ifelse(.data$val == "Fail", "", .data$val)) %>%
+        tidyr::pivot_wider(names_from = .data$marker,
+                           values_from = .data$val)
 
       out <- list(na_dat = na_dat, all_dat = all_dat)
       return(out)
@@ -203,6 +204,8 @@ data_in <- function(filename, replicates = TRUE, suffix = "_dup"){
 #'
 #' @import dplyr
 #' @importFrom tibble tibble
+#' @importFrom stats sd
+#' @importFrom rlang .data
 #' @import readr
 #' @import tidyr
 main_errors <- function(dl){
@@ -240,8 +243,8 @@ main_errors <- function(dl){
                             names_to = "vars",
                             values_to = "vals") %>%
         dplyr::group_by(rep) %>%
-        dplyr::summarise(amp_rate = sum(!is.na(vals))/lgth_vars) %>%
-        dplyr::summarise(avg_amp_rate = mean(amp_rate))
+        dplyr::summarise(amp_rate = sum(!is.na(.data$vals))/lgth_vars) %>%
+        dplyr::summarise(avg_amp_rate = mean(.data$amp_rate))
 
       # interim data (creating new variables to calculate errors)
       d <- cl_dat_bl %>%
@@ -254,41 +257,41 @@ main_errors <- function(dl){
                             values_to = "vals") %>%
         dplyr::mutate(
           f = case_when(
-            nchar(vals) == 4 ~ vals,
+            nchar(.data$vals) == 4 ~ .data$vals,
             TRUE ~ ""),
-          c = nchar(f),
-          loc_err = ifelse(c == 4 & substr(f, 1, 2) != substr(f, 3, 4),
+          c = nchar(.data$f),
+          loc_err = ifelse(c == 4 & substr(.data$f, 1, 2) != substr(.data$f, 3, 4),
                            0.5, 0),
-          p1 = substr(f, 1, 1),
-          p2 = substr(f, 2 ,2),
-          p3 = substr(f, 3, 3),
-          p4 = substr(f, 4 ,4),
-          a_mm1 = ifelse(c == 4 & p1 != p3, 1, 0),
-          a_mm2 = ifelse(c == 4 & p2 != p4, 1, 0),
-          a_err = (a_mm1 + a_mm2)/4,
+          p1 = substr(.data$f, 1, 1),
+          p2 = substr(.data$f, 2 ,2),
+          p3 = substr(.data$f, 3, 3),
+          p4 = substr(.data$f, 4 ,4),
+          a_mm1 = ifelse(c == 4 & .data$p1 != .data$p3, 1, 0),
+          a_mm2 = ifelse(c == 4 & .data$p2 != .data$p4, 1, 0),
+          a_err = (.data$a_mm1 + .data$a_mm2)/4,
           het_only = case_when(
-            p1 == p2 & p3 == p4 ~ 0,
+            .data$p1 == .data$p2 & .data$p3 == .data$p4 ~ 0,
             TRUE ~ 1),
           a_drop = case_when(
-            het_only == 1 & substr(f, 1, 2) != substr(f, 3, 4) ~ 0.5,
+            .data$het_only == 1 & substr(.data$f, 1, 2) != substr(.data$f, 3, 4) ~ 0.5,
             TRUE ~ 0),
           fa = case_when(
-            c == 4 & het_only == 0 & substr(f, 1 ,2) != substr(f, 3 ,4) ~ 0.5,
+            c == 4 & .data$het_only == 0 & substr(.data$f, 1 ,2) != substr(.data$f, 3 ,4) ~ 0.5,
             TRUE ~ 0))
 
       # take interim data and use to convert to numerical values for export
       num_vals <- d %>%
         dplyr::mutate(new_var = case_when(
-          nchar(vals) == 2 ~ substr(vals, 1, 2),
-          nchar(vals) == 4 & substr(vals, 1, 2) == substr(vals, 3, 4) ~ substr(vals, 1, 2),
+          nchar(.data$vals) == 2 ~ substr(.data$vals, 1, 2),
+          nchar(.data$vals) == 4 & substr(.data$vals, 1, 2) == substr(.data$vals, 3, 4) ~ substr(.data$vals, 1, 2),
           TRUE ~ "NA"
         )) %>%
         dplyr::mutate(to_recode = case_when(
           new_var == "NA" ~ 0,
           TRUE ~ 1
         ),
-        a1 = ifelse(to_recode == 1, substr(vals, 1, 1), NA),
-        b1 = ifelse(to_recode == 1, substr(vals, 2, 2), NA),
+        a1 = ifelse(.data$to_recode == 1, substr(.data$vals, 1, 1), NA),
+        b1 = ifelse(.data$to_recode == 1, substr(.data$vals, 2, 2), NA),
         a = case_when(
           a1 == "A" ~ 110,
           a1 == "T" ~ 120,
@@ -307,25 +310,26 @@ main_errors <- function(dl){
         #                     values_to = "value") %>%
         # dplyr::arrange(vars, locus) %>%
         # tidyr::pivot_wider(names_from = c(vars, locus), values_from = value)
-        dplyr::select(sample, vars, a, b) %>%
+        dplyr::select(.data$sample, .data$vars, .data$a, .data$b) %>%
         tidyr::pivot_longer(cols = c("a", "b"),
                             names_to = "rep",#
                             values_to = "value") %>%
-        dplyr::arrange(vars, value) %>%
+        dplyr::arrange(vars, .data$value) %>%
         dplyr::mutate(locus = rep(c("a", "b"), dim(d)[1])) %>%
         dplyr::select(-rep) %>%
-        tidyr::pivot_wider(names_from = c(vars, locus), values_from = value)
+        tidyr::pivot_wider(names_from = c(vars, .data$locus), values_from = .data$value)
 
       # take interim data and calculate errors for export
       results <- d %>%
-        dplyr::summarise(locus_error = sum(loc_err)/sum(c == 4),
-                         allele_error = sum(a_err)/sum(c == 4),
-                         allelic_drop_out = sum(a_drop)/sum(het_only),
-                         false_allele = sum(fa)/(sum(c)/4)) %>%
+        dplyr::summarise(locus_error = sum(.data$loc_err)/sum(c == 4),
+                         allele_error = sum(.data$a_err)/sum(c == 4),
+                         allelic_drop_out = sum(.data$a_drop)/sum(.data$het_only),
+                         false_allele = sum(.data$fa)/(sum(c)/4)) %>%
         dplyr::bind_cols(avg_amp_rate) %>%
         dplyr::mutate(sample = samp_names[i]) %>%
-        dplyr::select(sample, avg_amp_rate, allele_error, locus_error, allelic_drop_out,
-                      false_allele)
+        dplyr::select(.data$sample, .data$avg_amp_rate, .data$allele_error,
+                      .data$locus_error, .data$allelic_drop_out,
+                      .data$false_allele)
 
       # bind exports to appropriate result data frames
       results_out <- dplyr::bind_rows(results_out, results)
@@ -337,18 +341,18 @@ main_errors <- function(dl){
       tidyr::pivot_longer(cols = -sample,
                           names_to = "error",
                           values_to = "value") %>%
-      filter(!is.na(value)) %>%
-      tidyr::pivot_wider(names_from = error,
-                         values_from = value)
+      filter(!is.na(.data$value)) %>%
+      tidyr::pivot_wider(names_from = .data$error,
+                         values_from = .data$value)
 
     # take the error results and further summarise
     summaries <- results_out_clean %>%
       tidyr::pivot_longer(cols = -sample,
                           names_to = "error",
                           values_to = "value") %>%
-      dplyr::group_by(error) %>%
-      dplyr::summarise(avg = mean(value, na.rm = TRUE),
-                       se = sd(value, na.rm = TRUE)/sqrt(n()))
+      dplyr::group_by(.data$error) %>%
+      dplyr::summarise(avg = mean(.data$value, na.rm = TRUE),
+                       se = sd(.data$value, na.rm = TRUE)/sqrt(n()))
 
     # write to file errors per sample
     readr::write_csv(results_out_clean, here::here("results", "sample_error_results.csv"))
@@ -457,6 +461,7 @@ gen_errors <- function(filename, replicates = TRUE, suffix = "_dup"){
 #' @import dplyr
 #' @import tidyr
 #' @importFrom stringr str_replace
+#' @importFrom rlang .data
 #'
 #' @export
 amp_threshold <- function(at){
@@ -469,7 +474,7 @@ amp_threshold <- function(at){
                                col_types = cols())
     # filter results list by amplification success rate
     filt_out <- results_out %>%
-      dplyr::filter(avg_amp_rate >= at)
+      dplyr::filter(.data$avg_amp_rate >= at)
 
     filt_names <- filt_out['sample']
     filt_names[['sample']] <- stringr::str_replace(filt_names[['sample']], "s",
@@ -483,8 +488,8 @@ amp_threshold <- function(at){
 
     # for records, get a list of samples that were filtered
     samples_x <- results_out %>%
-      dplyr::filter(avg_amp_rate < at) %>%
-      dplyr::select(sample, avg_amp_rate)
+      dplyr::filter(.data$avg_amp_rate < at) %>%
+      dplyr::select(.data$sample, .data$avg_amp_rate)
 
     #print to screen number of removals
     ls <- length(samples_x[['sample']])
@@ -544,6 +549,7 @@ amp_threshold <- function(at){
 #' @import here
 #' @import readr
 #' @import dplyr
+#' @importFrom rlang .data
 #'
 #' @export
 miss_threshold <- function(mt, at){
@@ -552,8 +558,8 @@ miss_threshold <- function(mt, at){
     # read in locus NA proportion data
     loc_NA_names <- readr::read_csv(here::here("results", "threshold", "loci_NA.csv"),
                                     col_types = cols()) %>%
-      dplyr::filter(proportion >= mt) %>%
-      dplyr::pull(loci)
+      dplyr::filter(.data$proportion >= mt) %>%
+      dplyr::pull(.data$loci)
 
     #print to screen number of removals
     ln <- length(loc_NA_names)

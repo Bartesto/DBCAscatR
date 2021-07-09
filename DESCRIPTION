@@ -38,6 +38,7 @@ Imports:
     kableExtra,
     sf,
     rgdal,
+    rlang,
     leaflet,
     htmlwidgets,
     zoo,

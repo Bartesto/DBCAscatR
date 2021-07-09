@@ -36,6 +36,7 @@
 #'
 #' @import here
 #' @import readr
+#' @importFrom utils combn
 ingest <- function(filtered_alleles, errors){
   suppressWarnings({
     # inputs
@@ -140,6 +141,8 @@ calc_mismatches <- function(slist){
 #' {the ScatMatch website}
 #'
 #' @import dplyr
+#' @importFrom rlang .data
+#' @importFrom stats na.omit
 calc_dissimilarity <- function(slist1){
   suppressWarnings({
     # inputs
@@ -154,8 +157,8 @@ calc_dissimilarity <- function(slist1){
       s <- u_rows[i]
 
       out <- out_df %>%
-        dplyr::filter(X1 == s) %>%
-        dplyr::select(mm)
+        dplyr::filter(.data$X1 == s) %>%
+        dplyr::select(.data$mm)
 
       out_df2[i:length(out_df2[1,]), i] <- out[[1]]
     }
@@ -292,6 +295,8 @@ dissimilarity <- function(filtered_alleles, errors){
 #' @importFrom dendextend cutree
 #' @importFrom dplyr bind_rows filter
 #' @importFrom birdring overlap
+#' @importFrom stats hclust quantile
+#' @importFrom rlang .data
 #' @import ggplot2
 #' @import here
 #'
@@ -299,7 +304,7 @@ dissimilarity <- function(filtered_alleles, errors){
 misassign <- function(dist, maxh = 10, lt = 0.005, ut = 0.995, bins = 30){
   suppressWarnings({
     distobj <- dist[['dist']]
-    clust <- hclust(distobj, method = "average")
+    clust <- stats::hclust(distobj, method = "average")
     # output tibbles
     group_sum <- tibble::tibble()
     misassign_result <- tibble::tibble()
@@ -314,7 +319,7 @@ misassign <- function(dist, maxh = 10, lt = 0.005, ut = 0.995, bins = 30){
       # Subset each h
       h_ind <- i
       group_sum_sub <- group_sum %>%
-        dplyr::filter(h == h_ind)
+        dplyr::filter(.data$h == h_ind)
       # max group
       g_ind <- max(group_sum_sub[['grp']])
 
@@ -329,13 +334,13 @@ misassign <- function(dist, maxh = 10, lt = 0.005, ut = 0.995, bins = 30){
       out_df3$type <- ifelse(out_df3$grp.x == out_df3$grp.y, "same", "diff")
 
       # Calculate 99.5% and 0.5% percentile
-      lower <- quantile(subset(out_df3,type == 'diff')$mm, lt)
-      upper <- quantile(subset(out_df3,type == 'same')$mm, ut)
+      lower <- quantile(subset(out_df3, type == 'diff')$mm, lt)
+      upper <- quantile(subset(out_df3, type == 'same')$mm, ut)
       overlap <- lower - upper # This number should be positive. If negative means overlap.
 
       # Calculate probability of misassignment
-      pm <- birdring::overlap(subset(out_df3,type == 'diff')$mm,
-                              subset(out_df3,type == 'same')$mm,
+      pm <- birdring::overlap(subset(out_df3, type == 'diff')$mm,
+                              subset(out_df3, type == 'same')$mm,
                               from = lt, to = ut, nsim = 100000,
                               edge.of.parameter.space = F)
       prob_misassign <- format(pm, scientific = F)
@@ -351,14 +356,14 @@ misassign <- function(dist, maxh = 10, lt = 0.005, ut = 0.995, bins = 30){
       pname = here::here("results", "cluster",
                          paste0("h", h_ind, "_genetic_distance.png"))
 
-      p1 <- ggplot(out_df3, aes(x=mm, fill=type)) +
+      p1 <- ggplot(out_df3, aes(x = .data$mm, fill = .data$type)) +
         geom_histogram(data = subset(out_df3, type == 'same'), fill = "red",
                        alpha = 0.2, bins = bins) +
         geom_vline(xintercept = upper, colour = "red", linetype = "longdash") +
         geom_histogram(data = subset(out_df3, type == 'diff'), fill = "blue",
                        alpha = 0.2, bins = bins) +
-        geom_vline(xintercept = ifelse(lower == upper, lower +0.15, lower),
-                   colour="blue", linetype = "longdash") +
+        geom_vline(xintercept = ifelse(lower == upper, lower + 0.15, lower),
+                   colour = "blue", linetype = "longdash") +
         labs(title = paste(" Number of individuals = ", g_ind, "\n",
                            "Probability of misassignment =",
                            prob_misassign),
@@ -404,15 +409,18 @@ misassign <- function(dist, maxh = 10, lt = 0.005, ut = 0.995, bins = 30){
 #'
 #' @import readr
 #' @import dplyr
+#' @importFrom stats hclust
+#' @importFrom rlang .data
+#' @importFrom dendextend cutree
 #'
 #' @export
 group_membership <- function(dist, h){
   suppressWarnings({
     distobj <- dist[['dist']]
-    clust <- hclust(distobj, method = "average")
+    clust <- stats::hclust(distobj, method = "average")
 
     # cut based on provide h
-    subgrp <- cutree(clust, k = NULL, h = h)
+    subgrp <- dendextend::cutree(clust, k = NULL, h = h)
 
     # get num_out data
     num_out <- dist[['num_out']]
@@ -420,9 +428,9 @@ group_membership <- function(dist, h){
     # add to numerical data
     mmout_df <- num_out %>%
       dplyr::mutate(group = subgrp) %>%
-      dplyr::select(group, everything()) %>%
-      dplyr::arrange(group) %>%
-      dplyr::mutate(sample = paste0("ID_", sample))
+      dplyr::select(.data$group, everything()) %>%
+      dplyr::arrange(.data$group) %>%
+      dplyr::mutate(sample = paste0("ID_", .data$sample))
 
     # write to file errors per sample
     readr::write_csv(mmout_df,
@@ -467,6 +475,7 @@ group_membership <- function(dist, h){
 #' @import readr
 #' @import dplyr
 #' @importFrom tidyr pivot_wider pivot_longer
+#' @importFrom rlang .data
 #' @import here
 #'
 #' @export
@@ -503,35 +512,35 @@ majorities <- function(dist, h, errors){
       tidyr::pivot_longer(cols = starts_with("x"),
                           names_to = "vars",
                           values_to = "val") %>%
-      dplyr::group_by(group, vars) %>%
-      dplyr::summarise(maj = Mode(val, na.rm = TRUE)) %>%
-      tidyr::pivot_wider(names_from = vars,
-                         values_from = maj) %>%
+      dplyr::group_by(.data$group, .data$vars) %>%
+      dplyr::summarise(maj = Mode(.data$val, na.rm = TRUE)) %>%
+      tidyr::pivot_wider(names_from = .data$vars,
+                         values_from = .data$maj) %>%
       dplyr::mutate(sample = "majority") %>%
-      dplyr::select(group, sample, starts_with("x")) %>%
+      dplyr::select(.data$group, .data$sample, starts_with("x")) %>%
       dplyr::bind_rows(mmout_df) %>%
-      dplyr::arrange(group, sample) %>%
+      dplyr::arrange(.data$group, .data$sample) %>%
       dplyr::ungroup()
 
     d2 <-  mmout_df %>%
       tidyr::pivot_longer(cols = starts_with("x"),
                           names_to = "vars",
                           values_to = "val") %>%
-      dplyr::group_by(group, vars) %>%
-      dplyr::summarise(tie = TieMode(val, na.rm = TRUE)) %>%
-      dplyr::mutate(tie2 = ifelse(tie == "tie", 1, 0)) %>%
+      dplyr::group_by(.data$group, .data$vars) %>%
+      dplyr::summarise(tie = TieMode(.data$val, na.rm = TRUE)) %>%
+      dplyr::mutate(tie2 = ifelse(.data$tie == "tie", 1, 0)) %>%
       dplyr::ungroup() %>%
-      dplyr::select(-tie) %>%
-      tidyr::pivot_wider(names_from = vars,
-                         values_from = tie2) %>%
+      dplyr::select(-.data$tie) %>%
+      tidyr::pivot_wider(names_from = .data$vars,
+                         values_from = .data$tie2) %>%
       dplyr::mutate(sample = "tie") %>%
-      dplyr::select(group, sample, starts_with("x"))
+      dplyr::select(.data$group, .data$sample, starts_with("x"))
 
     d3 <- dplyr::bind_rows(d1, d2) %>%
-      dplyr::arrange(group, sample)
+      dplyr::arrange(.data$group, .data$sample)
 
     avg_sam_amp_rate <- results_out[,1:2] %>%
-      dplyr::mutate(sample = gsub("s", "ID_", sample))
+      dplyr::mutate(sample = gsub("s", "ID_", .data$sample))
 
     d4 <- dplyr::left_join(d3, avg_sam_amp_rate, by = "sample")
     #write out table
@@ -570,6 +579,7 @@ majorities <- function(dist, h, errors){
 #' @import here
 #' @import dplyr
 #' @importFrom  kableExtra cell_spec kable kable_styling scroll_box save_kable
+#' @importFrom rlang .data
 #' @import readr
 #' @importFrom tibble tibble
 #' @importFrom tidyr pivot_wider pivot_longer
@@ -593,22 +603,22 @@ majorities_html <- function(majorities_csv){
     # loop over groups and apply conditional formatting
     for(i in seq_along(grps)){
       d1 <- d %>%
-        dplyr::filter(group == grps[i]) %>%
-        dplyr::filter(sample != "tie") %>%
-        dplyr::select(-avg_amp_rate) %>%
+        dplyr::filter(.data$group == grps[i]) %>%
+        dplyr::filter(.data$sample != "tie") %>%
+        dplyr::select(-.data$avg_amp_rate) %>%
         tidyr::pivot_longer(cols = starts_with("x"), names_to = "vars",
                             values_to = "vals") %>%
-        tidyr::pivot_wider(names_from = sample, values_from = vals) %>%
+        tidyr::pivot_wider(names_from = .data$sample, values_from = .data$vals) %>%
         dplyr::mutate(across(everything(), ~replace_na(.x, 0)))
 
       d2 <- d1 %>%
         dplyr::mutate_at(vars(starts_with("ID_")), diff_to_maj) %>%
-        dplyr::mutate(majority = as.character(majority)) %>%
-        dplyr::mutate(majority = kableExtra::cell_spec(majority, background = "darkgrey",
+        dplyr::mutate(majority = as.character(.data$majority)) %>%
+        dplyr::mutate(majority = kableExtra::cell_spec(.data$majority, background = "darkgrey",
                                                        color = "white", align = "center")) %>%
-        tidyr::pivot_longer(cols = c(-group, -vars), names_to = "sample",
+        tidyr::pivot_longer(cols = c(-.data$group, -.data$vars), names_to = "sample",
                             values_to = "vals") %>%
-        tidyr::pivot_wider(names_from = vars, values_from = vals)
+        tidyr::pivot_wider(names_from = .data$vars, values_from =.data$ vals)
 
       tbl_df <- dplyr::bind_rows(tbl_df, d2)
     }
@@ -690,6 +700,7 @@ majorities_html <- function(majorities_csv){
 #' @importFrom tidyr pivot_wider pivot_longer
 #' @importFrom tibble tibble
 #' @importFrom zoo as.yearmon
+#' @importFrom rlang .data
 #'
 #' @export
 summary_tables <- function(groups_csv, metadata, prefix, sample, site_ID, field_date, lat, long){
@@ -704,15 +715,15 @@ summary_tables <- function(groups_csv, metadata, prefix, sample, site_ID, field_
     }
     ngrps <- stringr::str_split(groups_csv, pattern = "_")[[1]][4]
     d1 <- rename_cols(site_ID, field_date, lat, long) %>%
-      dplyr::mutate(date = lubridate::parse_date_time(date, c("dmY", "ymd")),
-                    date = lubridate::as_date(date),
-                    year = lubridate::year(date),
-                    month = lubridate::month(date, label = TRUE))
+      dplyr::mutate(date = lubridate::parse_date_time(.data$date, c("dmY", "ymd")),
+                    date = lubridate::as_date(.data$date),
+                    year = lubridate::year(.data$date),
+                    month = lubridate::month(.data$date, label = TRUE))
 
     d2 <- readr::read_csv(here::here("results", "cluster", groups_csv),
                           col_types = cols()) %>%
-      dplyr::select(group, sample) %>%
-      dplyr::mutate(sample = gsub(pattern = prefix, "", sample)) %>%
+      dplyr::select(.data$group, .data$sample) %>%
+      dplyr::mutate(sample = gsub(pattern = prefix, "", .data$sample)) %>%
       dplyr::left_join(d1, by = "sample")
 
     ## tables by individuals
@@ -724,35 +735,36 @@ summary_tables <- function(groups_csv, metadata, prefix, sample, site_ID, field_
     # error handler in case user metadata has bad dates
     if(!is.na(mindate)){
       dum_dates <- tibble::tibble(date = seq(mindate, maxdate, by = "month")) %>%
-        dplyr::mutate(ym = zoo::as.yearmon(date)) %>%
-        dplyr::select((-date))
+        dplyr::mutate(ym = zoo::as.yearmon(.data$date)) %>%
+        dplyr::select((-.data$date))
     } else {
       stop("Some date/s failed to parse. Please check all dates in your metadata")
     }
 
     dum_dates <- tibble::tibble(date = seq(mindate, maxdate, by = "month")) %>%
-      dplyr::mutate(ym = zoo::as.yearmon(date)) %>%
-      dplyr::select((-date))
+      dplyr::mutate(ym = zoo::as.yearmon(.data$date)) %>%
+      dplyr::select((-.data$date))
 
     # first table count of scats by individual, per site, per month
     t1 <- d2 %>%
-      dplyr::select(-sample, - lat, -long, -year, -month) %>%
-      dplyr::group_by(group, site, date) %>%
+      dplyr::select(-.data$sample, -.data$lat, -.data$long, -.data$year, -.data$month) %>%
+      dplyr::group_by(.data$group, .data$site, .data$date) %>%
       dplyr::count() %>%
       dplyr::rename(scats = "n") %>%
-      dplyr::arrange(date) %>%
-      dplyr::mutate(date = zoo::as.yearmon(date)) %>%
-      tidyr::pivot_wider(names_from = date, values_from = scats) %>%
-      tidyr::pivot_longer(cols = -c(group, site), names_to = "ym", values_to = "scats") %>% #, total_scats
-      dplyr::filter(!is.na(scats)) %>%
-      tidyr::pivot_wider(names_from = site, values_from = scats) %>%
-      dplyr::arrange(group) %>%
+      dplyr::arrange(.data$date) %>%
+      dplyr::mutate(date = zoo::as.yearmon(.data$date)) %>%
+      tidyr::pivot_wider(names_from = .data$date, values_from = .data$scats) %>%
+      tidyr::pivot_longer(cols = -c(.data$group, .data$site), names_to = "ym",
+                          values_to = "scats") %>% #, total_scats
+      dplyr::filter(!is.na(.data$scats)) %>%
+      tidyr::pivot_wider(names_from = .data$site, values_from = .data$scats) %>%
+      dplyr::arrange(.data$group) %>%
       dplyr::ungroup() %>%
-      dplyr::rowwise(group, ym) %>%
-      dplyr::mutate(total_scats = sum(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-      dplyr::rename(date = ym,
-                    individual = group,
-                    `total scats` = total_scats)
+      dplyr::rowwise(.data$group, .data$ym) %>%
+      dplyr::mutate(total_scats = sum(c_across(tidyselect::vars_select_helpers$where(is.numeric)), na.rm = TRUE)) %>%
+      dplyr::rename(date = .data$ym,
+                    individual = .data$group,
+                    `total scats` = .data$total_scats)
 
     readr::write_csv(t1,
                      file = here::here("results",
@@ -762,39 +774,39 @@ summary_tables <- function(groups_csv, metadata, prefix, sample, site_ID, field_
 
     # second table minus length in months
     t2 <- d2 %>%
-      dplyr::select(-sample, - lat, -long, -year, -month) %>%
-      dplyr::mutate(ym = zoo::as.yearmon(date)) %>%
+      dplyr::select(-.data$sample, -.data$lat, -.data$long, -.data$year, -.data$month) %>%
+      dplyr::mutate(ym = zoo::as.yearmon(.data$date)) %>%
       dplyr::full_join(dum_dates, by = "ym") %>%
-      dplyr::select(-date) %>%
-      dplyr::group_by(group, site, ym) %>%
+      dplyr::select(-.data$date) %>%
+      dplyr::group_by(.data$group, .data$site, .data$ym) %>%
       dplyr::count() %>%
       dplyr::rename(scats = "n") %>%
-      dplyr::arrange(ym) %>%
-      dplyr::mutate(scats = ifelse(is.na(group), 0, scats)) %>%
-      tidyr::pivot_wider(names_from = ym, values_from = scats) %>%
+      dplyr::arrange(.data$ym) %>%
+      dplyr::mutate(scats = ifelse(is.na(.data$group), 0, .data$scats)) %>%
+      tidyr::pivot_wider(names_from = .data$ym, values_from = .data$scats) %>%
       dplyr::ungroup() %>%
-      dplyr::filter(!is.na(group)) %>%
-      dplyr::rowwise(group, site) %>%
-      dplyr::mutate(total_scats = sum(c_across(where(is.numeric)), na.rm = TRUE))
+      dplyr::filter(!is.na(.data$group)) %>%
+      dplyr::rowwise(.data$group, .data$site) %>%
+      dplyr::mutate(total_scats = sum(c_across(tidyselect::vars_select_helpers$where(is.numeric)), na.rm = TRUE))
 
     # calculate total months (add one later)
     t2_1 <- d2 %>%
-      dplyr::group_by(group, site) %>%
-      dplyr::summarise(minmth = min(date),
-                       maxmth = max(date)) %>%
-      dplyr:: mutate(int = lubridate::interval(minmth, maxmth),
-                     total_mths = round(lubridate::time_length(int, "month"), 0)) %>%
-      dplyr::select(group, site, total_mths)
+      dplyr::group_by(.data$group, .data$site) %>%
+      dplyr::summarise(minmth = min(.data$date),
+                       maxmth = max(.data$date)) %>%
+      dplyr:: mutate(int = lubridate::interval(.data$minmth, .data$maxmth),
+                     total_mths = round(lubridate::time_length(.data$int, "month"), 0)) %>%
+      dplyr::select(.data$group, .data$site, .data$total_mths)
 
     # second table capture history
     t3 <- t2 %>%
       dplyr::left_join(t2_1, by = c("group", "site")) %>%
-      dplyr::mutate(total_mths = ifelse(total_mths != 0, total_mths + 1,
-                                        total_mths)) %>%
-      dplyr::rename(individual = group,
-                    `total scats` = total_scats,
-                    `total months` = total_mths) %>%
-      dplyr::arrange(individual)
+      dplyr::mutate(total_mths = ifelse(.data$total_mths != 0, .data$total_mths + 1,
+                                        .data$total_mths)) %>%
+      dplyr::rename(individual = .data$group,
+                    `total scats` = .data$total_scats,
+                    `total months` = .data$total_mths) %>%
+      dplyr::arrange(.data$individual)
     readr::write_csv(t3, file = here::here("results",
                                            "finalised",
                                            paste0("capture_history_",
@@ -803,12 +815,12 @@ summary_tables <- function(groups_csv, metadata, prefix, sample, site_ID, field_
 
     ## table by site
     t4 <- d2 %>%
-      dplyr::select(-sample, - lat, -long, -year, -month) %>%
+      dplyr::select(-.data$sample, -.data$lat, -.data$long, -.data$year, -.data$month) %>%
       distinct() %>%
-      dplyr::group_by(site, date) %>%
+      dplyr::group_by(.data$site, .data$date) %>%
       dplyr::count() %>%
       dplyr::rename(`# individuals` = "n") %>%
-      dplyr::mutate(date = zoo::as.yearmon(date))
+      dplyr::mutate(date = zoo::as.yearmon(.data$date))
 
     readr::write_csv(t4, file = here::here("results",
                                            "finalised",
@@ -842,6 +854,7 @@ summary_tables <- function(groups_csv, metadata, prefix, sample, site_ID, field_
 #'
 #' @import readr
 #' @importFrom stringr str_split
+#' @importFrom rlang .data
 #' @import dplyr
 #' @import here
 #'
@@ -853,9 +866,9 @@ structure_format <- function(majorities_csv){
 
     # grab only majorities, reformat and rearrange
     structure_format <- d %>%
-      dplyr::filter(sample == "majority") %>%
-      dplyr::mutate(group = paste0("Group", group)) %>%
-      dplyr::select(-avg_amp_rate)
+      dplyr::filter(.data$sample == "majority") %>%
+      dplyr::mutate(group = paste0("Group", .data$group)) %>%
+      dplyr::select(-.data$avg_amp_rate)
 
     # convert NA to -9
     structure_format[is.na(structure_format)] <- -9

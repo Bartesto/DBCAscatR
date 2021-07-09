@@ -30,6 +30,7 @@
 #' @import ggplot2
 #' @importFrom cowplot plot_grid
 #' @importFrom rlang .data
+#' @importFrom stats lm
 #'
 #' @export
 amp_splots <- function(){
@@ -46,7 +47,7 @@ amp_splots <- function(){
       # plot amplification rate vs allele error
       p1 <- ggplot(error_out, aes(x = .data$avg_amp_rate, y = .data$allele_error)) +
         geom_point(size = 2) +
-        geom_smooth(method = .data$lm, se = FALSE) +
+        geom_smooth(method = lm, se = FALSE) +
         labs(title = "Amplification rate vs allele error",
              x = "average amplification rate",
              y = "allele error") +
@@ -55,7 +56,7 @@ amp_splots <- function(){
       # plot amplification rate vs allelic dropout
       p2 <- ggplot(error_out, aes(x = .data$avg_amp_rate, y = .data$allelic_drop_out)) +
         geom_point(size = 2) +
-        geom_smooth(method = .data$lm, se = FALSE) +
+        geom_smooth(method = lm, se = FALSE) +
         labs(title = "Amplification rate vs allelic drop out",
              x = "average amplification rate",
              y = "allelic drop out") +
@@ -101,17 +102,18 @@ amp_splots <- function(){
 #' @import readr
 #' @import here
 #' @import ggplot2
+#' @importFrom rlang .data
 #'
 #' @export
 miss_hist <- function(){
   suppressWarnings({
     dat <- readr::read_csv(here::here("results", "threshold", "loci_NA.csv"),
                            col_types = cols()) %>%
-      dplyr::mutate(id = ifelse(stringr::str_detect(loci, "_a"), "a", "b")) %>%
+      dplyr::mutate(id = ifelse(stringr::str_detect(.data$loci, "_a"), "a", "b")) %>%
       dplyr::filter(id == "a")
 
     p1 <- ggplot(dat) +
-      geom_histogram(aes(proportion), binwidth = 0.005) +
+      geom_histogram(aes(.data$proportion), binwidth = 0.005) +
       labs(title = "Locus missingness histogram",
            x = "proportion of NAs",
            y = "count") +
@@ -196,13 +198,14 @@ amp_hist <- function(){
 #'
 #' @import ggplot2
 #' @importFrom ggdendro ggdendrogram
+#' @importFrom stats hclust
 #' @import here
 #'
 #' @export
 dendro_plot <- function(dist){
   suppressWarnings({
     distobj <- dist[['dist']]
-    clust <- hclust(distobj, method = "average")
+    clust <- stats::hclust(distobj, method = "average")
     p1 <- ggdendro::ggdendrogram(clust, rotate = TRUE)
     ggsave(here::here("results", "cluster", "dendrogram.jpg"), p1)
     print(p1)
@@ -238,6 +241,9 @@ dendro_plot <- function(dist){
 #'
 #' @importFrom tibble tibble
 #' @importFrom dplyr bind_rows
+#' @importFrom stats hclust
+#' @importFrom rlang .data
+#' @importFrom dendextend cutree
 #' @import ggplot2
 #' @import here
 #'
@@ -248,12 +254,12 @@ elbow_plot <- function(dist, maxh = 10){
     clust <- hclust(distobj, method = "average")
     plotdf <- tibble::tibble()
     for(i in 0:maxh){
-      sub_grp <- cutree(clust, k = NULL, h = i)
+      sub_grp <- dendextend::cutree(clust, k = NULL, h = i)
       df <- data.frame(threshold = i, groups = length(table(sub_grp)))
       plotdf <- dplyr::bind_rows(plotdf, df)
     }
     p1 <- ggplot(plotdf) +
-      geom_line(aes(x = threshold, y = groups)) +
+      geom_line(aes(x = .data$threshold, y = .data$groups)) +
       scale_x_continuous(breaks = c(0:maxh)) +
       labs(y = "Groups",
            x = "Mismatch Threshold") +
@@ -290,6 +296,7 @@ elbow_plot <- function(dist, maxh = 10){
 #' {the ScatMatch website}
 #'
 #' @importFrom tibble tibble
+#' @importFrom rlang .data
 #' @import ggplot2
 #' @import here
 #'
@@ -299,10 +306,11 @@ freq_hist <- function(dist, bins = 30){
     mmobj =  tibble::tibble(id = "s",
                             missmatch = dist[['combo']]$mm)
 
-    p1 <- ggplot(aes(x= missmatch), data = mmobj) +
+    p1 <- ggplot(aes(x = .data$missmatch), data = mmobj) +
       geom_histogram(colour = "black", fill = "grey", bins = bins) +
       stat_bin(geom="text", colour="black", size=3.5,
-               aes(label=..count..), position=position_stack(vjust=1.2),
+               aes(label = .data$..count..),
+               position = position_stack(vjust = 1.2),
                bins = bins) +
       labs(y = "Frequency",
            x = "Mismatch",
@@ -438,6 +446,7 @@ heat_cor_plot <- function(dist){
 #' @importFrom stringr str_split
 #' @importFrom sf st_as_sf
 #' @importFrom htmlwidgets saveWidget
+#' @importFrom rlang .data
 #' @import dplyr
 #' @import lubridate
 #' @import leaflet
@@ -463,20 +472,20 @@ leaflet_map <- function(groups_csv, metadata, prefix, sample, site_ID, field_dat
 
     d2 <- readr::read_csv(here::here("results", "cluster", groups_csv),
                           col_types = cols()) %>%
-      dplyr::select(group, sample) %>%
-      dplyr::mutate(sample = gsub(pattern = prefix, "", sample)) %>%
+      dplyr::select(.data$group, .data$sample) %>%
+      dplyr::mutate(sample = gsub(pattern = prefix, "", .data$sample)) %>%
       dplyr::left_join(d1, by = "sample")
 
     ## map
     # get coords for each site
     site_dat <- d2 %>%
-      dplyr::select(site, lat, long) %>%
+      dplyr::select(.data$site, .data$lat, .data$long) %>%
       dplyr::distinct() %>%
       sf::st_as_sf(coords = c("long", "lat"), crs = 4326)
     # get coords for each individual
     ind_dat <- d2 %>%
-      dplyr::select(group, lat, long) %>%
-      dplyr::rename(individual = group) %>%
+      dplyr::select(.data$group, .data$lat, .data$long) %>%
+      dplyr::rename(individual = .data$group) %>%
       dplyr::distinct() %>%
       sf::st_as_sf(coords = c("long", "lat"), crs = 4326)
 
