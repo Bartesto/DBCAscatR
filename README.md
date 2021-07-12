@@ -15,7 +15,7 @@ issues](https://img.shields.io/github/issues/dbca-wa/ScatMatch.svg?style=popout)
 [![Last-changedate](https://img.shields.io/github/last-commit/dbca-wa/ScatMatch.svg)](https://github.com/dbca-wa/ScatMatch/commits/master)
 [![Github top
 language](https://img.shields.io/github/languages/top/dbca-wa/ScatMatch.svg)](https://github.com/dbca-wa/ScatMatch/)
-[![DOI](https://zenodo.org/badge/202643428.svg)](https://zenodo.org/badge/latestdoi/202643428)
+[![DOI](https://zenodo.org/badge/369037412.svg)](https://zenodo.org/badge/latestdoi/369037412)
 [![R-CMD-check](https://github.com/dbca-wa/ScatMatch/workflows/R-CMD-check/badge.svg)](https://github.com/dbca-wa/ScatMatch/actions)
 <!-- badges: end -->
 
