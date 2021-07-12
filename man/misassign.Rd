@@ -72,6 +72,6 @@ misassign(dist = dissimilarity_list, maxh = 5)
 \author{
 Rujiporn Thavornkanlapachai, \email{rujiporn.sun@dbca.wa.gov.au}
 
-For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
+For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
 {the ScatMatch website}
 }

@@ -69,7 +69,7 @@ started open a new R file and copy and run the code below.
 ```{r, install, eval=FALSE}
 # Install and load ScatMatch
 # install.packages("devtools")
-devtools::install_github("Bartesto/ScatMatch")
+devtools::install_github("dbca-wa/ScatMatch")
 library(ScatMatch)
 ```
 

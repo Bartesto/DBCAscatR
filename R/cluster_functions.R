@@ -31,7 +31,7 @@
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @import here
@@ -85,7 +85,7 @@ ingest <- function(filtered_alleles, errors){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @importFrom  ICSNP pair.diff
@@ -137,7 +137,7 @@ calc_mismatches <- function(slist){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @import dplyr
@@ -212,7 +212,7 @@ calc_dissimilarity <- function(slist1){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @import dplyr
@@ -288,7 +288,7 @@ dissimilarity <- function(filtered_alleles, errors){
 #'
 #' @author Rujiporn Thavornkanlapachai, \email{rujiporn.sun@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @importFrom tibble tibble
@@ -404,7 +404,7 @@ misassign <- function(dist, maxh = 10, lt = 0.005, ut = 0.995, bins = 30){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @import readr
@@ -469,7 +469,7 @@ group_membership <- function(dist, h){
 #'
 #'@author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @import readr
@@ -573,7 +573,7 @@ majorities <- function(dist, h, errors){
 #'
 #'@author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @import here
@@ -689,7 +689,7 @@ majorities_html <- function(majorities_csv){
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @import here
@@ -849,7 +849,7 @@ summary_tables <- function(groups_csv, metadata, prefix, sample, site_ID, field_
 #'
 #' @author Bart Huntley, \email{bart.huntley@@dbca.wa.gov.au}
 #'
-#' For more details see  \url{https://bartesto.github.io/ScatMatch/index.html}
+#' For more details see  \url{https://dbca-wa.github.io/ScatMatch/index.html}
 #' {the ScatMatch website}
 #'
 #' @import readr
