@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
-![](plots/scatmatch_logo.png)
+![](plots/logo.png)
 
 ## Introduction
 Now that groups have been assigned to the samples, the data can be summarised in 

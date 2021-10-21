@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ScatMatch <img src="man/figures/scatmatch_logo.png" align="right" style="padding-left:10px;background-color:white;" />
+# ScatMatch <img src="man/figures/logo.png" align="right" style="padding-left:10px;background-color:white;" />
 
 <!-- badges: start -->
 

@@ -93,7 +93,7 @@ data_in <- function(filename, replicates = TRUE, suffix = "_dup"){
       file <- here::here("source", filename)
       dat <- readr::read_csv(file, col_types = cols())
       # logic to catch misnamed replicate
-      if(any(stringr::str_detect(dat[['X1']], suffix))){
+      if(any(stringr::str_detect(dat[[1]], suffix))){
         # data with NA
         file <- here::here("source", filename)
         na_dat <- readr::read_csv(file, na = "Fail", col_types = cols()) %>%

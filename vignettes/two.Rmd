@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
-![](plots/scatmatch_logo.png)
+![](plots/logo.png)
 
 ## Introduction
 This section of the workflow is about reading in the raw data and formatting it 

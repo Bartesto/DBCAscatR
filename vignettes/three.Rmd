@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
-![](plots/scatmatch_logo.png)
+![](plots/logo.png)
 
 ## Introduction
 Clustering is about finding similarities between samples so that they can be 

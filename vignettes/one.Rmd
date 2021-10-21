@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
-![](plots/scatmatch_logo.png)
+![](plots/logo.png)
 
 ## Weclome to ScatMatch!
 `ScatMatch` is all about making the determination of groups/individuals from SNP 
