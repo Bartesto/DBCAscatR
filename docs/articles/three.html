@@ -26,6 +26,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,18 +40,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ScatMatch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -62,7 +58,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/dbca-wa/ScatMatch/">
+  <a href="https://github.com/dbca-wa/ScatMatch/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -77,13 +73,13 @@
 
       
 
-      </header><script src="three_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Clustering</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/dbca-wa/ScatMatch/blob/master/vignettes/three.Rmd"><code>vignettes/three.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dbca-wa/ScatMatch/blob/HEAD/vignettes/three.Rmd" class="external-link"><code>vignettes/three.Rmd</code></a></small>
       <div class="hidden name"><code>three.Rmd</code></div>
 
     </div>
@@ -91,26 +87,41 @@
     
     
 <p><img src="plots/logo.png"></p>
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>Clustering is about finding similarities between samples so that they can be grouped which, in essence differentiates individuals within the data. The functions here will use hierarchical clustering methods on a calculated mismatch scores.</p>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>Clustering is about finding similarities between samples so that they
+can be grouped which, in essence differentiates individuals within the
+data. The functions here will use hierarchical clustering methods on a
+calculated mismatch scores.</p>
 </div>
-<div id="finding-dissimilarities" class="section level2">
-<h2 class="hasAnchor">
-<a href="#finding-dissimilarities" class="anchor"></a>Finding dissimilarities</h2>
-<p>The function below creates and stores a lot of data which is why you need to assign it to an object. The list object that it creates, stores among other data, mismatch scores and dissimilarity matrices.</p>
+<div class="section level2">
+<h2 id="finding-dissimilarities">Finding dissimilarities<a class="anchor" aria-label="anchor" href="#finding-dissimilarities"></a>
+</h2>
+<p>The function below creates and stores a lot of data which is why you
+need to assign it to an object. The list object that it creates, stores
+among other data, mismatch scores and dissimilarity matrices.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create dissimilarities and store in an object</span>
 <span class="va">dis_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dissimilarity.html">dissimilarity</a></span><span class="op">(</span>filtered_alleles <span class="op">=</span> <span class="st">"numerical_alleles_filtered_at0.8_mt0.2.csv"</span>,
                           errors <span class="op">=</span> <span class="st">"sample_error_results.csv"</span><span class="op">)</span></code></pre></div>
-<p>Note that the filtered alleles data input is the final dataset that was created in the last article.</p>
+<p>Note that the filtered alleles data input is the final dataset that
+was created in the last article.</p>
 </div>
-<div id="visualisation-for-h" class="section level2">
-<h2 class="hasAnchor">
-<a href="#visualisation-for-h" class="anchor"></a>Visualisation for (h)</h2>
-<p>The task at hand now is to determine a height (h) at which to “cut” the data or define the maximum number of allele differences allowed to allocate samples as the same individual. This makes the most sense when you look at the dendrogram plot. The height will determine how many groups are created from the data and thereby how many individuals there in the sampling.</p>
-<p>The code section below will generate a dendrogram, an elbow plot, a histogram of mismatches, a heat map and a heat map of correlations. The heat maps are plotly objects which enable the user to interrogate the plot using the mouse cursor on the html outputs. These are all saved to the <code>results/cluster/</code> directory.</p>
+<div class="section level2">
+<h2 id="visualisation-for-h">Visualisation for (h)<a class="anchor" aria-label="anchor" href="#visualisation-for-h"></a>
+</h2>
+<p>The task at hand now is to determine a height (h) at which to “cut”
+the data or define the maximum number of allele differences allowed to
+allocate samples as the same individual. This makes the most sense when
+you look at the dendrogram plot. The height will determine how many
+groups are created from the data and thereby how many individuals there
+in the sampling.</p>
+<p>The code section below will generate a dendrogram, an elbow plot, a
+histogram of mismatches, a heat map and a heat map of correlations. The
+heat maps are plotly objects which enable the user to interrogate the
+plot using the mouse cursor on the html outputs. These are all saved to
+the <code>results/cluster/</code> directory.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create some visualisations to determine (h)</span>
 <span class="fu"><a href="../reference/dendro_plot.html">dendro_plot</a></span><span class="op">(</span>dist <span class="op">=</span> <span class="va">dis_list</span><span class="op">)</span>
@@ -118,63 +129,142 @@
 <span class="fu"><a href="../reference/freq_hist.html">freq_hist</a></span><span class="op">(</span>dist <span class="op">=</span> <span class="va">dis_list</span>, bins <span class="op">=</span> <span class="fl">30</span><span class="op">)</span>
 <span class="fu"><a href="../reference/heat_plot.html">heat_plot</a></span><span class="op">(</span>dist <span class="op">=</span> <span class="va">dis_list</span><span class="op">)</span>
 <span class="fu"><a href="../reference/heat_cor_plot.html">heat_cor_plot</a></span><span class="op">(</span>dist <span class="op">=</span> <span class="va">dis_list</span><span class="op">)</span></code></pre></div>
-<p>Note the maxh or maximum height (h) parameter for the elbow plot will make a longer x-axis but most plots will stabilise with a value of 10 (default). The bins parameter in the the frequency histogram determines the number of bins with which to display the data.</p>
-<p>Another way of visualising is to generate histograms of the within group and between groups mismatches at various values of (h). Overlap between the distributions can indicate misassignment of group inclusion. These plots can be thought of as genetic distance plots. In the function to follow:</p>
+<p>Note the maxh or maximum height (h) parameter for the elbow plot will
+make a longer x-axis but most plots will stabilise with a value of 10
+(default). The bins parameter in the the frequency histogram determines
+the number of bins with which to display the data.</p>
+<p>Another way of visualising is to generate histograms of the within
+group and between groups mismatches at various values of (h). Overlap
+between the distributions can indicate misassignment of group inclusion.
+These plots can be thought of as genetic distance plots. In the function
+to follow:</p>
 <ul>
-<li><p>lt - is the lower percentile of the “between” groups distribution and in the plots is represented by a blue dashed line.</p></li>
-<li><p>ut - is the upper percentile of the “within” group distribution and in the plots is represented by a red dashed line.</p></li>
-<li><p>bins - is how many bins to split the data into for the histograms. Ensure that it is the same as used for the frequency histogram featured above. This will make comparison between the two easy.</p></li>
+<li><p>lt - is the lower percentile of the “between” groups distribution
+and in the plots is represented by a blue dashed line.</p></li>
+<li><p>ut - is the upper percentile of the “within” group distribution
+and in the plots is represented by a red dashed line.</p></li>
+<li><p>bins - is how many bins to split the data into for the
+histograms. Ensure that it is the same as used for the frequency
+histogram featured above. This will make comparison between the two
+easy.</p></li>
 </ul>
-<p>The area between these two values is the overlap feature space and by running many simulations, the probability of distributions overlapping here determines the misassignment probability. The function defaults to the lt and ut values as below and is supported in the literature.</p>
+<p>The area between these two values is the overlap feature space and by
+running many simulations, the probability of distributions overlapping
+here determines the misassignment probability. The function defaults to
+the lt and ut values as below and is supported in the literature.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># misassignment plots and </span>
 <span class="fu"><a href="../reference/misassign.html">misassign</a></span><span class="op">(</span>dist <span class="op">=</span> <span class="va">dis_list</span>, maxh <span class="op">=</span> <span class="fl">10</span>, lt <span class="op">=</span> <span class="fl">0.005</span>, ut <span class="op">=</span> <span class="fl">0.995</span><span class="op">)</span></code></pre></div>
-<p>The (h) value is captured in the file name of the plot. A csv file, <strong>misassignment_table.csv</strong>, is also saved which summarises these values at each (h).</p>
+<p>The (h) value is captured in the file name of the plot. A csv file,
+<strong>misassignment_table.csv</strong>, is also saved which summarises
+these values at each (h).</p>
 </div>
-<div id="selecting-h" class="section level2">
-<h2 class="hasAnchor">
-<a href="#selecting-h" class="anchor"></a>Selecting (h)</h2>
-<p>The elbow graph, heat map and misassignment graph are designed to help users identify the most likely (h). These graphs may not agree on a specify value and it is up to the user to pick this value. The choice of (h) depends on quality of the data and how conservative the user is in selecting (h). For instance, the user may choose to be more stringent if the data is very good quality and the error rate between replicates is low. However, if the data quality is not great i.e.  incomplete, high error rate etc, the user may want to adopt a more conservative choice knowing that he/she is likely to underestimate the true number of individuals. On the other hand, being too stringent may over estimate the true number by over splitting samples that belong to the same individual. In addition, the user may want to try different filter settings for both loci and individual genotypes to see if the grouping would change with different settings. This final decision should be accompanied by sexing results (to be updated) and the metadata to see if the grouping makes biological sense. The decision of choosing the most likely (h) for each type of graph is described below.</p>
-<div id="elbow-graph" class="section level3">
-<h3 class="hasAnchor">
-<a href="#elbow-graph" class="anchor"></a>Elbow graph</h3>
-<p>To determine a suitable (h), the user needs to look for the largest drop of group number as well as the value when the graph starts to flatten out. For the example below, a) shows a mismatch threshold of 2 would be a suitable value to select. However, with some data such as b) where the graph doesn’t show a clear drop. Thresholds of 3, 4, and 5 are all potential. You would need other types of graphs to make the decision.</p>
+<div class="section level2">
+<h2 id="selecting-h">Selecting (h)<a class="anchor" aria-label="anchor" href="#selecting-h"></a>
+</h2>
+<p>The elbow graph, heat map and misassignment graph are designed to
+help users identify the most likely (h). These graphs may not agree on a
+specify value and it is up to the user to pick this value. The choice of
+(h) depends on quality of the data and how conservative the user is in
+selecting (h). For instance, the user may choose to be more stringent if
+the data is very good quality and the error rate between replicates is
+low. However, if the data quality is not great i.e.  incomplete, high
+error rate etc, the user may want to adopt a more conservative choice
+knowing that he/she is likely to underestimate the true number of
+individuals. On the other hand, being too stringent may over estimate
+the true number by over splitting samples that belong to the same
+individual. In addition, the user may want to try different filter
+settings for both loci and individual genotypes to see if the grouping
+would change with different settings. This final decision should be
+accompanied by sexing results (to be updated) and the metadata to see if
+the grouping makes biological sense. The decision of choosing the most
+likely (h) for each type of graph is described below.</p>
+<div class="section level3">
+<h3 id="elbow-graph">Elbow graph<a class="anchor" aria-label="anchor" href="#elbow-graph"></a>
+</h3>
+<p>To determine a suitable (h), the user needs to look for the largest
+drop of group number as well as the value when the graph starts to
+flatten out. For the example below, a) shows a mismatch threshold of 2
+would be a suitable value to select. However, with some data such as b)
+where the graph doesn’t show a clear drop. Thresholds of 3, 4, and 5 are
+all potential. You would need other types of graphs to make the
+decision.</p>
 <p><img src="plots/elbow.png"></p>
 </div>
-<div id="heat-maps" class="section level3">
-<h3 class="hasAnchor">
-<a href="#heat-maps" class="anchor"></a>Heat maps</h3>
-<p>In the interactive version of the heat map, you can zoom in to the area of interest by dragging a box around the area. You can hover the mouse over the edge of each deep blue coloured box to inspect how many allele differences between inside and outside the box. Try a few boxes, especially those that are large in size, then compare them with more distinct smaller boxes to get an idea of what would be a potential (h).</p>
+<div class="section level3">
+<h3 id="heat-maps">Heat maps<a class="anchor" aria-label="anchor" href="#heat-maps"></a>
+</h3>
+<p>In the interactive version of the heat map, you can zoom in to the
+area of interest by dragging a box around the area. You can hover the
+mouse over the edge of each deep blue coloured box to inspect how many
+allele differences between inside and outside the box. Try a few boxes,
+especially those that are large in size, then compare them with more
+distinct smaller boxes to get an idea of what would be a potential
+(h).</p>
 <p><img src="plots/heatmap.png"></p>
 </div>
-<div id="misassignment-graphs" class="section level3">
-<h3 class="hasAnchor">
-<a href="#misassignment-graphs" class="anchor"></a>Misassignment graphs</h3>
-<p>The misassignment graph plots frequency of allelic differences within and between groups assigned by selected (h). The graph assumes allelic differences between groups to follow a binomial distribution (blue). Any allelic differences falling outside the distribution are likely to be caused by other means such genotyping errors or variation between samples from the same individual (red). At each (h), the graph will indicate how many groups or individuals are detected. This number is the same number as shown in the elbow graph. The probability of misassignment is also calculated which can be converted into the percentage of error.</p>
-<p>For example, the probability of assigning samples to a wrong group is 0.006% for graph a) compared to a smaller number, 0.000005% for graph b). The maximum suggested percentage is 0.5%.</p>
-<p>Overlap of the upper 0.995 percentile (red dashed line) and lower 0.005 percentile (blue dashed line) suggest the possibility of misassigning samples to between and within group distributions. The location of the overlap suggests which distribution the samples will likely to misassign to. For example, if the overlap falls in the within group distribution (red), the samples from the between group distribution (blue) are likely to be misassigned to the within group distribution (red). From the example of the graph below, the most likely (h) would be 4 because a clear separation between within (red) and between (blue) distributions.</p>
+<div class="section level3">
+<h3 id="misassignment-graphs">Misassignment graphs<a class="anchor" aria-label="anchor" href="#misassignment-graphs"></a>
+</h3>
+<p>The misassignment graph plots frequency of allelic differences within
+and between groups assigned by selected (h). The graph assumes allelic
+differences between groups to follow a binomial distribution (blue). Any
+allelic differences falling outside the distribution are likely to be
+caused by other means such genotyping errors or variation between
+samples from the same individual (red). At each (h), the graph will
+indicate how many groups or individuals are detected. This number is the
+same number as shown in the elbow graph. The probability of
+misassignment is also calculated which can be converted into the
+percentage of error.</p>
+<p>For example, the probability of assigning samples to a wrong group is
+0.006% for graph a) compared to a smaller number, 0.000005% for graph
+b). The maximum suggested percentage is 0.5%.</p>
+<p>Overlap of the upper 0.995 percentile (red dashed line) and lower
+0.005 percentile (blue dashed line) suggest the possibility of
+misassigning samples to between and within group distributions. The
+location of the overlap suggests which distribution the samples will
+likely to misassign to. For example, if the overlap falls in the within
+group distribution (red), the samples from the between group
+distribution (blue) are likely to be misassigned to the within group
+distribution (red). From the example of the graph below, the most likely
+(h) would be 4 because a clear separation between within (red) and
+between (blue) distributions.</p>
 <p><img src="plots/misassignment.png"></p>
 </div>
 </div>
-<div id="create-the-groups" class="section level2">
-<h2 class="hasAnchor">
-<a href="#create-the-groups" class="anchor"></a>Create the groups</h2>
-<p>After looking at all of the plots, an (h) value should be apparent and it is now time to apply it to the data and create some groups. Make sure you adjust (h) to your value.</p>
+<div class="section level2">
+<h2 id="create-the-groups">Create the groups<a class="anchor" aria-label="anchor" href="#create-the-groups"></a>
+</h2>
+<p>After looking at all of the plots, an (h) value should be apparent
+and it is now time to apply it to the data and create some groups. Make
+sure you adjust (h) to your value.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create groups</span>
 <span class="fu"><a href="../reference/majorities.html">majorities</a></span><span class="op">(</span>dist <span class="op">=</span> <span class="va">dis_list</span>, 
            h <span class="op">=</span> <span class="fl">4</span>, errors <span class="op">=</span> <span class="st">"sample_error_results.csv"</span><span class="op">)</span></code></pre></div>
-<p>This will create 2 new csv datasets in <code>results/cluster/</code>:</p>
+<p>This will create 2 new csv datasets in
+<code>results/cluster/</code>:</p>
 <ul>
-<li><p><strong>hclust_numerical_mismatch_h4_group_majorities_and_ties.csv</strong> - this data is organised by group, and shows the sample membership, the numerical alleles, majority vote of the alleles, whether there were any ties in the vote and average amplification rate.</p></li>
-<li><p><strong>hclust_numerical_mismatch_h4_withGroups.csv</strong> - this is just the numerical allele data with groups assigned.</p></li>
+<li><p><strong>hclust_numerical_mismatch_h4_group_majorities_and_ties.csv</strong>
+- this data is organised by group, and shows the sample membership, the
+numerical alleles, majority vote of the alleles, whether there were any
+ties in the vote and average amplification rate.</p></li>
+<li><p><strong>hclust_numerical_mismatch_h4_withGroups.csv</strong> -
+this is just the numerical allele data with groups assigned.</p></li>
 </ul>
-<p>Note that the (h) value used to create the cut forms part of the file names to avoid confusion if multiple runs are undertaken.</p>
-<p>Lastly, to aid visualisation of allele differences within each group, colour formatted html tables can be created by running the function below. This will save a file called <strong>majorities_table.html</strong> in the <code>results/cluster/</code> directory.</p>
+<p>Note that the (h) value used to create the cut forms part of the file
+names to avoid confusion if multiple runs are undertaken.</p>
+<p>Lastly, to aid visualisation of allele differences within each group,
+colour formatted html tables can be created by running the function
+below. This will save a file called
+<strong>majorities_table.html</strong> in the
+<code>results/cluster/</code> directory.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># majorities html scrollable table</span>
 <span class="fu"><a href="../reference/majorities_html.html">majorities_html</a></span><span class="op">(</span>majorities_csv <span class="op">=</span> <span class="st">"hclust_numerical_mismatch_h4_group_majorities_and_ties.csv"</span><span class="op">)</span></code></pre></div>
-<p>That completes the clustering work. The next article, <em>Summaries</em>, shows how to make a map linking the samples to your metadata and some other summary data.</p>
+<p>That completes the clustering work. The next article,
+<em>Summaries</em>, shows how to make a map linking the samples to your
+metadata and some other summary data.</p>
 </div>
   </div>
 
@@ -189,11 +279,14 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Bart Huntley.</p>
+  <p></p>
+<p>Developed by Bart Huntley.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.1.</p>
 </div>
 
       </footer>
@@ -201,6 +294,8 @@
 
   
 
+
+  
 
   </body>
 </html>

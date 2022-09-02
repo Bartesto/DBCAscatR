@@ -26,6 +26,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,18 +40,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ScatMatch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -62,7 +58,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/dbca-wa/ScatMatch/">
+  <a href="https://github.com/dbca-wa/ScatMatch/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -77,13 +73,13 @@
 
       
 
-      </header><script src="four_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Summaries</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/dbca-wa/ScatMatch/blob/master/vignettes/four.Rmd"><code>vignettes/four.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dbca-wa/ScatMatch/blob/HEAD/vignettes/four.Rmd" class="external-link"><code>vignettes/four.Rmd</code></a></small>
       <div class="hidden name"><code>four.Rmd</code></div>
 
     </div>
@@ -91,12 +87,14 @@
     
     
 <p><img src="plots/logo.png"></p>
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>Now that groups have been assigned to the samples, the data can be summarised in various ways:</p>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>Now that groups have been assigned to the samples, the data can be
+summarised in various ways:</p>
 <ol style="list-style-type: decimal">
-<li><p>Exported to “structure” format to make it useful for other software types</p></li>
+<li><p>Exported to “structure” format to make it useful for other
+software types</p></li>
 <li>
 <p>Linked to metadata and summarised into various tables:</p>
 <ul>
@@ -105,25 +103,32 @@
 <li>site history</li>
 </ul>
 </li>
-<li><p>Sites and individuals are displayed in an interactive leaflet map</p></li>
+<li><p>Sites and individuals are displayed in an interactive leaflet
+map</p></li>
 </ol>
-<p>As mentioned in the <em>Getting started</em> article, you need to have saved a copy of your metadata csv to the <code>source</code> folder. Without this only item one above can be generated.</p>
+<p>As mentioned in the <em>Getting started</em> article, you need to
+have saved a copy of your metadata csv to the <code>source</code>
+folder. Without this only item one above can be generated.</p>
 </div>
-<div id="structure-format" class="section level2">
-<h2 class="hasAnchor">
-<a href="#structure-format" class="anchor"></a>Structure format</h2>
-<p>The following code exports the group majorities data to csv in structure format.</p>
+<div class="section level2">
+<h2 id="structure-format">Structure format<a class="anchor" aria-label="anchor" href="#structure-format"></a>
+</h2>
+<p>The following code exports the group majorities data to csv in
+structure format.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># export to structure format</span>
 <span class="fu"><a href="../reference/structure_format.html">structure_format</a></span><span class="op">(</span>majorities_csv <span class="op">=</span> <span class="st">"hclust_numerical_mismatch_h4_group_majorities_and_ties.csv"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="summary-tables" class="section level2">
-<h2 class="hasAnchor">
-<a href="#summary-tables" class="anchor"></a>Summary tables</h2>
-<p>Metadata comes in all types of formats and this largely depends on who collects<br>
-the data and what it is collected with. For the summary tables function to work, there are two things that the user needs to ensure:</p>
+<div class="section level2">
+<h2 id="summary-tables">Summary tables<a class="anchor" aria-label="anchor" href="#summary-tables"></a>
+</h2>
+<p>Metadata comes in all types of formats and this largely depends on
+who collects<br>
+the data and what it is collected with. For the summary tables function
+to work, there are two things that the user needs to ensure:</p>
 <ol style="list-style-type: decimal">
-<li><p>That the data is in a wide format with each sample represented by one row of data.</p></li>
+<li><p>That the data is in a wide format with each sample represented by
+one row of data.</p></li>
 <li>
 <p>That the following information is supplied in columns:</p>
 <ul>
@@ -137,8 +142,11 @@ the data and what it is collected with. For the summary tables function to work,
 </ol>
 <p>The data should look something like the example shown here.</p>
 <p><img src="plots/meta.png"></p>
-<p>The information as specified in item 2 above could be named in many different ways<br>
-so the user is required provide the column names that align with the parameters. The example below demostrates the parameters used for the metadata as displayed above.</p>
+<p>The information as specified in item 2 above could be named in many
+different ways<br>
+so the user is required provide the column names that align with the
+parameters. The example below demostrates the parameters used for the
+metadata as displayed above.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># produce capture history summary tables</span>
 <span class="fu"><a href="../reference/summary_tables.html">summary_tables</a></span><span class="op">(</span>groups_csv <span class="op">=</span> <span class="st">"hclust_numerical_mismatch_h4_withGroups.csv"</span>, 
@@ -149,13 +157,25 @@ so the user is required provide the column names that align with the parameters.
                field_date <span class="op">=</span> <span class="st">"collection_date"</span>, 
                lat <span class="op">=</span> <span class="st">"dec_lat"</span>, 
                long <span class="op">=</span> <span class="st">"dec_long"</span><span class="op">)</span></code></pre></div>
-<p>The other parameters include the groups csv, the name of the metadata csv and the prefix. The prefix relates to the prefix that is placed in front of the sample name that appears in the groups csv. The user needs to provide this so that when stripped off it will match the sample names in the metadata csv. It should include any underscores or hashes etc. If there is no prefix that needs to be accounted for, empty quotes e.g. "" should be used.</p>
+<p>The other parameters include the groups csv, the name of the metadata
+csv and the prefix. The prefix relates to the prefix that is placed in
+front of the sample name that appears in the groups csv. The user needs
+to provide this so that when stripped off it will match the sample names
+in the metadata csv. It should include any underscores or hashes etc. If
+there is no prefix that needs to be accounted for, empty quotes e.g. “”
+should be used.</p>
 </div>
-<div id="a-leaflet-map" class="section level2">
-<h2 class="hasAnchor">
-<a href="#a-leaflet-map" class="anchor"></a>A leaflet map</h2>
-<p>Lastly create a leaflet map. The software that handles the mapping requires all coordinates to be in WGS84. This is the usual default output of most GPS systems. If the map fails or produces unexpected results then this could be the issue. Whoever captured or provided the data should know the coordinate reference system used when logging the data.</p>
-<p>The function for the map uses the same parameters as for the summary tables.</p>
+<div class="section level2">
+<h2 id="a-leaflet-map">A leaflet map<a class="anchor" aria-label="anchor" href="#a-leaflet-map"></a>
+</h2>
+<p>Lastly create a leaflet map. The software that handles the mapping
+requires all coordinates to be in WGS84. This is the usual default
+output of most GPS systems. If the map fails or produces unexpected
+results then this could be the issue. Whoever captured or provided the
+data should know the coordinate reference system used when logging the
+data.</p>
+<p>The function for the map uses the same parameters as for the summary
+tables.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># make an interactive map</span>
 <span class="fu"><a href="../reference/leaflet_map.html">leaflet_map</a></span><span class="op">(</span>groups_csv <span class="op">=</span> <span class="st">"hclust_numerical_mismatch_h4_withGroups.csv"</span>, 
@@ -166,13 +186,20 @@ so the user is required provide the column names that align with the parameters.
                field_date <span class="op">=</span> <span class="st">"collection_date"</span>, 
                lat <span class="op">=</span> <span class="st">"dec_lat"</span>, 
                long <span class="op">=</span> <span class="st">"dec_long"</span><span class="op">)</span></code></pre></div>
-<p>The output is shareable, will open in any browser and has a few features apart from being able to pan and zoom.</p>
+<p>The output is shareable, will open in any browser and has a few
+features apart from being able to pan and zoom.</p>
 <p><img src="plots/map.png"></p>
 <ul>
-<li><p>Red arrow - toggle off and on layers (sites, individuals)</p></li>
-<li><p>Green arrow - distance and area widget can be used for calculations</p></li>
+<li><p>Red arrow - toggle off and on layers (sites,
+individuals)</p></li>
+<li><p>Green arrow - distance and area widget can be used for
+calculations</p></li>
 <li><p>Blue arrow - zoomed out location map</p></li>
-<li><p>Yellow arrows - show sites or locations depending on which layer you are showing. Blue marker is a single entity. Green circle with number indicates multiple records at this location. Zooming in on a green circle will expand the site or locations so all can be interrogated (mouse over) for information.</p></li>
+<li><p>Yellow arrows - show sites or locations depending on which layer
+you are showing. Blue marker is a single entity. Green circle with
+number indicates multiple records at this location. Zooming in on a
+green circle will expand the site or locations so all can be
+interrogated (mouse over) for information.</p></li>
 </ul>
 </div>
   </div>
@@ -188,11 +215,14 @@ so the user is required provide the column names that align with the parameters.
 
 
       <footer><div class="copyright">
-  <p>Developed by Bart Huntley.</p>
+  <p></p>
+<p>Developed by Bart Huntley.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>
+2.0.1.</p>
 </div>
 
       </footer>
@@ -200,6 +230,8 @@ so the user is required provide the column names that align with the parameters.
 
   
 
+
+  
 
   </body>
 </html>

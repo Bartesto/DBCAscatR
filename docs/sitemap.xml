@@ -1,7 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://dbca-wa.github.io/ScatMatch/404.html</loc>
+  </url>
+  <url>
+    <loc>https://dbca-wa.github.io/ScatMatch/articles/four.html</loc>
+  </url>
+  <url>
+    <loc>https://dbca-wa.github.io/ScatMatch/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://dbca-wa.github.io/ScatMatch/articles/one.html</loc>
+  </url>
+  <url>
+    <loc>https://dbca-wa.github.io/ScatMatch/articles/three.html</loc>
+  </url>
+  <url>
+    <loc>https://dbca-wa.github.io/ScatMatch/articles/two.html</loc>
+  </url>
+  <url>
+    <loc>https://dbca-wa.github.io/ScatMatch/authors.html</loc>
+  </url>
+  <url>
     <loc>https://dbca-wa.github.io/ScatMatch/index.html</loc>
+  </url>
+  <url>
+    <loc>https://dbca-wa.github.io/ScatMatch/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://dbca-wa.github.io/ScatMatch/news/index.html</loc>
   </url>
   <url>
     <loc>https://dbca-wa.github.io/ScatMatch/reference/amp_hist.html</loc>
@@ -46,6 +73,9 @@
     <loc>https://dbca-wa.github.io/ScatMatch/reference/heat_plot.html</loc>
   </url>
   <url>
+    <loc>https://dbca-wa.github.io/ScatMatch/reference/index.html</loc>
+  </url>
+  <url>
     <loc>https://dbca-wa.github.io/ScatMatch/reference/ingest.html</loc>
   </url>
   <url>
@@ -77,17 +107,5 @@
   </url>
   <url>
     <loc>https://dbca-wa.github.io/ScatMatch/reference/workspace.html</loc>
-  </url>
-  <url>
-    <loc>https://dbca-wa.github.io/ScatMatch/articles/four.html</loc>
-  </url>
-  <url>
-    <loc>https://dbca-wa.github.io/ScatMatch/articles/one.html</loc>
-  </url>
-  <url>
-    <loc>https://dbca-wa.github.io/ScatMatch/articles/three.html</loc>
-  </url>
-  <url>
-    <loc>https://dbca-wa.github.io/ScatMatch/articles/two.html</loc>
   </url>
 </urlset>
