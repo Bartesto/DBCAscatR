@@ -22,7 +22,6 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     janitor,
-    here,
     readr,
     stringr,
     dplyr,
